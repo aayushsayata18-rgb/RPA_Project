@@ -1,0 +1,74 @@
+@# Hospital Administrative Management & RPA Automation Platform
+# Master Project Roadmap & Execution Plan
+
+Phase 1: Project Foundation & Architecture (00_MASTER.md) [IN PROGRESS]
+- MERN + Robot Framework Architecture Scaffolding
+- MongoDB Database Connection & Schemas
+- JWT Authentication & RBAC Middleware (17 Roles, Granular Permissions)
+- Central Platform Services:
+  * Central Audit Logging Service (AuditEvent)
+  * Central Exception Case Management (ExceptionCase)
+  * Central Notification Service Engine (SMS, Email, In-app)
+  * Central Document Generation Service (PDF Engine, Templates)
+  * Central RPA Job Management & Execution Engine (RPAJob, RPAExecution)
+  * Dynamic System/Hospital Configuration (HospitalConfiguration)
+- Unified React Frontend with 5 Portals:
+  1. Patient Portal
+  2. Clinical Portal (Doctor, Nurse)
+  3. Operations Portal (Reception, Pharmacy, Lab, Radiology, Housekeeping, Maintenance)
+  4. Finance & Insurance Portal (Billing, Insurance)
+  5. Admin & Management Portal (HR, Procurement, Admin, Hospital Management, System Admin)
+- Robot Framework Automation Base (Structure, Common Resources, Authentication Keywords)
+
+---
+
+Phase 2: Core Patient Journey & Clinical Care Flow
+- Step 01: 01_PATIENT_REGISTRATION.md (Patient Master, Deduplication, Permanent IDs, Visits)
+- Step 02: 02_APPOINTMENT_MANAGEMENT.md (Schedules, Slots, Booking, Reminders)
+- Step 03: 03_OPD_QUEUE_MANAGEMENT.md (Online/Front-Desk Check-in, Tokens, Live Queues)
+- Step 04: 05_BED_MANAGEMENT.md (Wards, Rooms, Physical Beds, Status Lifecycle)
+- Step 05: 04_PATIENT_ADMISSION.md (Inpatient Requests, Bed Reservation, Admission IDs)
+- Step 06: 06_DISCHARGE_PROCESSING.md (Clinical Clearance, Billing Settlement Gate, Housekeeping Trigger)
+- Step 07: 07_PATIENT_RECORDS.md (Longitudinal Patient History View across lifecycle)
+
+---
+
+Phase 3: Financial, Billing & Insurance Engine
+- Step 08: 08_BILLING.md (Invoices, Multi-service Charges, Deposits, Payment Gateway, Receipts)
+- Step 09: 09_INSURANCE_VERIFICATION.md (Policy Checks, Eligibility, Limits, Pre-auth, RPA Verification)
+- Step 10: 10_INSURANCE_CLAIMS.md (Claim Packages, Submission API/RPA, Status Polling, Settlement)
+
+---
+
+Phase 4: Workforce, Clinical Rostering & HR Support
+- Step 11: 11_DOCTOR_MANAGEMENT.md (Doctor Master, Specializations, Recurring Schedules, Leaves)
+- Step 12: 12_STAFF_MANAGEMENT.md (Employee Master, Onboarding, Offboarding, Welcome Alerts)
+- Step 13: 14_SHIFT_MANAGEMENT.md (Shift Rules, Rosters, Rota Assignments, Swap Requests)
+- Step 14: 13_ATTENDANCE_MANAGEMENT.md (Biometric/Log Ingestion, Shift Reconciliation, Exceptions)
+- Step 15: 15_LEAVE_MANAGEMENT.md (Leave Policies, Accruals, Approval Chain, Schedule Sync)
+- Step 16: 16_PAYROLL_SUPPORT.md (Reconciliation, Overtime/Deductions, Payroll System Exports)
+
+---
+
+Phase 5: Clinical Ancillary, Supply Chain & Facility Operations
+- Step 17: 20_VENDOR_MANAGEMENT.md (Vendor Master, Onboarding, Compliance, Contracts)
+- Step 18: 18_MEDICAL_INVENTORY.md (Medicine/Consumables, Batch/Lot, Expiry, Reorder Alerts)
+- Step 19: 19_PROCUREMENT.md (Purchase Requests, Quotations, Purchase Orders, Goods Receipt Note)
+- Step 20: 17_PHARMACY_MANAGEMENT.md (Prescriptions, Stock Reservation, Dispensing, Auto-Billing)
+- Step 21: 21_LABORATORY_ADMINISTRATION.md (Test Catalog, Lab Orders, Accessioning, Sample Flow, Reports)
+- Step 22: 22_RADIOLOGY_ADMINISTRATION.md (Modalities, Scans, Procedure Status, DICOM/Report Workflow)
+- Step 23: 24_HOUSEKEEPING.md (Cleaning Tasks, Discharge Turnover Checklists, Bed Availability Release)
+- Step 24: 23_MAINTENANCE.md (Asset Registry, Corrective/Preventive Work Orders, SLA Downtime)
+
+---
+
+Phase 6: Quality, Centralized Services & Management Analytics
+- Step 25: 25_PATIENT_FEEDBACK.md (Feedback, Grievances, Department Routing, SLA Escalations)
+- Step 26: 26_NOTIFICATION_SERVICE.md (Multi-channel Dispatch Engine, Templates, Delivery Logs)
+- Step 27: 27_DOCUMENT_GENERATION.md (PDF Renderer, Templating, Digital Access Verification)
+- Step 28: 28_REPORTS_ANALYTICS.md (Cross-Module Dashboards, Financial/Operational KPIs, Export Engine)
+
+---
+
+Phase 7: End-to-End Robot Framework Automation & System Verification
+- Full Automated Journey Testing (Registration -> Appointment -> Queue -> Admission -> Care -> Billing -> Insurance -> Discharge -> Bed Cleaning)
