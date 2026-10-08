@@ -47,4 +47,31 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+const optionalAuth = async (req, res, next) => {
+  let token;
+
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return next();
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'hospital_rpa_jwt_super_secret_key_2026_antigravity');
+    const user = await User.findOne({ userId: decoded.userId }).select('-password');
+    if (user && user.isActive) {
+      req.user = user;
+    }
+  } catch (err) {
+    // Ignore invalid token for optionalAuth
+  }
+  next();
+};
+
+module.exports = {
+  protect,
+  verifyToken: protect,
+  optionalAuth
+};

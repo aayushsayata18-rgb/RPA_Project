@@ -7,19 +7,25 @@ class ExceptionService {
    * Create an exception case when an automated or human workflow requires review (00_MASTER.md Section 39)
    */
   static async raiseException({
-    module,
+    module = 'GENERAL',
     entityType,
     entityId,
     rpaJobId = null,
     exceptionType,
+    type,
     description,
+    details,
     severity = 'MEDIUM',
     source = 'SYSTEM',
     assignedRole = 'ADMIN_MANAGER',
+    correlationId = null,
     metadata = {}
   }) {
     try {
       const exceptionId = `EXC-${Date.now()}-${uuidv4().substring(0, 6).toUpperCase()}`;
+
+      const finalType = exceptionType || type || 'SYSTEM_EXCEPTION';
+      const finalDesc = description || details || 'Exception raised for review.';
 
       const exception = new ExceptionCase({
         exceptionId,
@@ -27,12 +33,13 @@ class ExceptionService {
         entityType,
         entityId: String(entityId),
         rpaJobId,
-        exceptionType,
-        description,
+        exceptionType: finalType,
+        description: finalDesc,
         severity,
         source,
         currentStatus: 'OPEN',
         assignedRole,
+        correlationId,
         metadata
       });
 
@@ -44,15 +51,20 @@ class ExceptionService {
         module,
         entityType: 'ExceptionCase',
         entityId: exceptionId,
-        newValue: { exceptionType, severity, assignedRole },
-        details: `Exception raised for ${entityType} ${entityId}: ${description}`
+        correlationId,
+        newValue: { exceptionType: finalType, severity, assignedRole },
+        details: `Exception raised for ${entityType} ${entityId}: ${finalDesc}`
       });
 
       return exception;
     } catch (error) {
-      console.error('[ExceptionService Error]:', error.message);
-      throw error;
+      console.error('[ExceptionService Error]: Failed to raise exception:', error.message);
+      return null;
     }
+  }
+
+  static async createExceptionCase(params) {
+    return await this.raiseException(params);
   }
 
   /**

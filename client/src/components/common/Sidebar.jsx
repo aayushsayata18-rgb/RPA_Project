@@ -20,7 +20,11 @@ import {
   AlertTriangle,
   FileText,
   Sliders,
-  History
+  History,
+  AlertOctagon,
+  UserCheck,
+  UserPlus,
+  Search
 } from 'lucide-react';
 
 export const Sidebar = () => {
@@ -31,11 +35,25 @@ export const Sidebar = () => {
     if (hasRole('PATIENT')) {
       return [
         { to: '/patient/dashboard', label: 'My Dashboard', icon: LayoutDashboard },
+        { to: '/patient/profile', label: 'My Identity Profile', icon: User },
+        { to: '/patient/visits', label: 'My Visit Encounters', icon: Clock },
         { to: '/patient/appointments', label: 'My Appointments', icon: Calendar },
         { to: '/patient/checkin', label: 'Online Check-In', icon: Layers },
         { to: '/patient/bills', label: 'Bills & Payments', icon: CreditCard },
-        { to: '/patient/records', label: 'Medical Documents', icon: FileText },
-        { to: '/patient/feedback', label: 'Feedback & Support', icon: MessageSquare }
+        { to: '/patient/records', label: 'Medical Documents', icon: FileText }
+      ];
+    }
+
+    // Operations Portal Nav (Reception, Lab, Rad, Pharmacy, HK, Maint)
+    if (hasRole('RECEPTIONIST')) {
+      return [
+        { to: '/operations/dashboard', label: 'Operations Dashboard', icon: LayoutDashboard },
+        { to: '/front-desk/registration', label: 'Register Patient', icon: UserPlus },
+        { to: '/front-desk/patients/search', label: 'Patient Master Directory', icon: Search },
+        { to: '/front-desk/registrations', label: 'Registrations Stream', icon: FileText },
+        { to: '/front-desk/identity-review', label: 'Identity Review Queue', icon: UserCheck },
+        { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
+        { to: '/operations/opd-desk', label: 'Front-Desk Queue', icon: Layers }
       ];
     }
 
@@ -43,23 +61,13 @@ export const Sidebar = () => {
     if (hasRole('DOCTOR', 'NURSE')) {
       return [
         { to: '/clinical/dashboard', label: 'Clinical Dashboard', icon: LayoutDashboard },
+        { to: '/front-desk/patients/search', label: 'Patient Search', icon: Search },
         { to: '/clinical/appointments', label: 'Doctor Schedule', icon: Calendar },
         { to: '/clinical/opd-queue', label: 'OPD Queue', icon: Layers },
         { to: '/clinical/inpatients', label: 'Inpatient Ward', icon: BedDouble },
+        { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
         { to: '/clinical/lab-orders', label: 'Lab Orders', icon: FlaskConical },
         { to: '/clinical/radiology', label: 'Radiology Orders', icon: Radio }
-      ];
-    }
-
-    // Operations Portal Nav (Reception, Lab, Rad, Pharmacy, HK, Maint)
-    if (hasRole('RECEPTIONIST', 'PHARMACIST', 'LAB_TECHNICIAN', 'RADIOLOGY_TECHNICIAN', 'HOUSEKEEPING', 'MAINTENANCE')) {
-      return [
-        { to: '/operations/dashboard', label: 'Operations Dashboard', icon: LayoutDashboard },
-        { to: '/operations/registration', label: 'Patient Registration', icon: Users },
-        { to: '/operations/opd-desk', label: 'Front-Desk Queue', icon: Layers },
-        { to: '/operations/beds', label: 'Bed Management', icon: BedDouble },
-        { to: '/operations/housekeeping', label: 'Housekeeping Tasks', icon: Sparkles },
-        { to: '/operations/maintenance', label: 'Maintenance Tickets', icon: Wrench }
       ];
     }
 
@@ -67,6 +75,7 @@ export const Sidebar = () => {
     if (hasRole('BILLING_STAFF', 'INSURANCE_REPRESENTATIVE')) {
       return [
         { to: '/finance/dashboard', label: 'Finance Dashboard', icon: LayoutDashboard },
+        { to: '/front-desk/patients/search', label: 'Patient Master Search', icon: Search },
         { to: '/finance/billing', label: 'Invoices & Payments', icon: CreditCard },
         { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck },
         { to: '/finance/claims', label: 'Insurance Claims', icon: FileText }
@@ -76,6 +85,9 @@ export const Sidebar = () => {
     // Administration & Management Portal Nav (Admin, HR, Procurement, Management)
     return [
       { to: '/admin/dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
+      { to: '/front-desk/patients/search', label: 'Patient Master Directory', icon: Search },
+      { to: '/front-desk/registrations', label: 'All Registrations', icon: FileText },
+      { to: '/front-desk/identity-review', label: 'Identity Review Queue', icon: UserCheck },
       { to: '/admin/users', label: 'User & Role Master', icon: Users },
       { to: '/admin/rpa', label: 'RPA Automation Center', icon: Bot },
       { to: '/admin/exceptions', label: 'Exception Cases', icon: AlertTriangle },
@@ -87,24 +99,28 @@ export const Sidebar = () => {
   const navLinks = getNavLinks();
 
   return (
-    <aside style={{
-      width: '260px',
-      background: 'var(--bg-sidebar)',
-      borderRight: '1px solid var(--border-color)',
-      display: 'flex',
-      flexDirection: 'column',
-      minHeight: 'calc(100vh - 70px)',
-      padding: '1.5rem 1rem'
-    }}>
-      <div style={{
-        fontSize: '0.75rem',
-        fontWeight: '700',
-        textTransform: 'uppercase',
-        letterSpacing: '0.08em',
-        color: 'var(--text-muted)',
-        marginBottom: '1rem',
-        paddingLeft: '0.75rem'
-      }}>
+    <aside
+      style={{
+        width: '260px',
+        background: 'var(--bg-sidebar)',
+        borderRight: '1px solid var(--border-color)',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: 'calc(100vh - 70px)',
+        padding: '1.5rem 1rem'
+      }}
+    >
+      <div
+        style={{
+          fontSize: '0.75rem',
+          fontWeight: '700',
+          textTransform: 'uppercase',
+          letterSpacing: '0.08em',
+          color: 'var(--text-muted)',
+          marginBottom: '1rem',
+          paddingLeft: '0.75rem'
+        }}
+      >
         Navigation
       </div>
 
