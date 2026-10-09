@@ -24,7 +24,8 @@ import {
   AlertOctagon,
   UserCheck,
   UserPlus,
-  Search
+  Search,
+  LogOut
 } from 'lucide-react';
 
 export const Sidebar = () => {
@@ -40,7 +41,7 @@ export const Sidebar = () => {
         { to: '/patient/appointments', label: 'My Appointments', icon: Calendar },
         { to: '/patient/checkin', label: 'Online Check-In', icon: Layers },
         { to: '/patient/admissions', label: 'Inpatient Stays', icon: BedDouble },
-        { to: '/patient/bills', label: 'Bills & Payments', icon: CreditCard },
+        { to: '/patient/discharges', label: 'Discharge & Bill', icon: LogOut },
         { to: '/patient/records', label: 'Medical Documents', icon: FileText }
       ];
     }
@@ -51,6 +52,7 @@ export const Sidebar = () => {
         { to: '/operations/dashboard', label: 'Operations Dashboard', icon: LayoutDashboard },
         { to: '/operations/beds', label: 'Bed Inventory & Map', icon: BedDouble },
         { to: '/operations/admissions', label: 'Admissions Desk', icon: Layers },
+        { to: '/operations/discharges', label: 'Discharge Processing', icon: LogOut },
         { to: '/operations/appointments', label: 'Appointment Desk', icon: Calendar },
         { to: '/front-desk/registration', label: 'Register Patient', icon: UserPlus },
         { to: '/front-desk/patients/search', label: 'Patient Master Directory', icon: Search },
@@ -70,6 +72,7 @@ export const Sidebar = () => {
         { to: '/clinical/appointments', label: 'Doctor Schedule', icon: Calendar },
         { to: '/clinical/opd-queue', label: 'OPD Queue', icon: Layers },
         { to: '/clinical/admissions', label: 'Admission Orders', icon: BedDouble },
+        { to: '/clinical/discharges', label: 'Discharge Orders', icon: LogOut },
         { to: '/operations/admissions', label: 'Inpatient Bed Desk', icon: BedDouble },
         { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
         { to: '/clinical/lab-orders', label: 'Lab Orders', icon: FlaskConical },
@@ -83,6 +86,7 @@ export const Sidebar = () => {
         { to: '/finance/dashboard', label: 'Finance Dashboard', icon: LayoutDashboard },
         { to: '/operations/beds', label: 'Bed Occupancy & Rates', icon: BedDouble },
         { to: '/operations/admissions', label: 'Inpatient Admissions', icon: BedDouble },
+        { to: '/operations/discharges', label: 'Discharge & Invoices', icon: LogOut },
         { to: '/front-desk/patients/search', label: 'Patient Master Search', icon: Search },
         { to: '/finance/billing', label: 'Invoices & Payments', icon: CreditCard },
         { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck },
@@ -95,6 +99,7 @@ export const Sidebar = () => {
       { to: '/admin/dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
       { to: '/operations/beds', label: 'Bed Management Hub', icon: BedDouble },
       { to: '/operations/admissions', label: 'Inpatient Admissions', icon: BedDouble },
+      { to: '/operations/discharges', label: 'Discharge Processing', icon: LogOut },
       { to: '/operations/appointments', label: 'Appointment Desk', icon: Calendar },
       { to: '/front-desk/patients/search', label: 'Patient Master Directory', icon: Search },
       { to: '/front-desk/registrations', label: 'All Registrations', icon: FileText },

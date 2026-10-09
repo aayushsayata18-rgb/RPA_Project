@@ -73,5 +73,7 @@ const optionalAuth = async (req, res, next) => {
 module.exports = {
   protect,
   verifyToken: protect,
+  authenticateToken: protect,
+  authMiddleware: protect,
   optionalAuth
 };

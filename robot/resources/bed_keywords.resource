@@ -31,6 +31,13 @@ Get All Beds
     ${response}=   GET    ${BASE_URL}/beds    params=${params}    headers=${headers}    expected_status=200
     RETURN         ${response.json()}[data]
 
+Get Bed Details
+    [Arguments]    ${token}    ${bedId}
+    ${headers}=    Create Dictionary    Authorization=Bearer ${token}    Content-Type=application/json
+    ${response}=   GET    ${BASE_URL}/beds/${bedId}    headers=${headers}    expected_status=any
+    RETURN         ${response}
+
+
 Find Suitable Beds For Admission
     [Arguments]    ${token}    ${clinicalCategory}    ${preferenceCategory}
     ${headers}=    Create Dictionary    Authorization=Bearer ${token}    Content-Type=application/json

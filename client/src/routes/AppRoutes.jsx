@@ -44,6 +44,12 @@ import { PatientAdmissionsPage } from '../pages/patient/PatientAdmissionsPage';
 import { BedManagementPage } from '../pages/operations/BedManagementPage';
 import { BedDetailPage } from '../pages/operations/BedDetailPage';
 
+// Module 6: Discharge Processing Pages
+import { OperationsDischargesPage } from '../pages/operations/OperationsDischargesPage';
+import { DischargeDetailPage } from '../pages/operations/DischargeDetailPage';
+import { DoctorDischargePage } from '../pages/clinical/DoctorDischargePage';
+import { PatientDischargesPage } from '../pages/patient/PatientDischargesPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -145,6 +151,31 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        {/* Module 6: Patient Portal Discharge & Bills */}
+        <Route
+          path="patient/discharges"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientDischargesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patient/discharges/:id"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientDischargesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patient/bills"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientDischargesPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Module 2 & 3: Clinical Portal Appointments & OPD Queue */}
         <Route
@@ -188,6 +219,15 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        {/* Module 6: Clinical Discharge Orders */}
+        <Route
+          path="clinical/discharges"
+          element={
+            <ProtectedRoute allowedRoles={['DOCTOR', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN']}>
+              <DoctorDischargePage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Module 4 & 5: Operations & Bed Management Routes */}
         <Route
@@ -195,6 +235,55 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute allowedRoles={['RECEPTIONIST', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'DOCTOR']}>
               <OperationsAdmissionsPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* Module 6: Operations Discharge Processing */}
+        <Route
+          path="operations/discharges"
+          element={
+            <ProtectedRoute allowedRoles={['RECEPTIONIST', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'BILLING_STAFF', 'DOCTOR']}>
+              <OperationsDischargesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/discharges/:id"
+          element={
+            <ProtectedRoute>
+              <DischargeDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="discharges"
+          element={
+            <ProtectedRoute allowedRoles={['RECEPTIONIST', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'BILLING_STAFF', 'DOCTOR']}>
+              <OperationsDischargesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="discharges/:id"
+          element={
+            <ProtectedRoute>
+              <DischargeDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="finance/billing"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT']}>
+              <OperationsDischargesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="finance/discharges"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT']}>
+              <OperationsDischargesPage />
             </ProtectedRoute>
           }
         />

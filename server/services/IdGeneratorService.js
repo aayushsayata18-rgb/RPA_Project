@@ -569,6 +569,162 @@ class IdGeneratorService {
   }
 
   /**
+   * Generate unique Discharge Request ID (e.g. DREQ-20261009-00101)
+   */
+  static async generateDischargeRequestId() {
+    const DischargeRequest = require('../models/DischargeRequest');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `DISCHARGE_REQUEST_ID_${ymd}`;
+    const prefix = `DREQ-${ymd}-`;
+
+    const lastReq = await DischargeRequest.findOne({ requestId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ requestId: -1 })
+      .select('requestId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastReq && lastReq.requestId) {
+      const numPart = lastReq.requestId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate unique Discharge Number (e.g. DIS-20261009-00101)
+   */
+  static async generateDischargeNumber() {
+    const Discharge = require('../models/Discharge');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `DISCHARGE_NUMBER_${ymd}`;
+    const prefix = `DIS-${ymd}-`;
+
+    const lastDis = await Discharge.findOne({ dischargeNumber: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ dischargeNumber: -1 })
+      .select('dischargeNumber')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastDis && lastDis.dischargeNumber) {
+      const numPart = lastDis.dischargeNumber.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate unique Invoice ID (e.g. INV-20261009-00101)
+   */
+  static async generateInvoiceId() {
+    const Invoice = require('../models/Invoice');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `INVOICE_ID_${ymd}`;
+    const prefix = `INV-${ymd}-`;
+
+    const lastInv = await Invoice.findOne({ invoiceId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ invoiceId: -1 })
+      .select('invoiceId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastInv && lastInv.invoiceId) {
+      const numPart = lastInv.invoiceId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate unique Payment Transaction ID (e.g. PAY-20261009-00101)
+   */
+  static async generatePaymentTransactionId() {
+    const PaymentTransaction = require('../models/PaymentTransaction');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `PAYMENT_TXN_ID_${ymd}`;
+    const prefix = `PAY-${ymd}-`;
+
+    const lastTxn = await PaymentTransaction.findOne({ transactionId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ transactionId: -1 })
+      .select('transactionId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastTxn && lastTxn.transactionId) {
+      const numPart = lastTxn.transactionId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
    * Generate correlation ID (e.g. CORR-20261006-000123)
    */
   static generateCorrelationId() {

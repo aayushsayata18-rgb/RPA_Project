@@ -26,6 +26,12 @@ const opdRoutes = require('./opdRoutes');
 const admissionRoutes = require('./admissionRoutes');
 const bedRoutes = require('./bedRoutes');
 
+// Module 6: Discharge Processing, Billing & Payment Routes
+const dischargeRoutes = require('./dischargeRoutes');
+const dischargeRequestRoutes = require('./dischargeRequestRoutes');
+const billingRoutes = require('./billingRoutes');
+const paymentRoutes = require('./paymentRoutes');
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/audit', auditRoutes);
@@ -72,6 +78,16 @@ router.use('/bed-transfers', bedRoutes);
 router.use('/v1/bed-transfers', bedRoutes);
 router.use('/housekeeping', bedRoutes);
 router.use('/v1/housekeeping', bedRoutes);
+
+// Module 6 Endpoints
+router.use('/discharges', dischargeRoutes);
+router.use('/v1/discharges', dischargeRoutes);
+router.use('/discharge-requests', dischargeRequestRoutes);
+router.use('/v1/discharge-requests', dischargeRequestRoutes);
+router.use('/billing', billingRoutes);
+router.use('/v1/billing', billingRoutes);
+router.use('/payments', paymentRoutes);
+router.use('/v1/payments', paymentRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

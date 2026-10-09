@@ -52,7 +52,10 @@ router.get('/availability', requirePermission(PERMISSIONS.BED_VIEW), BedControll
 
 router.get('/beds', requirePermission(PERMISSIONS.BED_VIEW), BedController.listBeds);
 router.get('/beds/:id', requirePermission(PERMISSIONS.BED_VIEW), BedController.getBed);
+router.get('/:id', requirePermission(PERMISSIONS.BED_VIEW), BedController.getBed);
+router.get('/', requirePermission(PERMISSIONS.BED_VIEW), BedController.listBeds);
 router.post(
+
   '/beds',
   requireRoles(['ADMIN_MANAGER', 'SYSTEM_ADMIN']),
   BedController.createBed

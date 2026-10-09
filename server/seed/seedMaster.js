@@ -33,6 +33,12 @@ const AdmissionRequest = require('../models/AdmissionRequest');
 const Admission = require('../models/Admission');
 const AdmissionChecklist = require('../models/AdmissionChecklist');
 const AdmissionHistory = require('../models/AdmissionHistory');
+const DischargeRequest = require('../models/DischargeRequest');
+const Discharge = require('../models/Discharge');
+const DischargeChecklist = require('../models/DischargeChecklist');
+const Invoice = require('../models/Invoice');
+const BillingCharge = require('../models/BillingCharge');
+const PaymentTransaction = require('../models/PaymentTransaction');
 const { ROLES, PORTAL_ROLES } = require('../config/roles');
 const { ROLE_PERMISSIONS, PERMISSIONS } = require('../config/permissions');
 
@@ -223,6 +229,32 @@ const seedMaster = async () => {
         channel: 'SMS',
         bodyTemplate: 'Hello {{patientName}}, your bed {{bedNumber}} in {{wardName}} has been assigned for Admission {{admissionId}}.',
         variables: ['patientName', 'admissionId', 'wardName', 'bedNumber']
+      },
+      {
+        templateCode: 'DISCHARGE_REQUESTED_NOTICE',
+        name: 'Discharge Initiated Notice',
+        event: 'DISCHARGE_REQUESTED',
+        channel: 'SMS',
+        bodyTemplate: 'Dear {{patientName}}, your discharge process has been initiated. Staff are preparing your clearance.',
+        variables: ['patientName', 'dischargeId', 'admissionId']
+      },
+      {
+        templateCode: 'DISCHARGE_READY_NOTICE',
+        name: 'Discharge Bill & Clearance Ready Notice',
+        event: 'DISCHARGE_READY',
+        channel: 'ALL',
+        subjectTemplate: 'Discharge Bill Ready for Settlement - {{dischargeId}}',
+        bodyTemplate: 'Dear {{patientName}}, your discharge final bill of ₹{{payableAmount}} is ready. Please view and settle via the patient portal.',
+        variables: ['patientName', 'dischargeId', 'payableAmount', 'invoiceId']
+      },
+      {
+        templateCode: 'DISCHARGE_COMPLETED_NOTICE',
+        name: 'Discharge Completed Confirmation',
+        event: 'DISCHARGE_COMPLETED',
+        channel: 'ALL',
+        subjectTemplate: 'Hospital Discharge Completed - Wishing you a speedy recovery!',
+        bodyTemplate: 'Dear {{patientName}}, your discharge is complete! All documents and receipts are now available in your portal.',
+        variables: ['patientName', 'dischargeId', 'admissionId']
       }
     ];
 
@@ -279,6 +311,95 @@ const seedMaster = async () => {
           </div>
         `,
         variables: ['admissionId', 'patientId', 'patientName', 'wardName', 'bedNumber', 'doctorName', 'admissionDate', 'admissionTime', 'source']
+      },
+      {
+        templateCode: 'DISCHARGE_SUMMARY',
+        name: 'Clinical Discharge Summary',
+        documentType: 'DISCHARGE_SUMMARY',
+        templateHtml: `
+          <div style="font-family: Arial, sans-serif; padding: 30px; border: 2px solid #6366f1; border-radius: 8px;">
+            <h1 style="color: #4338ca; margin-bottom: 4px;">Hospital Administrative Platform</h1>
+            <h3 style="color: #475569; margin-top: 0;">Authorized Clinical Discharge Summary</h3>
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
+            <table style="width: 100%; font-size: 14px; line-height: 1.8;">
+              <tr><td><strong>Discharge Number:</strong></td><td>{{dischargeNumber}}</td></tr>
+              <tr><td><strong>Patient Name:</strong></td><td>{{patientName}} ({{patientId}})</td></tr>
+              <tr><td><strong>Admission ID:</strong></td><td>{{admissionId}} ({{admissionDate}} to {{dischargeDate}})</td></tr>
+              <tr><td><strong>Attending Doctor:</strong></td><td>{{admittingDoctor}}</td></tr>
+              <tr><td><strong>Ward / Bed:</strong></td><td>{{ward}} / {{bedNumber}}</td></tr>
+              <tr><td><strong>Clinical Clearance:</strong></td><td>{{clinicalDecisionReference}}</td></tr>
+            </table>
+            <div style="margin-top: 24px; padding: 12px; background-color: #f8fafc; border-left: 4px solid #6366f1;">
+              <strong>Doctor Advice & Follow-up:</strong>
+              <p>Patient medically cleared for discharge. Prescribed oral medications and recommended rest. Follow-up consultation scheduled in 7 days.</p>
+            </div>
+          </div>
+        `,
+        variables: ['dischargeNumber', 'patientId', 'patientName', 'admissionId', 'admissionDate', 'dischargeDate', 'admittingDoctor', 'ward', 'bedNumber', 'clinicalDecisionReference']
+      },
+      {
+        templateCode: 'FINAL_INVOICE',
+        name: 'Final Itemized Hospital Bill',
+        documentType: 'INVOICE',
+        templateHtml: `
+          <div style="font-family: Arial, sans-serif; padding: 30px; border: 2px solid #059669; border-radius: 8px;">
+            <h1 style="color: #047857; margin-bottom: 4px;">Hospital Final Bill & Invoice</h1>
+            <p style="color: #64748b; font-size: 14px;">Invoice Number: {{invoiceId}} | Date: {{invoiceDate}}</p>
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
+            <table style="width: 100%; font-size: 14px; line-height: 1.8;">
+              <tr><td><strong>Patient:</strong></td><td>{{patientName}} ({{patientId}})</td></tr>
+              <tr><td><strong>Admission / Discharge:</strong></td><td>{{admissionId}} / {{dischargeNumber}}</td></tr>
+              <tr><td><strong>Gross Total:</strong></td><td>₹{{grossTotal}}</td></tr>
+              <tr><td><strong>Insurance Coverage:</strong></td><td>- ₹{{coveredAmount}}</td></tr>
+              <tr><td><strong>Advance / Deposit Paid:</strong></td><td>- ₹{{depositAmount}}</td></tr>
+              <tr><td><strong>Discount:</strong></td><td>- ₹{{discountAmount}}</td></tr>
+              <tr style="font-size: 16px; font-weight: bold; color: #047857;"><td><strong>Net Payable Amount:</strong></td><td>₹{{payableAmount}}</td></tr>
+              <tr><td><strong>Payment Status:</strong></td><td>{{status}}</td></tr>
+            </table>
+          </div>
+        `,
+        variables: ['invoiceId', 'dischargeNumber', 'patientId', 'patientName', 'admissionId', 'grossTotal', 'coveredAmount', 'depositAmount', 'discountAmount', 'payableAmount', 'status', 'invoiceDate']
+      },
+      {
+        templateCode: 'PAYMENT_RECEIPT',
+        name: 'Official Payment Receipt',
+        documentType: 'PAYMENT_RECEIPT',
+        templateHtml: `
+          <div style="font-family: Arial, sans-serif; padding: 30px; border: 2px solid #0284c7; border-radius: 8px;">
+            <h1 style="color: #0369a1; margin-bottom: 4px;">Hospital Administrative Platform</h1>
+            <h3 style="color: #475569; margin-top: 0;">Official Payment Settlement Receipt</h3>
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
+            <table style="width: 100%; font-size: 14px; line-height: 1.8;">
+              <tr><td><strong>Transaction ID:</strong></td><td>{{transactionId}}</td></tr>
+              <tr><td><strong>Invoice ID:</strong></td><td>{{invoiceId}}</td></tr>
+              <tr><td><strong>Patient:</strong></td><td>{{patientName}} ({{patientId}})</td></tr>
+              <tr><td><strong>Amount Received:</strong></td><td>₹{{amount}}</td></tr>
+              <tr><td><strong>Payment Method:</strong></td><td>{{paymentMethod}}</td></tr>
+              <tr><td><strong>Payment Timestamp:</strong></td><td>{{paidAt}}</td></tr>
+              <tr><td><strong>Outstanding Balance:</strong></td><td>₹{{balanceRemaining}}</td></tr>
+            </table>
+          </div>
+        `,
+        variables: ['transactionId', 'invoiceId', 'patientId', 'patientName', 'amount', 'paymentMethod', 'paidAt', 'balanceRemaining']
+      },
+      {
+        templateCode: 'DISCHARGE_ADMIN_FORM',
+        name: 'Discharge Administrative Clearance Form',
+        documentType: 'DISCHARGE_ADMIN_FORM',
+        templateHtml: `
+          <div style="font-family: Arial, sans-serif; padding: 30px; border: 2px solid #334155; border-radius: 8px;">
+            <h1 style="color: #0f172a; margin-bottom: 4px;">Administrative Discharge Clearance</h1>
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
+            <table style="width: 100%; font-size: 14px; line-height: 1.8;">
+              <tr><td><strong>Discharge Number:</strong></td><td>{{dischargeNumber}}</td></tr>
+              <tr><td><strong>Patient:</strong></td><td>{{patientName}} ({{patientId}})</td></tr>
+              <tr><td><strong>Admission ID:</strong></td><td>{{admissionId}}</td></tr>
+              <tr><td><strong>Billing & Settlement:</strong></td><td>{{paymentStatus}}</td></tr>
+              <tr><td><strong>Cleared By:</strong></td><td>{{clearedBy}} at {{clearedAt}}</td></tr>
+            </table>
+          </div>
+        `,
+        variables: ['dischargeNumber', 'patientId', 'patientName', 'admissionId', 'paymentStatus', 'clearedBy', 'clearedAt']
       }
     ];
 
@@ -1777,7 +1898,167 @@ const seedMaster = async () => {
     };
     await AdmissionRequest.findOneAndUpdate({ admissionRequestId: admReq3.admissionRequestId }, admReq3, { upsert: true, new: true });
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1, 2, 3, and 4 (Patient Admission) Master Data!');
+    // 14. Seed Module 6 Demo Discharge Patient (Rahul Shah P10045 / ADM10023)
+    console.log('[Seed Master] Seeding Module 6 Demo Discharge Patient (Rahul Shah P10045, ADM10023)...');
+
+    // Ensure Patient Rahul Shah exists
+    await Patient.findOneAndUpdate(
+      { patientId: 'P10045' },
+      {
+        patientId: 'P10045',
+        firstName: 'Rahul',
+        lastName: 'Shah',
+        fullName: 'Rahul Shah',
+        gender: 'MALE',
+        dateOfBirth: new Date('1988-06-15'),
+        age: 38,
+        phoneNumber: '9820012345',
+        email: 'rahul.shah@example.com',
+        nationalId: 'IND-NAT-881920',
+        identityVerificationStatus: 'VERIFIED',
+        insurance: {
+          provider: 'Star Health Insurance',
+          policyNumber: 'POL-STAR-99201',
+          coverageAmount: 100000,
+          approvedAmount: 3000,
+          isVerified: true
+        }
+      },
+      { upsert: true, new: true }
+    );
+
+    // Ensure Visit VIS20261006001 exists
+    await Visit.findOneAndUpdate(
+      { visitId: 'VIS20261006001' },
+      {
+        visitId: 'VIS20261006001',
+        patientId: 'P10045',
+        visitType: 'INPATIENT',
+        status: 'ADMITTED',
+        startDate: new Date(Date.now() - 3 * 24 * 3600 * 1000)
+      },
+      { upsert: true, new: true }
+    );
+
+    // Ensure Admission ADM10023 exists
+    const admRahul = await Admission.findOneAndUpdate(
+      { admissionId: 'ADM10023' },
+      {
+        admissionId: 'ADM10023',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        visitId: 'VIS20261006001',
+        admissionRequestId: 'DREQ-20261006-001',
+        admissionType: 'INPATIENT',
+        source: 'OPD',
+        admissionDate: new Date(Date.now() - 3 * 24 * 3600 * 1000),
+        admissionDateStr: '2026-10-06',
+        admissionTime: '10:00',
+        status: 'DISCHARGE_REQUESTED',
+        admittingDoctorId: 'DOC1001',
+        admittingDoctorName: 'Dr. Rajesh Verma',
+        admittingDepartmentId: 'DEP-CARD',
+        admittingDepartmentName: 'Department of Cardiology',
+        clinicalRequirementReference: 'CLINREQ-CARD-8891 (Post-Procedure Recovery)',
+        accommodationPreference: 'PRIVATE_ROOM',
+        assignedWardId: 'WARD-PR-01',
+        assignedWardName: 'Private Deluxe Suite Ward',
+        assignedBedId: 'BED-PR-03',
+        assignedBedNumber: 'P-03',
+        identityStatus: 'VERIFIED',
+        insuranceStatus: 'VERIFIED',
+        insuranceDetails: {
+          provider: 'Star Health Insurance',
+          policyNumber: 'POL-STAR-99201',
+          preAuthStatus: 'APPROVED',
+          approvedAmount: 3000
+        },
+        billingStatus: 'ACTIVE',
+        correlationId: `CORR-20261006-001`
+      },
+      { upsert: true, new: true }
+    );
+
+    // Seed BedAssignment for ADM10023
+    await BedAssignment.findOneAndUpdate(
+      { admissionId: 'ADM10023', bedId: 'BED-PR-03' },
+      {
+        assignmentId: 'ASSIGN-20261006-001',
+        admissionId: 'ADM10023',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        bedId: 'BED-PR-03',
+        bedNumber: 'P-03',
+        wardId: 'WARD-PR-01',
+        wardName: 'Private Deluxe Suite Ward',
+        status: 'ACTIVE',
+        assignedAt: new Date(Date.now() - 3 * 24 * 3600 * 1000)
+      },
+      { upsert: true, new: true }
+    );
+
+    // Seed itemized Billing Charges for ADM10023
+    const demoCharges = [
+      { chargeId: 'CHG-10023-01', patientId: 'P10045', admissionId: 'ADM10023', serviceType: 'CONSULTATION', serviceName: 'Inpatient Specialist Consultation (Dr. Verma)', quantity: 1, unitPrice: 1000, totalAmount: 1000, status: 'PENDING' },
+      { chargeId: 'CHG-10023-02', patientId: 'P10045', admissionId: 'ADM10023', serviceType: 'LABORATORY', serviceName: 'Complete Blood Count & Electrolyte Profile', quantity: 1, unitPrice: 2000, totalAmount: 2000, status: 'PENDING' },
+      { chargeId: 'CHG-10023-03', patientId: 'P10045', admissionId: 'ADM10023', serviceType: 'PHARMACY', serviceName: 'Post-Op Antibiotics & Cardiovascular Medication', quantity: 1, unitPrice: 3500, totalAmount: 3500, status: 'PENDING' },
+      { chargeId: 'CHG-10023-04', patientId: 'P10045', admissionId: 'ADM10023', serviceType: 'RADIOLOGY', serviceName: 'Chest X-Ray Digital AP View', quantity: 1, unitPrice: 2500, totalAmount: 2500, status: 'PENDING' }
+    ];
+
+    for (const chg of demoCharges) {
+      await BillingCharge.findOneAndUpdate({ chargeId: chg.chargeId }, chg, { upsert: true, new: true });
+    }
+
+    // Seed Discharge Request for ADM10023
+    const dReq1 = {
+      requestId: 'DREQ-20261006-001',
+      patientId: 'P10045',
+      patientName: 'Rahul Shah',
+      visitId: 'VIS20261006001',
+      admissionId: 'ADM10023',
+      requestedByUserId: 'DOC1001',
+      requestedByRole: 'DOCTOR',
+      doctorName: 'Dr. Rajesh Verma',
+      requestType: 'PLANNED',
+      clinicalDecisionReference: 'Doctor Patel & Verma clinical discharge order confirmed. Patient stable and recovering well.',
+      clinicalSummaryNotes: 'Vital signs stable. Wound dressing clean. Ready for administrative discharge and medication handover.',
+      status: 'REQUESTED',
+      requestedAt: new Date(Date.now() - 2 * 3600 * 1000),
+      effectiveDischargeDate: new Date(),
+      correlationId: 'CORR-20261006-001'
+    };
+    await DischargeRequest.findOneAndUpdate({ requestId: dReq1.requestId }, dReq1, { upsert: true, new: true });
+
+    // Seed active Discharge record DIS20261006015
+    const demoDischarge = {
+      dischargeNumber: 'DIS20261006015',
+      patientId: 'P10045',
+      patientName: 'Rahul Shah',
+      visitId: 'VIS20261006001',
+      admissionId: 'ADM10023',
+      dischargeRequestId: 'DREQ-20261006-001',
+      dischargeType: 'PLANNED',
+      status: 'PENDING_BILLING',
+      requestedAt: new Date(Date.now() - 2 * 3600 * 1000),
+      dischargeDate: new Date(),
+      assignedWardId: 'WARD-PR-01',
+      assignedWardName: 'Private Deluxe Suite Ward',
+      assignedBedId: 'BED-PR-03',
+      assignedBedNumber: 'P-03',
+      admittingDoctorName: 'Dr. Rajesh Verma',
+      grossAmount: 14000,
+      coveredAmount: 3000,
+      depositAmount: 5000,
+      payableAmount: 6000,
+      paymentStatus: 'UNPAID',
+      insuranceStatus: 'VERIFIED',
+      bedReleaseStatus: 'PENDING',
+      notes: 'Planned discharge under Dr. Rajesh Verma',
+      correlationId: 'CORR-20261006-001'
+    };
+    await Discharge.findOneAndUpdate({ dischargeNumber: demoDischarge.dischargeNumber }, demoDischarge, { upsert: true, new: true });
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1-6 Master Data & Demo records!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);
