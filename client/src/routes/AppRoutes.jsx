@@ -50,6 +50,10 @@ import { DischargeDetailPage } from '../pages/operations/DischargeDetailPage';
 import { DoctorDischargePage } from '../pages/clinical/DoctorDischargePage';
 import { PatientDischargesPage } from '../pages/patient/PatientDischargesPage';
 
+// Module 7: Patient Records & Longitudinal Dossier Pages
+import { PatientRecordsPage } from '../pages/patient/PatientRecordsPage';
+import { PatientRecordsManagementPage } from '../pages/operations/PatientRecordsManagementPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -173,6 +177,15 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
               <PatientDischargesPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* Module 7: Patient Records Portal View */}
+        <Route
+          path="patient/records"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientRecordsPage />
             </ProtectedRoute>
           }
         />
@@ -428,6 +441,38 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <PatientDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="front-desk/patients/:patientId/records"
+          element={
+            <ProtectedRoute>
+              <PatientRecordsManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/patient-records"
+          element={
+            <ProtectedRoute>
+              <PatientRecordsManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/patient-records/:id"
+          element={
+            <ProtectedRoute>
+              <PatientRecordsManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patients/:patientId/records"
+          element={
+            <ProtectedRoute>
+              <PatientRecordsManagementPage />
             </ProtectedRoute>
           }
         />

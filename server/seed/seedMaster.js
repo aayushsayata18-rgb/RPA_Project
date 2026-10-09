@@ -39,6 +39,14 @@ const DischargeChecklist = require('../models/DischargeChecklist');
 const Invoice = require('../models/Invoice');
 const BillingCharge = require('../models/BillingCharge');
 const PaymentTransaction = require('../models/PaymentTransaction');
+const GeneratedDocument = require('../models/GeneratedDocument');
+const RecordAccessLog = require('../models/RecordAccessLog');
+const PatientProfileHistory = require('../models/PatientProfileHistory');
+const LabRecord = require('../models/LabRecord');
+const RadiologyRecord = require('../models/RadiologyRecord');
+const PharmacyRecord = require('../models/PharmacyRecord');
+const InsurancePolicy = require('../models/InsurancePolicy');
+const InsuranceClaim = require('../models/InsuranceClaim');
 const { ROLES, PORTAL_ROLES } = require('../config/roles');
 const { ROLE_PERMISSIONS, PERMISSIONS } = require('../config/permissions');
 
@@ -2058,7 +2066,489 @@ const seedMaster = async () => {
     };
     await Discharge.findOneAndUpdate({ dischargeNumber: demoDischarge.dischargeNumber }, demoDischarge, { upsert: true, new: true });
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1-6 Master Data & Demo records!');
+    // ----------------------------------------------------
+    // MODULE 7: SEED DEMO PATIENT RAHUL SHAH (P10045) & LONGITUDINAL RECORDS
+    // ----------------------------------------------------
+    console.log('[Seed Master] Seeding Module 7: Longitudinal Patient Records for Rahul Shah (P10045)...');
+
+    // 1. Patient Master Record (P10045)
+    await Patient.findOneAndUpdate(
+      { patientId: 'P10045' },
+      {
+        patientId: 'P10045',
+        firstName: 'Rahul',
+        middleName: '',
+        lastName: 'Shah',
+        fullName: 'Rahul Shah',
+        dateOfBirth: new Date('1990-05-15'),
+        gender: 'MALE',
+        bloodGroup: 'B+',
+        mobile: '9876543210',
+        email: 'rahul.shah@example.com',
+        address: {
+          line1: '402, Sunshine Heights',
+          line2: 'MG Road, Bandra West',
+          city: 'Mumbai',
+          state: 'Maharashtra',
+          postalCode: '400001',
+          country: 'India'
+        },
+        emergencyContact: {
+          name: 'Priya Shah',
+          relationship: 'Spouse',
+          mobile: '9876543211'
+        },
+        identityDocuments: [
+          {
+            type: 'AADHAAR',
+            reference: '998877665544',
+            verified: true,
+            verifiedAt: new Date('2026-09-01')
+          }
+        ],
+        communicationPreferences: {
+          sms: true,
+          email: true,
+          whatsapp: true
+        },
+        status: 'ACTIVE',
+        registrationSource: 'FRONT_DESK',
+        identityVerificationStatus: 'VERIFIED',
+        createdAt: new Date('2026-09-01T09:00:00Z')
+      },
+      { upsert: true, new: true }
+    );
+
+    // 2. Three Visits
+    const module7Visits = [
+      {
+        visitId: 'VIS20260901001',
+        patientId: 'P10045',
+        visitType: 'OPD',
+        department: 'DEP-GEN',
+        departmentName: 'General Medicine',
+        doctorId: 'DOC1002',
+        doctorName: 'Dr. Priya Sharma',
+        visitDate: new Date('2026-09-01T10:00:00Z'),
+        status: 'COMPLETED'
+      },
+      {
+        visitId: 'VIS20260915001',
+        patientId: 'P10045',
+        visitType: 'OPD',
+        department: 'DEP-CARD',
+        departmentName: 'Department of Cardiology',
+        doctorId: 'DOC1001',
+        doctorName: 'Dr. Rajesh Verma',
+        visitDate: new Date('2026-09-15T11:30:00Z'),
+        status: 'COMPLETED'
+      },
+      {
+        visitId: 'VIS20261006001',
+        patientId: 'P10045',
+        visitType: 'EMERGENCY_OPD',
+        department: 'DEP-CARD',
+        departmentName: 'Department of Cardiology',
+        doctorId: 'DOC1001',
+        doctorName: 'Dr. Rajesh Verma',
+        visitDate: new Date('2026-10-06T09:15:00Z'),
+        status: 'COMPLETED'
+      }
+    ];
+
+    for (const v of module7Visits) {
+      await Visit.findOneAndUpdate({ visitId: v.visitId }, v, { upsert: true, new: true });
+    }
+
+    // 3. Two Appointments
+    const module7Appointments = [
+      {
+        appointmentId: 'APP20260915001',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        doctorId: 'DOC1001',
+        doctorName: 'Dr. Rajesh Verma',
+        departmentId: 'DEP-CARD',
+        departmentName: 'Department of Cardiology',
+        appointmentDate: new Date('2026-09-15'),
+        appointmentDateStr: '2026-09-15',
+        timeSlot: '11:30 - 12:00',
+        status: 'COMPLETED',
+        paymentStatus: 'PAID'
+      },
+      {
+        appointmentId: 'APP20261001001',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        doctorId: 'DOC1001',
+        doctorName: 'Dr. Rajesh Verma',
+        departmentId: 'DEP-CARD',
+        departmentName: 'Department of Cardiology',
+        appointmentDate: new Date('2026-10-01'),
+        appointmentDateStr: '2026-10-01',
+        timeSlot: '14:00 - 14:30',
+        status: 'COMPLETED',
+        paymentStatus: 'PAID'
+      }
+    ];
+
+    for (const app of module7Appointments) {
+      await Appointment.findOneAndUpdate({ appointmentId: app.appointmentId }, app, { upsert: true, new: true });
+    }
+
+    // 4. Two Bed Assignments (Historical transfer: Semi-Private -> Private)
+    const module7BedAssignments = [
+      {
+        assignmentId: 'ASSIGN-20261001-001',
+        admissionId: 'ADM10023',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        bedId: 'BED-SP-04',
+        bedNumber: 'S-04',
+        wardId: 'WARD-SP-01',
+        wardName: 'Semi-Private Wing',
+        status: 'RELEASED',
+        assignedAt: new Date('2026-10-01T10:00:00Z'),
+        releasedAt: new Date('2026-10-05T09:00:00Z')
+      },
+      {
+        assignmentId: 'ASSIGN-20261006-001',
+        admissionId: 'ADM10023',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        bedId: 'BED-PR-03',
+        bedNumber: 'P-03',
+        wardId: 'WARD-PR-01',
+        wardName: 'Private Deluxe Suite Ward',
+        status: 'ACTIVE',
+        assignedAt: new Date('2026-10-05T09:00:00Z')
+      }
+    ];
+
+    for (const ba of module7BedAssignments) {
+      await BedAssignment.findOneAndUpdate({ assignmentId: ba.assignmentId }, ba, { upsert: true, new: true });
+    }
+
+    // 5. Three Invoices
+    const module7Invoices = [
+      {
+        invoiceId: 'INV20260901-01',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        admissionId: 'VIS20260901001',
+        invoiceDate: new Date('2026-09-01'),
+        grossTotal: 1500,
+        payableAmount: 1500,
+        paidAmount: 1500,
+        outstandingBalance: 0,
+        status: 'PAID',
+        items: [
+          { category: 'CONSULTATION', description: 'General Consultation (Dr. Sharma)', quantity: 1, unitPrice: 800, totalPrice: 800 },
+          { category: 'LABORATORY', description: 'Complete Blood Count (CBC)', quantity: 1, unitPrice: 700, totalPrice: 700 }
+        ]
+      },
+      {
+        invoiceId: 'INV20260915-01',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        admissionId: 'VIS20260915001',
+        invoiceDate: new Date('2026-09-15'),
+        grossTotal: 2200,
+        payableAmount: 2200,
+        paidAmount: 2200,
+        outstandingBalance: 0,
+        status: 'PAID',
+        items: [
+          { category: 'CONSULTATION', description: 'Cardiology Specialist Consultation (Dr. Verma)', quantity: 1, unitPrice: 1200, totalPrice: 1200 },
+          { category: 'RADIOLOGY', description: 'Standard 12-Lead ECG', quantity: 1, unitPrice: 1000, totalPrice: 1000 }
+        ]
+      },
+      {
+        invoiceId: 'INV20261006-01',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        admissionId: 'ADM10023',
+        dischargeId: 'DIS20261006015',
+        invoiceDate: new Date('2026-10-06'),
+        grossTotal: 14000,
+        coveredAmount: 3000,
+        depositAmount: 5000,
+        payableAmount: 6000,
+        paidAmount: 0,
+        outstandingBalance: 6000,
+        status: 'FINALIZED',
+        items: [
+          { category: 'ROOM_ACCOMMODATION', description: 'Private Deluxe Suite Stay (3 Days)', quantity: 3, unitPrice: 2500, totalPrice: 7500 },
+          { category: 'CONSULTATION', description: 'Inpatient Specialist Rounds (Dr. Verma)', quantity: 1, unitPrice: 1000, totalPrice: 1000 },
+          { category: 'LABORATORY', description: 'Complete Blood Count & Electrolytes', quantity: 1, unitPrice: 2000, totalPrice: 2000 },
+          { category: 'PHARMACY', description: 'Post-Op Antibiotics & Cardiovascular Medication', quantity: 1, unitPrice: 3500, totalPrice: 3500 }
+        ]
+      }
+    ];
+
+    for (const inv of module7Invoices) {
+      await Invoice.findOneAndUpdate({ invoiceId: inv.invoiceId }, inv, { upsert: true, new: true });
+    }
+
+    // 6. Two Payment Transactions
+    const module7Payments = [
+      {
+        transactionId: 'PAY-20260901-01',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        invoiceId: 'INV20260901-01',
+        amount: 1500,
+        paymentMethod: 'UPI',
+        status: 'SUCCESS',
+        paymentDate: new Date('2026-09-01T10:30:00Z')
+      },
+      {
+        transactionId: 'PAY-20260915-01',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        invoiceId: 'INV20260915-01',
+        amount: 2200,
+        paymentMethod: 'CREDIT_CARD',
+        status: 'SUCCESS',
+        paymentDate: new Date('2026-09-15T12:00:00Z')
+      }
+    ];
+
+    for (const pay of module7Payments) {
+      await PaymentTransaction.findOneAndUpdate({ transactionId: pay.transactionId }, pay, { upsert: true, new: true });
+    }
+
+    // 7. One Insurance Policy & Two Claims
+    await InsurancePolicy.findOneAndUpdate(
+      { policyNumber: 'POL-STAR-99201' },
+      {
+        policyId: 'POL-STAR-99201',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        providerName: 'Star Health Insurance',
+        policyNumber: 'POL-STAR-99201',
+        policyHolderName: 'Rahul Shah',
+        relationshipToPatient: 'SELF',
+        coverageAmount: 500000,
+        coPayPercentage: 10,
+        validFrom: new Date('2026-01-01'),
+        validTo: new Date('2026-12-31'),
+        verificationStatus: 'VERIFIED',
+        verifiedAt: new Date('2026-09-01'),
+        verifiedBy: 'INSURANCE_OFFICER_1'
+      },
+      { upsert: true, new: true }
+    );
+
+    const module7Claims = [
+      {
+        claimId: 'CLM-20261006-01',
+        policyId: 'POL-STAR-99201',
+        patientId: 'P10045',
+        admissionId: 'ADM10023',
+        providerName: 'Star Health Insurance',
+        policyNumber: 'POL-STAR-99201',
+        claimAmount: 3000,
+        approvedAmount: 3000,
+        status: 'APPROVED',
+        submissionDate: new Date('2026-10-06')
+      },
+      {
+        claimId: 'CLM-20261006-02',
+        policyId: 'POL-STAR-99201',
+        patientId: 'P10045',
+        admissionId: 'ADM10023',
+        invoiceId: 'INV20261006-01',
+        providerName: 'Star Health Insurance',
+        policyNumber: 'POL-STAR-99201',
+        claimAmount: 6000,
+        approvedAmount: 0,
+        status: 'SUBMITTED',
+        submissionDate: new Date('2026-10-08')
+      }
+    ];
+
+    for (const clm of module7Claims) {
+      await InsuranceClaim.findOneAndUpdate({ claimId: clm.claimId }, clm, { upsert: true, new: true });
+    }
+
+    // 8. Three Lab Orders & Reports
+    const module7LabOrders = [
+      {
+        orderId: 'LAB-20261006-01',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        admissionId: 'ADM10023',
+        testCode: 'TEST-CBC',
+        testName: 'Complete Blood Count (CBC)',
+        category: 'HEMATOLOGY',
+        orderedByDoctorName: 'Dr. Rajesh Verma',
+        orderDate: new Date('2026-10-06T10:00:00Z'),
+        sampleStatus: 'RECEIVED_IN_LAB',
+        resultStatus: 'FINAL_VERIFIED',
+        reportDate: new Date('2026-10-06T14:30:00Z'),
+        verifiedByTechnician: 'Tech. Suresh Kumar',
+        results: [
+          { parameter: 'Hemoglobin', value: '14.2', unit: 'g/dL', referenceRange: '13.0 - 17.0', flag: 'NORMAL' },
+          { parameter: 'WBC Count', value: '7800', unit: '/mcL', referenceRange: '4000 - 11000', flag: 'NORMAL' },
+          { parameter: 'Platelets', value: '250000', unit: '/mcL', referenceRange: '150000 - 450000', flag: 'NORMAL' }
+        ],
+        documentId: 'DOC-LAB-10045'
+      },
+      {
+        orderId: 'LAB-20261006-02',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        admissionId: 'ADM10023',
+        testCode: 'TEST-LIPID',
+        testName: 'Lipid Profile & Serum Electrolytes',
+        category: 'BIOCHEMISTRY',
+        orderedByDoctorName: 'Dr. Rajesh Verma',
+        orderDate: new Date('2026-10-06T10:15:00Z'),
+        sampleStatus: 'RECEIVED_IN_LAB',
+        resultStatus: 'FINAL_VERIFIED',
+        reportDate: new Date('2026-10-06T15:00:00Z'),
+        verifiedByTechnician: 'Tech. Suresh Kumar',
+        results: [
+          { parameter: 'Total Cholesterol', value: '185', unit: 'mg/dL', referenceRange: '< 200', flag: 'NORMAL' },
+          { parameter: 'Serum Potassium', value: '4.2', unit: 'mEq/L', referenceRange: '3.5 - 5.0', flag: 'NORMAL' }
+        ]
+      },
+      {
+        orderId: 'LAB-20261006-03',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        admissionId: 'ADM10023',
+        testCode: 'TEST-TROP-T',
+        testName: 'Cardiac Troponin T High Sensitivity',
+        category: 'SEROLOGY',
+        orderedByDoctorName: 'Dr. Rajesh Verma',
+        orderDate: new Date('2026-10-07T08:00:00Z'),
+        sampleStatus: 'PROCESSING',
+        resultStatus: 'PENDING'
+      }
+    ];
+
+    for (const lab of module7LabOrders) {
+      await LabRecord.findOneAndUpdate({ orderId: lab.orderId }, lab, { upsert: true, new: true });
+    }
+
+    // 9. Two Radiology Orders & Reports
+    const module7RadiologyOrders = [
+      {
+        orderId: 'RAD-20261006-01',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        admissionId: 'ADM10023',
+        modality: 'X_RAY',
+        procedureName: 'Chest X-Ray Digital PA View',
+        orderedByDoctorName: 'Dr. Rajesh Verma',
+        orderDate: new Date('2026-10-06T10:30:00Z'),
+        status: 'REPORT_COMPLETED',
+        reportDate: new Date('2026-10-06T16:00:00Z'),
+        radiologistName: 'Dr. Amit Mehta (Radiology)',
+        findingsSummary: 'Clear lung fields bilaterally. Cardiac size within normal limits. No active consolidation or pleural effusion.',
+        conclusion: 'Normal Digital Chest Radiograph.',
+        documentId: 'DOC-RAD-10045'
+      },
+      {
+        orderId: 'RAD-20261006-02',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        admissionId: 'ADM10023',
+        modality: 'ECHO',
+        procedureName: '2D Echocardiography & Color Doppler',
+        orderedByDoctorName: 'Dr. Rajesh Verma',
+        orderDate: new Date('2026-10-07T11:00:00Z'),
+        status: 'SCHEDULED',
+        scheduledDate: new Date('2026-10-09T10:00:00Z')
+      }
+    ];
+
+    for (const rad of module7RadiologyOrders) {
+      await RadiologyRecord.findOneAndUpdate({ orderId: rad.orderId }, rad, { upsert: true, new: true });
+    }
+
+    // 10. One Pharmacy Dispense Record
+    await PharmacyRecord.findOneAndUpdate(
+      { dispenseId: 'PHARM-20261006-01' },
+      {
+        dispenseId: 'PHARM-20261006-01',
+        prescriptionId: 'RX-CARD-8891',
+        patientId: 'P10045',
+        patientName: 'Rahul Shah',
+        admissionId: 'ADM10023',
+        prescribedByDoctorName: 'Dr. Rajesh Verma',
+        dispensedByPharmacist: 'Pharm. Ramesh Patel',
+        dispenseDate: new Date('2026-10-06T14:00:00Z'),
+        status: 'DISPENSED',
+        totalAmount: 3500,
+        medications: [
+          { medicineName: 'Atorvastatin 20mg', dosage: '20mg', frequency: 'Once daily at bedtime', duration: '30 Days', quantity: 30, unitPrice: 15, totalPrice: 450 },
+          { medicineName: 'Clopidogrel 75mg', dosage: '75mg', frequency: 'Once daily after breakfast', duration: '30 Days', quantity: 30, unitPrice: 20, totalPrice: 600 },
+          { medicineName: 'Amoxicillin-Clavulanate 625mg', dosage: '625mg', frequency: 'Twice daily after meals', duration: '7 Days', quantity: 14, unitPrice: 45, totalPrice: 630 }
+        ]
+      },
+      { upsert: true, new: true }
+    );
+
+    // 11. Four Generated Documents
+    const module7Docs = [
+      {
+        documentId: 'DOC-REG-10045',
+        documentType: 'REGISTRATION_RECEIPT',
+        title: 'Hospital Registration Confirmation Receipt',
+        entityType: 'Patient',
+        entityId: 'P10045',
+        version: 1,
+        fileUrl: '/uploads/documents/DOC-REG-10045.pdf',
+        htmlContent: '<div class="p-4"><h2>Registration Card</h2><p>Patient: Rahul Shah (P10045)</p><p>Registration Date: 01-Sep-2026</p></div>',
+        createdAt: new Date('2026-09-01T09:15:00Z'),
+        accessRoles: ['PATIENT', 'RECEPTIONIST', 'SYSTEM_ADMIN']
+      },
+      {
+        documentId: 'DOC-INV-10045',
+        documentType: 'INVOICE',
+        title: 'Paid Invoice Receipt - INV20260915-01',
+        entityType: 'Patient',
+        entityId: 'P10045',
+        version: 1,
+        fileUrl: '/uploads/documents/DOC-INV-10045.pdf',
+        htmlContent: '<div class="p-4"><h2>Invoice Receipt</h2><p>Amount Paid: ₹2,200 (Paid via Credit Card)</p></div>',
+        createdAt: new Date('2026-09-15T12:05:00Z'),
+        accessRoles: ['PATIENT', 'BILLING_STAFF', 'SYSTEM_ADMIN']
+      },
+      {
+        documentId: 'DOC-LAB-10045',
+        documentType: 'LAB_REPORT',
+        title: 'Verified Diagnostic Lab Report - Complete Blood Count',
+        entityType: 'Patient',
+        entityId: 'P10045',
+        version: 1,
+        fileUrl: '/uploads/documents/DOC-LAB-10045.pdf',
+        htmlContent: '<div class="p-4"><h2>Hematology Laboratory Report</h2><p>Test: CBC - Hemoglobin: 14.2 g/dL</p><p>Status: FINAL VERIFIED</p></div>',
+        createdAt: new Date('2026-10-06T14:35:00Z'),
+        accessRoles: ['PATIENT', 'DOCTOR', 'NURSE', 'SYSTEM_ADMIN']
+      },
+      {
+        documentId: 'DOC-DIS-10045',
+        documentType: 'DISCHARGE_SUMMARY',
+        title: 'Official Clinical Inpatient Discharge Summary',
+        entityType: 'Patient',
+        entityId: 'P10045',
+        version: 1,
+        fileUrl: '/uploads/documents/DOC-DIS-10045.pdf',
+        htmlContent: '<div class="p-4"><h2>Discharge Summary</h2><p>Admission: ADM10023 | Patient: Rahul Shah</p><p>Doctor: Dr. Rajesh Verma</p><p>Follow-up scheduled in 10 days.</p></div>',
+        createdAt: new Date('2026-10-08T11:00:00Z'),
+        accessRoles: ['PATIENT', 'DOCTOR', 'NURSE', 'SYSTEM_ADMIN']
+      }
+    ];
+
+    for (const doc of module7Docs) {
+      await GeneratedDocument.findOneAndUpdate({ documentId: doc.documentId }, doc, { upsert: true, new: true });
+    }
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1-7 Master Data & Demo records!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);
@@ -2067,5 +2557,6 @@ const seedMaster = async () => {
 };
 
 seedMaster();
+
 
 

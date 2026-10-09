@@ -15,6 +15,9 @@ const patientRoutes = require('./patientRoutes');
 const registrationRoutes = require('./registrationRoutes');
 const visitRoutes = require('./visitRoutes');
 
+// Module 7: Patient Records & Longitudinal History Routes
+const patientRecordRoutes = require('./patientRecordRoutes');
+
 // Module 2: Appointment Management Routes
 const appointmentRoutes = require('./appointmentRoutes');
 const doctorRoutes = require('./doctorRoutes');
@@ -43,6 +46,9 @@ router.use('/documents', documentRoutes);
 
 // Module 1 Endpoints
 router.use('/patients', patientRoutes);
+router.use('/patients', patientRecordRoutes);
+router.use('/patient-records', patientRecordRoutes);
+router.use('/v1/patient-records', patientRecordRoutes);
 router.use('/registrations', registrationRoutes);
 router.use('/visits', visitRoutes);
 
