@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    Module 4: Bed Assignment & Active Admission Prevention Suite
+Documentation    Module 5: Physical Bed Assignment, Idempotency & Conflict Prevention Suite
 Resource         ../resources/common.resource
 Resource         ../resources/authentication.resource
 Resource         ../resources/admission_keywords.resource
@@ -16,19 +16,22 @@ Setup Admin Session
     Set Suite Variable    ${AUTH_TOKEN}    ${token}
 
 *** Test Cases ***
-TC-ADM-010 Duplicate Active Admission Detection
-    [Documentation]    Verify system prevents creating duplicate active admission for patient already admitted
-    ${activeRes}=    Get Active Admission For Patient    ${AUTH_TOKEN}    P10001
-    Should Be True   ${activeRes}[hasActiveAdmission]
-    Should Equal     ${activeRes}[data][admissionId]    ADM202610001
+TC-BED-020 Physical Bed Assignment
+    [Documentation]    Verify assigning an available physical bed marks it OCCUPIED and creates assignment record
+    ${res}=    Direct Assign Bed    ${AUTH_TOKEN}    BED-GW-02    P10004    ADM202610004    patientName=Neha Shah
+    Should Be Equal As Integers    ${res.status_code}    201
+    ${body}=    Set Variable    ${res.json()}
+    Should Be Equal    ${body}[data][status]    OCCUPIED
+    Should Be Equal    ${body}[data][currentPatientId]    P10004
 
-TC-ADM-011 Bed Search Category Preservation
-    [Documentation]    Verify preferred category is separate from clinical requirement and no auto-downgrade occurs
-    ${result}=    Find Suitable Beds For Admission    ${AUTH_TOKEN}    PRIVATE_ROOM    PRIVATE_ROOM
-    Should Equal  ${result}[targetCategory]    PRIVATE_ROOM
+TC-BED-021 Prevention of Double Occupancy on Same Physical Bed
+    [Documentation]    Rule 7: A physical bed cannot be simultaneously assigned to two active patients
+    ${resConflict}=    Direct Assign Bed    ${AUTH_TOKEN}    BED-GW-02    P10005    ADM202610005    patientName=Rohan Desai
+    Should Be True    ${resConflict.status_code} == 409 or ${resConflict.status_code} == 400
+    Should Contain    ${resConflict.json()}[error][message]    no longer available
 
-TC-ADM-017 Unauthorized Admission Approval Prevention
-    [Documentation]    Verify non-authorized users cannot approve admission requests
+TC-BED-022 RBAC Unauthorized Bed Assignment Prevention
+    [Documentation]    Verify unauthorized users (e.g. PATIENT) cannot assign beds
     ${patientToken}=    Login Hospital User    patient@hospital.com    ${DEFAULT_PASSWORD}
-    ${resp}=    Approve Admission Request By ID    ${patientToken}    ADMREQ1003    reason=Unauthorized attempt
+    ${resp}=    Direct Assign Bed    ${patientToken}    BED-GW-03    P10005    ADM202610005
     Should Be Equal As Integers    ${resp.status_code}    403

@@ -22,7 +22,7 @@ const doctorRoutes = require('./doctorRoutes');
 // Module 3: OPD Queue Management Routes
 const opdRoutes = require('./opdRoutes');
 
-// Module 4: Patient Admission & Bed Management Routes
+// Module 4 & 5: Patient Admission & Bed Management Routes
 const admissionRoutes = require('./admissionRoutes');
 const bedRoutes = require('./bedRoutes');
 
@@ -50,15 +50,28 @@ router.use('/v1/doctors', doctorRoutes);
 router.use('/opd', opdRoutes);
 router.use('/v1/opd', opdRoutes);
 
-// Module 4 Endpoints
+// Module 4 & 5 Endpoints
 router.use('/admissions', admissionRoutes);
 router.use('/v1/admissions', admissionRoutes);
 router.use('/admission-requests', admissionRoutes);
 router.use('/v1/admission-requests', admissionRoutes);
+
 router.use('/beds', bedRoutes);
 router.use('/v1/beds', bedRoutes);
 router.use('/wards', bedRoutes);
 router.use('/v1/wards', bedRoutes);
+router.use('/rooms', bedRoutes);
+router.use('/v1/rooms', bedRoutes);
+router.use('/accommodation-categories', bedRoutes);
+router.use('/v1/accommodation-categories', bedRoutes);
+router.use('/bed-reservations', bedRoutes);
+router.use('/v1/bed-reservations', bedRoutes);
+router.use('/bed-assignments', bedRoutes);
+router.use('/v1/bed-assignments', bedRoutes);
+router.use('/bed-transfers', bedRoutes);
+router.use('/v1/bed-transfers', bedRoutes);
+router.use('/housekeeping', bedRoutes);
+router.use('/v1/housekeeping', bedRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

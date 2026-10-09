@@ -46,10 +46,11 @@ export const Sidebar = () => {
     }
 
     // Operations Portal Nav (Reception, Lab, Rad, Pharmacy, HK, Maint)
-    if (hasRole('RECEPTIONIST')) {
+    if (hasRole('RECEPTIONIST', 'HOUSEKEEPING', 'MAINTENANCE')) {
       return [
         { to: '/operations/dashboard', label: 'Operations Dashboard', icon: LayoutDashboard },
-        { to: '/operations/admissions', label: 'Admissions & Beds', icon: BedDouble },
+        { to: '/operations/beds', label: 'Bed Inventory & Map', icon: BedDouble },
+        { to: '/operations/admissions', label: 'Admissions Desk', icon: Layers },
         { to: '/operations/appointments', label: 'Appointment Desk', icon: Calendar },
         { to: '/front-desk/registration', label: 'Register Patient', icon: UserPlus },
         { to: '/front-desk/patients/search', label: 'Patient Master Directory', icon: Search },
@@ -64,6 +65,7 @@ export const Sidebar = () => {
     if (hasRole('DOCTOR', 'NURSE')) {
       return [
         { to: '/clinical/dashboard', label: 'Clinical Dashboard', icon: LayoutDashboard },
+        { to: '/operations/beds', label: 'Bed Inventory & Map', icon: BedDouble },
         { to: '/front-desk/patients/search', label: 'Patient Search', icon: Search },
         { to: '/clinical/appointments', label: 'Doctor Schedule', icon: Calendar },
         { to: '/clinical/opd-queue', label: 'OPD Queue', icon: Layers },
@@ -79,6 +81,7 @@ export const Sidebar = () => {
     if (hasRole('BILLING_STAFF', 'INSURANCE_REPRESENTATIVE')) {
       return [
         { to: '/finance/dashboard', label: 'Finance Dashboard', icon: LayoutDashboard },
+        { to: '/operations/beds', label: 'Bed Occupancy & Rates', icon: BedDouble },
         { to: '/operations/admissions', label: 'Inpatient Admissions', icon: BedDouble },
         { to: '/front-desk/patients/search', label: 'Patient Master Search', icon: Search },
         { to: '/finance/billing', label: 'Invoices & Payments', icon: CreditCard },
@@ -90,6 +93,7 @@ export const Sidebar = () => {
     // Administration & Management Portal Nav (Admin, HR, Procurement, Management)
     return [
       { to: '/admin/dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
+      { to: '/operations/beds', label: 'Bed Management Hub', icon: BedDouble },
       { to: '/operations/admissions', label: 'Inpatient Admissions', icon: BedDouble },
       { to: '/operations/appointments', label: 'Appointment Desk', icon: Calendar },
       { to: '/front-desk/patients/search', label: 'Patient Master Directory', icon: Search },

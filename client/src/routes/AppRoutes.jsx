@@ -40,6 +40,10 @@ import { OperationsAdmissionsPage } from '../pages/operations/OperationsAdmissio
 import { AdmissionDetailPage } from '../pages/operations/AdmissionDetailPage';
 import { PatientAdmissionsPage } from '../pages/patient/PatientAdmissionsPage';
 
+// Module 5: Bed Management Pages
+import { BedManagementPage } from '../pages/operations/BedManagementPage';
+import { BedDetailPage } from '../pages/operations/BedDetailPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -185,12 +189,44 @@ export const AppRoutes = () => {
           }
         />
 
-        {/* Module 1, 2, 3 & 4: Operations & Front-Desk Routes */}
+        {/* Module 4 & 5: Operations & Bed Management Routes */}
         <Route
           path="operations/admissions"
           element={
             <ProtectedRoute allowedRoles={['RECEPTIONIST', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'DOCTOR']}>
               <OperationsAdmissionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/beds"
+          element={
+            <ProtectedRoute allowedRoles={['RECEPTIONIST', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'HOUSEKEEPING', 'MAINTENANCE', 'DOCTOR']}>
+              <BedManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="beds"
+          element={
+            <ProtectedRoute allowedRoles={['RECEPTIONIST', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'HOUSEKEEPING', 'MAINTENANCE', 'DOCTOR']}>
+              <BedManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="beds/:id"
+          element={
+            <ProtectedRoute>
+              <BedDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/beds/:id"
+          element={
+            <ProtectedRoute>
+              <BedDetailPage />
             </ProtectedRoute>
           }
         />

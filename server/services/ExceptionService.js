@@ -10,6 +10,8 @@ class ExceptionService {
     module = 'GENERAL',
     entityType,
     entityId,
+    referenceType = null,
+    referenceId = null,
     rpaJobId = null,
     exceptionType,
     type,
@@ -26,12 +28,14 @@ class ExceptionService {
 
       const finalType = exceptionType || type || 'SYSTEM_EXCEPTION';
       const finalDesc = description || details || 'Exception raised for review.';
+      const finalEntityType = entityType || referenceType || 'BED';
+      const finalEntityId = String(entityId || referenceId || 'SYSTEM');
 
       const exception = new ExceptionCase({
         exceptionId,
         module,
-        entityType,
-        entityId: String(entityId),
+        entityType: finalEntityType,
+        entityId: finalEntityId,
         rpaJobId,
         exceptionType: finalType,
         description: finalDesc,
@@ -64,6 +68,10 @@ class ExceptionService {
   }
 
   static async createExceptionCase(params) {
+    return await this.raiseException(params);
+  }
+
+  static async createException(params) {
     return await this.raiseException(params);
   }
 

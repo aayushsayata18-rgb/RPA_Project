@@ -413,6 +413,162 @@ class IdGeneratorService {
   }
 
   /**
+   * Generate unique Bed Assignment ID (e.g. ASSIGN-20261009-00101)
+   */
+  static async generateAssignmentId() {
+    const BedAssignment = require('../models/BedAssignment');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `BED_ASSIGNMENT_ID_${ymd}`;
+    const prefix = `ASSIGN-${ymd}-`;
+
+    const lastAssign = await BedAssignment.findOne({ assignmentId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ assignmentId: -1 })
+      .select('assignmentId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastAssign && lastAssign.assignmentId) {
+      const numPart = lastAssign.assignmentId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate unique Bed Reservation ID (e.g. RES-20261009-00101)
+   */
+  static async generateReservationId() {
+    const BedReservation = require('../models/BedReservation');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `BED_RESERVATION_ID_${ymd}`;
+    const prefix = `RES-${ymd}-`;
+
+    const lastRes = await BedReservation.findOne({ reservationId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ reservationId: -1 })
+      .select('reservationId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastRes && lastRes.reservationId) {
+      const numPart = lastRes.reservationId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate unique Housekeeping Task ID (e.g. HK-20261009-00101)
+   */
+  static async generateHousekeepingTaskId() {
+    const HousekeepingTask = require('../models/HousekeepingTask');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `HOUSEKEEPING_TASK_ID_${ymd}`;
+    const prefix = `HK-${ymd}-`;
+
+    const lastTask = await HousekeepingTask.findOne({ taskId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ taskId: -1 })
+      .select('taskId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastTask && lastTask.taskId) {
+      const numPart = lastTask.taskId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate unique Waiting List ID (e.g. WAIT-20261009-00101)
+   */
+  static async generateWaitingListId() {
+    const BedWaitingList = require('../models/BedWaitingList');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `BED_WAITING_LIST_ID_${ymd}`;
+    const prefix = `WAIT-${ymd}-`;
+
+    const lastWait = await BedWaitingList.findOne({ waitingListId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ waitingListId: -1 })
+      .select('waitingListId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastWait && lastWait.waitingListId) {
+      const numPart = lastWait.waitingListId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
    * Generate correlation ID (e.g. CORR-20261006-000123)
    */
   static generateCorrelationId() {

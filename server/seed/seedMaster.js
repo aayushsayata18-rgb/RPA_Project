@@ -21,7 +21,14 @@ const OPDToken = require('../models/OPDToken');
 const CheckIn = require('../models/CheckIn');
 const OPDTokenHistory = require('../models/OPDTokenHistory');
 const Ward = require('../models/Ward');
+const Room = require('../models/Room');
 const Bed = require('../models/Bed');
+const AccommodationCategory = require('../models/AccommodationCategory');
+const BedAssignment = require('../models/BedAssignment');
+const BedReservation = require('../models/BedReservation');
+const BedStatusHistory = require('../models/BedStatusHistory');
+const BedWaitingList = require('../models/BedWaitingList');
+const HousekeepingTask = require('../models/HousekeepingTask');
 const AdmissionRequest = require('../models/AdmissionRequest');
 const Admission = require('../models/Admission');
 const AdmissionChecklist = require('../models/AdmissionChecklist');
@@ -1316,83 +1323,143 @@ const seedMaster = async () => {
       console.log(`  -> Seeded Token: ${t.tokenNumber} (${t.status}) for ${t.patientName}`);
     }
 
-    // 12. Seed Module 4 Wards & Beds
-    console.log('[Seed Master] Seeding Wards and Beds Master Data...');
+    // 12. Seed Module 5 Accommodation Categories, Wards, Rooms & Beds
+    console.log('[Seed Master] Seeding Accommodation Categories...');
+    const demoCategories = [
+      { name: 'General Ward', code: 'GENERAL', categoryType: 'GENERAL', baseRateReference: 1000, patientSelectable: true, clinicallyRestricted: false, sortOrder: 1, active: true },
+      { name: 'Semi-Private Room', code: 'SEMI_PRIVATE', categoryType: 'SEMI_PRIVATE', baseRateReference: 2500, patientSelectable: true, clinicallyRestricted: false, sortOrder: 2, active: true },
+      { name: 'Private Room (Deluxe)', code: 'PRIVATE', categoryType: 'PRIVATE', baseRateReference: 5000, patientSelectable: true, clinicallyRestricted: false, sortOrder: 3, active: true },
+      { name: 'Intensive Care Unit (ICU)', code: 'ICU', categoryType: 'ICU', baseRateReference: 12000, patientSelectable: false, clinicallyRestricted: true, sortOrder: 4, active: true },
+      { name: 'High Dependency Unit (HDU)', code: 'HDU', categoryType: 'HDU', baseRateReference: 8000, patientSelectable: false, clinicallyRestricted: true, sortOrder: 5, active: true },
+      { name: 'Isolation Ward', code: 'ISOLATION', categoryType: 'ISOLATION', baseRateReference: 6000, patientSelectable: false, clinicallyRestricted: true, sortOrder: 6, active: true },
+      { name: 'Emergency Trauma Bed', code: 'EMERGENCY_BED', categoryType: 'EMERGENCY', baseRateReference: 2000, patientSelectable: false, clinicallyRestricted: true, sortOrder: 7, active: true }
+    ];
+
+    for (const cat of demoCategories) {
+      await AccommodationCategory.findOneAndUpdate({ code: cat.code }, cat, { upsert: true, new: true });
+    }
+
+    console.log('[Seed Master] Seeding Wards...');
     const demoWards = [
       {
         wardId: 'WARD-GW-01',
+        wardCode: 'WARD-GW-01',
+        wardName: 'General Ward - Floor 1',
         name: 'General Ward - Floor 1',
         departmentId: 'DEP-GMED',
         departmentName: 'General Medicine',
         wardType: 'GENERAL_WARD',
         floor: '1st Floor',
         wing: 'North Wing',
+        genderPolicy: 'ANY',
+        isolationSupported: false,
         baseRatePerDay: 1000,
         nurseInCharge: 'Sister Priya',
         totalBeds: 6,
-        availableBeds: 5,
-        occupiedBeds: 1,
-        reservedBeds: 0
+        availableBeds: 4,
+        occupiedBeds: 0,
+        reservedBeds: 0,
+        cleaningBeds: 1,
+        maintenanceBeds: 1,
+        blockedBeds: 0,
+        active: true,
+        isActive: true
       },
       {
         wardId: 'WARD-SP-01',
+        wardCode: 'WARD-SP-01',
+        wardName: 'Semi-Private Care Ward',
         name: 'Semi-Private Care Ward',
         departmentId: 'DEP-GMED',
         departmentName: 'General Medicine',
         wardType: 'SEMI_PRIVATE',
         floor: '2nd Floor',
         wing: 'East Wing',
+        genderPolicy: 'ANY',
+        isolationSupported: false,
         baseRatePerDay: 2500,
         nurseInCharge: 'Sister Anjali',
         totalBeds: 4,
-        availableBeds: 4,
+        availableBeds: 3,
         occupiedBeds: 0,
-        reservedBeds: 0
+        reservedBeds: 1,
+        cleaningBeds: 0,
+        maintenanceBeds: 0,
+        blockedBeds: 0,
+        active: true,
+        isActive: true
       },
       {
         wardId: 'WARD-PR-01',
+        wardCode: 'WARD-PR-01',
+        wardName: 'Private Deluxe Suite Ward',
         name: 'Private Deluxe Suite Ward',
         departmentId: 'DEP-GMED',
         departmentName: 'General Medicine',
         wardType: 'PRIVATE_ROOM',
         floor: '3rd Floor',
         wing: 'West Wing',
+        genderPolicy: 'SINGLE_OCCUPANCY',
+        isolationSupported: false,
         baseRatePerDay: 5000,
         nurseInCharge: 'Sister Mary',
         totalBeds: 4,
-        availableBeds: 3,
+        availableBeds: 2,
         occupiedBeds: 1,
-        reservedBeds: 0
+        reservedBeds: 0,
+        cleaningBeds: 0,
+        maintenanceBeds: 0,
+        blockedBeds: 1,
+        active: true,
+        isActive: true
       },
       {
         wardId: 'WARD-ICU-01',
+        wardCode: 'WARD-ICU-01',
+        wardName: 'Critical Care ICU Unit',
         name: 'Critical Care ICU Unit',
         departmentId: 'DEP-CARD',
         departmentName: 'Cardiology & Critical Care',
         wardType: 'ICU',
         floor: '2nd Floor',
         wing: 'Central Block',
+        genderPolicy: 'ANY',
+        isolationSupported: true,
         baseRatePerDay: 12000,
         nurseInCharge: 'Sister Sunita',
         totalBeds: 3,
-        availableBeds: 3,
+        availableBeds: 2,
         occupiedBeds: 0,
-        reservedBeds: 0
+        reservedBeds: 0,
+        cleaningBeds: 0,
+        maintenanceBeds: 0,
+        blockedBeds: 0,
+        active: true,
+        isActive: true
       },
       {
         wardId: 'WARD-EMG-01',
+        wardCode: 'WARD-EMG-01',
+        wardName: 'Emergency Trauma Observation',
         name: 'Emergency Trauma Observation',
         departmentId: 'DEP-GMED',
         departmentName: 'Emergency Medicine',
         wardType: 'EMERGENCY_WARD',
         floor: 'Ground Floor',
         wing: 'Emergency Wing',
+        genderPolicy: 'ANY',
+        isolationSupported: false,
         baseRatePerDay: 2000,
         nurseInCharge: 'Sister Rekha',
         totalBeds: 4,
         availableBeds: 4,
         occupiedBeds: 0,
-        reservedBeds: 0
+        reservedBeds: 0,
+        cleaningBeds: 0,
+        maintenanceBeds: 0,
+        blockedBeds: 0,
+        active: true,
+        isActive: true
       }
     ];
 
@@ -1400,53 +1467,196 @@ const seedMaster = async () => {
       await Ward.findOneAndUpdate({ wardId: w.wardId }, w, { upsert: true, new: true });
     }
 
-    const demoBeds = [
-      // General Ward
-      { bedId: 'BED-GW-01', bedNumber: 'GW-01', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipment: ['Oxygen Port', 'Standard Monitor'] },
-      { bedId: 'BED-GW-02', bedNumber: 'GW-02', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipment: ['Oxygen Port', 'Standard Monitor'] },
-      { bedId: 'BED-GW-03', bedNumber: 'GW-03', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipment: ['Oxygen Port', 'Standard Monitor'] },
-      { bedId: 'BED-GW-04', bedNumber: 'GW-04', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipment: ['Oxygen Port', 'Standard Monitor'] },
-      { bedId: 'BED-GW-05', bedNumber: 'GW-05', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipment: ['Oxygen Port', 'Standard Monitor'] },
+    console.log('[Seed Master] Seeding Rooms...');
+    const demoRooms = [
+      { roomNumber: 'GW-BAY-01', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', roomType: 'GENERAL_BAY', capacity: 3, floor: '1st Floor', active: true },
+      { roomNumber: 'GW-BAY-02', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', roomType: 'GENERAL_BAY', capacity: 3, floor: '1st Floor', active: true },
+      { roomNumber: 'SP-201', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', roomType: 'STANDARD', capacity: 2, floor: '2nd Floor', active: true },
+      { roomNumber: 'SP-202', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', roomType: 'STANDARD', capacity: 2, floor: '2nd Floor', active: true },
+      { roomNumber: 'P-01', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', roomType: 'DELUXE', capacity: 1, floor: '3rd Floor', active: true },
+      { roomNumber: 'P-02', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', roomType: 'DELUXE', capacity: 1, floor: '3rd Floor', active: true },
+      { roomNumber: 'P-03', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', roomType: 'SUITE', capacity: 1, floor: '3rd Floor', active: true },
+      { roomNumber: 'P-04', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', roomType: 'DELUXE', capacity: 1, floor: '3rd Floor', active: true },
+      { roomNumber: 'ICU-BAY-01', wardId: 'WARD-ICU-01', wardName: 'Critical Care ICU Unit', roomType: 'ICU_ISOLATION', capacity: 3, floor: '2nd Floor', isolationCapability: true, active: true },
+      { roomNumber: 'EMG-TRAUMA', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', roomType: 'TRAUMA_BAY', capacity: 4, floor: 'Ground Floor', active: true }
+    ];
 
-      // Semi-Private
-      { bedId: 'BED-SP-01', bedNumber: 'SP-01', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', bedType: 'SEMI_PRIVATE', status: 'AVAILABLE', dailyRate: 2500, equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'] },
-      { bedId: 'BED-SP-02', bedNumber: 'SP-02', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', bedType: 'SEMI_PRIVATE', status: 'AVAILABLE', dailyRate: 2500, equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'] },
-      { bedId: 'BED-SP-03', bedNumber: 'SP-03', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', bedType: 'SEMI_PRIVATE', status: 'AVAILABLE', dailyRate: 2500, equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'] },
-      { bedId: 'BED-SP-04', bedNumber: 'SP-04', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', bedType: 'SEMI_PRIVATE', status: 'AVAILABLE', dailyRate: 2500, equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'] },
+    for (const r of demoRooms) {
+      await Room.findOneAndUpdate({ wardId: r.wardId, roomNumber: r.roomNumber }, r, { upsert: true, new: true });
+    }
+
+    console.log('[Seed Master] Seeding Physical Beds Inventory across all statuses...');
+    const demoBeds = [
+      // General Ward Beds
+      { bedId: 'BED-GW-01', bedCode: 'BED-GW-01', bedNumber: 'GW-01', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', roomId: 'GW-BAY-01', roomNumber: 'GW-BAY-01', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipmentCapabilities: ['Oxygen Port', 'Standard Monitor'], equipment: ['Oxygen Port', 'Standard Monitor'], active: true },
+      { bedId: 'BED-GW-02', bedCode: 'BED-GW-02', bedNumber: 'GW-02', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', roomId: 'GW-BAY-01', roomNumber: 'GW-BAY-01', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipmentCapabilities: ['Oxygen Port', 'Standard Monitor'], equipment: ['Oxygen Port', 'Standard Monitor'], active: true },
+      { bedId: 'BED-GW-03', bedCode: 'BED-GW-03', bedNumber: 'GW-03', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', roomId: 'GW-BAY-01', roomNumber: 'GW-BAY-01', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipmentCapabilities: ['Oxygen Port', 'Standard Monitor'], equipment: ['Oxygen Port', 'Standard Monitor'], active: true },
+      { bedId: 'BED-GW-04', bedCode: 'BED-GW-04', bedNumber: 'GW-04', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', roomId: 'GW-BAY-02', roomNumber: 'GW-BAY-02', bedType: 'GENERAL_WARD', status: 'CLEANING_REQUIRED', cleaningRequired: true, dailyRate: 1000, equipmentCapabilities: ['Oxygen Port'], equipment: ['Oxygen Port'], active: true },
+      { bedId: 'BED-GW-05', bedCode: 'BED-GW-05', bedNumber: 'GW-05', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', roomId: 'GW-BAY-02', roomNumber: 'GW-BAY-02', bedType: 'GENERAL_WARD', status: 'MAINTENANCE', maintenanceStatus: 'IN_PROGRESS', maintenanceReason: 'Hydraulic adjustment inspection', dailyRate: 1000, equipmentCapabilities: ['Oxygen Port'], equipment: ['Oxygen Port'], active: true },
+      { bedId: 'BED-GW-06', bedCode: 'BED-GW-06', bedNumber: 'GW-06', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', roomId: 'GW-BAY-02', roomNumber: 'GW-BAY-02', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipmentCapabilities: ['Oxygen Port'], equipment: ['Oxygen Port'], active: true },
+
+      // Semi-Private Beds
+      { bedId: 'BED-SP-01', bedCode: 'BED-SP-01', bedNumber: 'SP-01', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', roomId: 'SP-201', roomNumber: 'SP-201', bedType: 'SEMI_PRIVATE', status: 'AVAILABLE', dailyRate: 2500, equipmentCapabilities: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'], equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'], active: true },
+      { bedId: 'BED-SP-02', bedCode: 'BED-SP-02', bedNumber: 'SP-02', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', roomId: 'SP-201', roomNumber: 'SP-201', bedType: 'SEMI_PRIVATE', status: 'AVAILABLE', dailyRate: 2500, equipmentCapabilities: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'], equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'], active: true },
+      {
+        bedId: 'BED-SP-03',
+        bedCode: 'BED-SP-03',
+        bedNumber: 'SP-03',
+        wardId: 'WARD-SP-01',
+        wardName: 'Semi-Private Care Ward',
+        roomId: 'SP-202',
+        roomNumber: 'SP-202',
+        bedType: 'SEMI_PRIVATE',
+        status: 'RESERVED',
+        reservedForPatientId: 'P10003',
+        reservedForAdmissionRequestId: 'ADMREQ1003',
+        reservationExpiresAt: new Date(Date.now() + 45 * 60 * 1000),
+        dailyRate: 2500,
+        equipmentCapabilities: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'],
+        equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'],
+        active: true
+      },
+      { bedId: 'BED-SP-04', bedCode: 'BED-SP-04', bedNumber: 'SP-04', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', roomId: 'SP-202', roomNumber: 'SP-202', bedType: 'SEMI_PRIVATE', status: 'AVAILABLE', dailyRate: 2500, equipmentCapabilities: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'], equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'], active: true },
 
       // Private Rooms
-      { bedId: 'BED-PR-01', bedNumber: 'P-01', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', bedType: 'PRIVATE_ROOM', status: 'AVAILABLE', dailyRate: 5000, equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'] },
-      { bedId: 'BED-PR-02', bedNumber: 'P-02', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', bedType: 'PRIVATE_ROOM', status: 'AVAILABLE', dailyRate: 5000, equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'] },
+      { bedId: 'BED-PR-01', bedCode: 'BED-PR-01', bedNumber: 'P-01', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', roomId: 'P-01', roomNumber: 'P-01', bedType: 'PRIVATE_ROOM', status: 'AVAILABLE', dailyRate: 5000, equipmentCapabilities: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'], equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'], active: true },
+      { bedId: 'BED-PR-02', bedCode: 'BED-PR-02', bedNumber: 'P-02', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', roomId: 'P-02', roomNumber: 'P-02', bedType: 'PRIVATE_ROOM', status: 'AVAILABLE', dailyRate: 5000, equipmentCapabilities: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'], equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'], active: true },
       {
         bedId: 'BED-PR-03',
+        bedCode: 'BED-PR-03',
         bedNumber: 'P-03',
         wardId: 'WARD-PR-01',
         wardName: 'Private Deluxe Suite Ward',
+        roomId: 'P-03',
+        roomNumber: 'P-03',
         bedType: 'PRIVATE_ROOM',
         status: 'OCCUPIED',
+        currentAssignmentId: 'ASSIGN-20261009-00101',
         currentPatientId: 'P10001',
         currentPatientName: 'Aarav K Patel',
         currentAdmissionId: 'ADM202610001',
         dailyRate: 5000,
-        equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV']
+        equipmentCapabilities: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'],
+        equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'],
+        active: true
       },
-      { bedId: 'BED-PR-04', bedNumber: 'P-04', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', bedType: 'PRIVATE_ROOM', status: 'AVAILABLE', dailyRate: 5000, equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'] },
+      {
+        bedId: 'BED-PR-04',
+        bedCode: 'BED-PR-04',
+        bedNumber: 'P-04',
+        wardId: 'WARD-PR-01',
+        wardName: 'Private Deluxe Suite Ward',
+        roomId: 'P-04',
+        roomNumber: 'P-04',
+        bedType: 'PRIVATE_ROOM',
+        status: 'BLOCKED',
+        blockReason: 'Administrative suite reservation for VIP medical review',
+        dailyRate: 5000,
+        equipmentCapabilities: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'],
+        equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'],
+        active: true
+      },
 
-      // ICU
-      { bedId: 'BED-ICU-01', bedNumber: 'ICU-01', wardId: 'WARD-ICU-01', wardName: 'Critical Care ICU Unit', bedType: 'ICU', status: 'AVAILABLE', dailyRate: 12000, isVentilatorSupported: true, isIsolationCapable: true, equipment: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor', 'Defibrillator', 'Dual Syringe Pumps'] },
-      { bedId: 'BED-ICU-02', bedNumber: 'ICU-02', wardId: 'WARD-ICU-01', wardName: 'Critical Care ICU Unit', bedType: 'ICU', status: 'AVAILABLE', dailyRate: 12000, isVentilatorSupported: true, equipment: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor', 'Dual Syringe Pumps'] },
-      { bedId: 'BED-ICU-03', bedNumber: 'ICU-03', wardId: 'WARD-ICU-01', wardName: 'Critical Care ICU Unit', bedType: 'ICU', status: 'AVAILABLE', dailyRate: 12000, isVentilatorSupported: true, equipment: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor'] },
+      // ICU Beds
+      { bedId: 'BED-ICU-01', bedCode: 'BED-ICU-01', bedNumber: 'ICU-01', wardId: 'WARD-ICU-01', wardName: 'Critical Care ICU Unit', roomId: 'ICU-BAY-01', roomNumber: 'ICU-BAY-01', bedType: 'ICU', status: 'AVAILABLE', dailyRate: 12000, isVentilatorSupported: true, isIsolationCapable: true, isolationCapability: true, equipmentCapabilities: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor', 'Defibrillator', 'Dual Syringe Pumps'], equipment: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor', 'Defibrillator', 'Dual Syringe Pumps'], active: true },
+      { bedId: 'BED-ICU-02', bedCode: 'BED-ICU-02', bedNumber: 'ICU-02', wardId: 'WARD-ICU-01', wardName: 'Critical Care ICU Unit', roomId: 'ICU-BAY-01', roomNumber: 'ICU-BAY-01', bedType: 'ICU', status: 'AVAILABLE', dailyRate: 12000, isVentilatorSupported: true, equipmentCapabilities: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor', 'Dual Syringe Pumps'], equipment: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor', 'Dual Syringe Pumps'], active: true },
+      { bedId: 'BED-ICU-03', bedCode: 'BED-ICU-03', bedNumber: 'ICU-03', wardId: 'WARD-ICU-01', wardName: 'Critical Care ICU Unit', roomId: 'ICU-BAY-01', roomNumber: 'ICU-BAY-01', bedType: 'ICU', status: 'AVAILABLE', dailyRate: 12000, isVentilatorSupported: true, equipmentCapabilities: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor'], equipment: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor'], active: true },
 
       // Emergency Beds
-      { bedId: 'BED-EMG-01', bedNumber: 'EMG-01', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipment: ['Trauma Stretcher', 'Crash Cart Access', 'Oxygen'] },
-      { bedId: 'BED-EMG-02', bedNumber: 'EMG-02', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipment: ['Trauma Stretcher', 'Crash Cart Access', 'Oxygen'] },
-      { bedId: 'BED-EMG-03', bedNumber: 'EMG-03', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipment: ['Trauma Stretcher', 'Oxygen'] },
-      { bedId: 'BED-EMG-04', bedNumber: 'EMG-04', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipment: ['Trauma Stretcher', 'Oxygen'] }
+      { bedId: 'BED-EMG-01', bedCode: 'BED-EMG-01', bedNumber: 'EMG-01', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', roomId: 'EMG-TRAUMA', roomNumber: 'EMG-TRAUMA', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipmentCapabilities: ['Trauma Stretcher', 'Crash Cart Access', 'Oxygen'], equipment: ['Trauma Stretcher', 'Crash Cart Access', 'Oxygen'], active: true },
+      { bedId: 'BED-EMG-02', bedCode: 'BED-EMG-02', bedNumber: 'EMG-02', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', roomId: 'EMG-TRAUMA', roomNumber: 'EMG-TRAUMA', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipmentCapabilities: ['Trauma Stretcher', 'Crash Cart Access', 'Oxygen'], equipment: ['Trauma Stretcher', 'Crash Cart Access', 'Oxygen'], active: true },
+      { bedId: 'BED-EMG-03', bedCode: 'BED-EMG-03', bedNumber: 'EMG-03', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', roomId: 'EMG-TRAUMA', roomNumber: 'EMG-TRAUMA', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipmentCapabilities: ['Trauma Stretcher', 'Oxygen'], equipment: ['Trauma Stretcher', 'Oxygen'], active: true },
+      { bedId: 'BED-EMG-04', bedCode: 'BED-EMG-04', bedNumber: 'EMG-04', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', roomId: 'EMG-TRAUMA', roomNumber: 'EMG-TRAUMA', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipmentCapabilities: ['Trauma Stretcher', 'Oxygen'], equipment: ['Trauma Stretcher', 'Oxygen'], active: true }
     ];
 
     for (const b of demoBeds) {
       await Bed.findOneAndUpdate({ bedId: b.bedId }, b, { upsert: true, new: true });
     }
+
+    // Seed Active Bed Assignment for P10001 (Aarav K Patel)
+    await BedAssignment.findOneAndUpdate(
+      { assignmentId: 'ASSIGN-20261009-00101' },
+      {
+        assignmentId: 'ASSIGN-20261009-00101',
+        bedId: 'BED-PR-03',
+        bedNumber: 'P-03',
+        wardId: 'WARD-PR-01',
+        roomId: 'P-03',
+        accommodationCategoryCode: 'PRIVATE',
+        patientId: 'P10001',
+        patientName: 'Aarav K Patel',
+        admissionId: 'ADM202610001',
+        visitId: 'V202610001',
+        assignedAt: new Date(Date.now() - 3 * 3600 * 1000),
+        assignmentType: 'INITIAL_ADMISSION',
+        status: 'ACTIVE',
+        assignedByUserId: 'DOC1001',
+        assignedByUserName: 'Dr. Rajesh Verma',
+        source: 'MERN_PORTAL',
+        correlationId: `CORR-${todayClean}-ADM1001`
+      },
+      { upsert: true, new: true }
+    );
+
+    // Seed Housekeeping Task for Bed BED-GW-04 (CLEANING_REQUIRED)
+    await HousekeepingTask.findOneAndUpdate(
+      { taskId: 'HK-20261009-00101' },
+      {
+        taskId: 'HK-20261009-00101',
+        taskType: 'BED_CLEANING',
+        bedId: 'BED-GW-04',
+        bedNumber: 'GW-04',
+        roomId: 'GW-BAY-02',
+        roomNumber: 'GW-BAY-02',
+        wardId: 'WARD-GW-01',
+        wardName: 'General Ward - Floor 1',
+        trigger: 'DISCHARGE',
+        status: 'PENDING',
+        priority: 'ROUTINE',
+        notes: 'Sanitization & linen turnover required post discharge',
+        correlationId: `CORR-${todayClean}-HK101`
+      },
+      { upsert: true, new: true }
+    );
+
+    // Seed Bed Status History records for sample beds
+    await BedStatusHistory.create([
+      {
+        bedId: 'BED-PR-03',
+        bedNumber: 'P-03',
+        previousStatus: 'AVAILABLE',
+        newStatus: 'OCCUPIED',
+        reason: 'Patient P10001 initial admission placement',
+        referenceType: 'ADMISSION',
+        referenceId: 'ADM202610001',
+        patientId: 'P10001',
+        changedByUserId: 'SEED_MASTER',
+        changedByUserName: 'Seed Master',
+        timestamp: new Date(Date.now() - 3 * 3600 * 1000)
+      },
+      {
+        bedId: 'BED-GW-04',
+        bedNumber: 'GW-04',
+        previousStatus: 'OCCUPIED',
+        newStatus: 'CLEANING_REQUIRED',
+        reason: 'Previous patient discharged',
+        referenceType: 'DISCHARGE',
+        changedByUserId: 'SEED_MASTER',
+        changedByUserName: 'Seed Master',
+        timestamp: new Date(Date.now() - 1 * 3600 * 1000)
+      },
+      {
+        bedId: 'BED-GW-05',
+        bedNumber: 'GW-05',
+        previousStatus: 'AVAILABLE',
+        newStatus: 'MAINTENANCE',
+        reason: 'Hydraulic adjustment inspection',
+        referenceType: 'MAINTENANCE',
+        changedByUserId: 'SEED_MASTER',
+        changedByUserName: 'Seed Master',
+        timestamp: new Date(Date.now() - 2 * 3600 * 1000)
+      }
+    ]);
 
     // 13. Seed Module 4 Demo Admission Requests & Admissions
     console.log('[Seed Master] Seeding Demo Admission Requests and Inpatient Episodes...');
