@@ -34,6 +34,12 @@ import { PatientLiveQueuePage } from '../pages/patient/PatientLiveQueuePage';
 import { OperationsOpdQueuePage } from '../pages/operations/OperationsOpdQueuePage';
 import { DoctorOpdQueuePage } from '../pages/clinical/DoctorOpdQueuePage';
 
+// Module 4: Patient Admission Pages
+import { DoctorAdmissionRequestPage } from '../pages/clinical/DoctorAdmissionRequestPage';
+import { OperationsAdmissionsPage } from '../pages/operations/OperationsAdmissionsPage';
+import { AdmissionDetailPage } from '../pages/operations/AdmissionDetailPage';
+import { PatientAdmissionsPage } from '../pages/patient/PatientAdmissionsPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -126,6 +132,15 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        {/* Module 4: Patient Portal Admissions */}
+        <Route
+          path="patient/admissions"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientAdmissionsPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Module 2 & 3: Clinical Portal Appointments & OPD Queue */}
         <Route
@@ -152,8 +167,65 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        {/* Module 4: Clinical Admission Orders */}
+        <Route
+          path="clinical/admissions"
+          element={
+            <ProtectedRoute allowedRoles={['DOCTOR', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN']}>
+              <DoctorAdmissionRequestPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="clinical/admission-requests"
+          element={
+            <ProtectedRoute allowedRoles={['DOCTOR', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN']}>
+              <DoctorAdmissionRequestPage />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Module 1, 2 & 3: Operations & Front-Desk Routes */}
+        {/* Module 1, 2, 3 & 4: Operations & Front-Desk Routes */}
+        <Route
+          path="operations/admissions"
+          element={
+            <ProtectedRoute allowedRoles={['RECEPTIONIST', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'DOCTOR']}>
+              <OperationsAdmissionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/admissions/requests"
+          element={
+            <ProtectedRoute allowedRoles={['RECEPTIONIST', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'DOCTOR']}>
+              <OperationsAdmissionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/admissions/emergency"
+          element={
+            <ProtectedRoute allowedRoles={['RECEPTIONIST', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'DOCTOR']}>
+              <OperationsAdmissionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/admissions/:id"
+          element={
+            <ProtectedRoute>
+              <AdmissionDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="front-desk/admissions"
+          element={
+            <ProtectedRoute allowedRoles={['RECEPTIONIST', 'NURSE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'DOCTOR']}>
+              <OperationsAdmissionsPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="operations/opd-desk"
           element={

@@ -16,6 +16,16 @@ const DoctorSchedule = require('../models/DoctorSchedule');
 const Appointment = require('../models/Appointment');
 const AppointmentHistory = require('../models/AppointmentHistory');
 const AppointmentReminder = require('../models/AppointmentReminder');
+const OPDQueue = require('../models/OPDQueue');
+const OPDToken = require('../models/OPDToken');
+const CheckIn = require('../models/CheckIn');
+const OPDTokenHistory = require('../models/OPDTokenHistory');
+const Ward = require('../models/Ward');
+const Bed = require('../models/Bed');
+const AdmissionRequest = require('../models/AdmissionRequest');
+const Admission = require('../models/Admission');
+const AdmissionChecklist = require('../models/AdmissionChecklist');
+const AdmissionHistory = require('../models/AdmissionHistory');
 const { ROLES, PORTAL_ROLES } = require('../config/roles');
 const { ROLE_PERMISSIONS, PERMISSIONS } = require('../config/permissions');
 
@@ -189,6 +199,23 @@ const seedMaster = async () => {
         subjectTemplate: 'Hospital Bill Generated - {{invoiceId}}',
         bodyTemplate: 'Dear {{patientName}}, your final invoice {{invoiceId}} of amount ₹{{amount}} is generated. Please complete payment via portal.',
         variables: ['patientName', 'invoiceId', 'amount']
+      },
+      {
+        templateCode: 'PATIENT_ADMISSION_CONFIRMED',
+        name: 'Inpatient Admission Confirmation',
+        event: 'ADMISSION_CONFIRMED',
+        channel: 'ALL',
+        subjectTemplate: 'Hospital Inpatient Admission Confirmed - {{admissionId}}',
+        bodyTemplate: 'Dear {{patientName}}, your hospital admission is confirmed! Admission ID: {{admissionId}}, Ward: {{wardName}}, Bed: {{bedNumber}}.',
+        variables: ['patientName', 'admissionId', 'wardName', 'bedNumber']
+      },
+      {
+        templateCode: 'ADMISSION_BED_ASSIGNED',
+        name: 'Bed Allocation Notice',
+        event: 'ADMISSION_BED_ASSIGNED',
+        channel: 'SMS',
+        bodyTemplate: 'Hello {{patientName}}, your bed {{bedNumber}} in {{wardName}} has been assigned for Admission {{admissionId}}.',
+        variables: ['patientName', 'admissionId', 'wardName', 'bedNumber']
       }
     ];
 
@@ -222,6 +249,29 @@ const seedMaster = async () => {
           </div>
         `,
         variables: ['patientId', 'patientName', 'gender', 'age', 'phoneNumber', 'registeredAt']
+      },
+      {
+        templateCode: 'ADMISSION_CONFIRMATION_SLIP',
+        name: 'Inpatient Admission Confirmation Slip',
+        documentType: 'ADMISSION_CONFIRMATION',
+        templateHtml: `
+          <div style="font-family: Arial, sans-serif; padding: 30px; border: 2px solid #0d9488; border-radius: 8px;">
+            <h1 style="color: #0f766e; margin-bottom: 4px;">Hospital Inpatient Admission Slip</h1>
+            <p style="color: #64748b; font-size: 14px;">Official Patient Inpatient Record</p>
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
+            <table style="width: 100%; font-size: 14px; line-height: 1.8;">
+              <tr><td><strong>Admission ID:</strong></td><td>{{admissionId}}</td></tr>
+              <tr><td><strong>Patient ID:</strong></td><td>{{patientId}}</td></tr>
+              <tr><td><strong>Patient Name:</strong></td><td>{{patientName}}</td></tr>
+              <tr><td><strong>Admitted Ward:</strong></td><td>{{wardName}}</td></tr>
+              <tr><td><strong>Allocated Bed:</strong></td><td>{{bedNumber}}</td></tr>
+              <tr><td><strong>Admitting Doctor:</strong></td><td>{{doctorName}}</td></tr>
+              <tr><td><strong>Admission Date & Time:</strong></td><td>{{admissionDate}} {{admissionTime}}</td></tr>
+              <tr><td><strong>Admission Source:</strong></td><td>{{source}}</td></tr>
+            </table>
+          </div>
+        `,
+        variables: ['admissionId', 'patientId', 'patientName', 'wardName', 'bedNumber', 'doctorName', 'admissionDate', 'admissionTime', 'source']
       }
     ];
 
@@ -1266,7 +1316,258 @@ const seedMaster = async () => {
       console.log(`  -> Seeded Token: ${t.tokenNumber} (${t.status}) for ${t.patientName}`);
     }
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1, 2, and 3 Master Data!');
+    // 12. Seed Module 4 Wards & Beds
+    console.log('[Seed Master] Seeding Wards and Beds Master Data...');
+    const demoWards = [
+      {
+        wardId: 'WARD-GW-01',
+        name: 'General Ward - Floor 1',
+        departmentId: 'DEP-GMED',
+        departmentName: 'General Medicine',
+        wardType: 'GENERAL_WARD',
+        floor: '1st Floor',
+        wing: 'North Wing',
+        baseRatePerDay: 1000,
+        nurseInCharge: 'Sister Priya',
+        totalBeds: 6,
+        availableBeds: 5,
+        occupiedBeds: 1,
+        reservedBeds: 0
+      },
+      {
+        wardId: 'WARD-SP-01',
+        name: 'Semi-Private Care Ward',
+        departmentId: 'DEP-GMED',
+        departmentName: 'General Medicine',
+        wardType: 'SEMI_PRIVATE',
+        floor: '2nd Floor',
+        wing: 'East Wing',
+        baseRatePerDay: 2500,
+        nurseInCharge: 'Sister Anjali',
+        totalBeds: 4,
+        availableBeds: 4,
+        occupiedBeds: 0,
+        reservedBeds: 0
+      },
+      {
+        wardId: 'WARD-PR-01',
+        name: 'Private Deluxe Suite Ward',
+        departmentId: 'DEP-GMED',
+        departmentName: 'General Medicine',
+        wardType: 'PRIVATE_ROOM',
+        floor: '3rd Floor',
+        wing: 'West Wing',
+        baseRatePerDay: 5000,
+        nurseInCharge: 'Sister Mary',
+        totalBeds: 4,
+        availableBeds: 3,
+        occupiedBeds: 1,
+        reservedBeds: 0
+      },
+      {
+        wardId: 'WARD-ICU-01',
+        name: 'Critical Care ICU Unit',
+        departmentId: 'DEP-CARD',
+        departmentName: 'Cardiology & Critical Care',
+        wardType: 'ICU',
+        floor: '2nd Floor',
+        wing: 'Central Block',
+        baseRatePerDay: 12000,
+        nurseInCharge: 'Sister Sunita',
+        totalBeds: 3,
+        availableBeds: 3,
+        occupiedBeds: 0,
+        reservedBeds: 0
+      },
+      {
+        wardId: 'WARD-EMG-01',
+        name: 'Emergency Trauma Observation',
+        departmentId: 'DEP-GMED',
+        departmentName: 'Emergency Medicine',
+        wardType: 'EMERGENCY_WARD',
+        floor: 'Ground Floor',
+        wing: 'Emergency Wing',
+        baseRatePerDay: 2000,
+        nurseInCharge: 'Sister Rekha',
+        totalBeds: 4,
+        availableBeds: 4,
+        occupiedBeds: 0,
+        reservedBeds: 0
+      }
+    ];
+
+    for (const w of demoWards) {
+      await Ward.findOneAndUpdate({ wardId: w.wardId }, w, { upsert: true, new: true });
+    }
+
+    const demoBeds = [
+      // General Ward
+      { bedId: 'BED-GW-01', bedNumber: 'GW-01', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipment: ['Oxygen Port', 'Standard Monitor'] },
+      { bedId: 'BED-GW-02', bedNumber: 'GW-02', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipment: ['Oxygen Port', 'Standard Monitor'] },
+      { bedId: 'BED-GW-03', bedNumber: 'GW-03', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipment: ['Oxygen Port', 'Standard Monitor'] },
+      { bedId: 'BED-GW-04', bedNumber: 'GW-04', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipment: ['Oxygen Port', 'Standard Monitor'] },
+      { bedId: 'BED-GW-05', bedNumber: 'GW-05', wardId: 'WARD-GW-01', wardName: 'General Ward - Floor 1', bedType: 'GENERAL_WARD', status: 'AVAILABLE', dailyRate: 1000, equipment: ['Oxygen Port', 'Standard Monitor'] },
+
+      // Semi-Private
+      { bedId: 'BED-SP-01', bedNumber: 'SP-01', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', bedType: 'SEMI_PRIVATE', status: 'AVAILABLE', dailyRate: 2500, equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'] },
+      { bedId: 'BED-SP-02', bedNumber: 'SP-02', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', bedType: 'SEMI_PRIVATE', status: 'AVAILABLE', dailyRate: 2500, equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'] },
+      { bedId: 'BED-SP-03', bedNumber: 'SP-03', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', bedType: 'SEMI_PRIVATE', status: 'AVAILABLE', dailyRate: 2500, equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'] },
+      { bedId: 'BED-SP-04', bedNumber: 'SP-04', wardId: 'WARD-SP-01', wardName: 'Semi-Private Care Ward', bedType: 'SEMI_PRIVATE', status: 'AVAILABLE', dailyRate: 2500, equipment: ['Oxygen Port', 'Cardiac Monitor', 'IV Pump'] },
+
+      // Private Rooms
+      { bedId: 'BED-PR-01', bedNumber: 'P-01', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', bedType: 'PRIVATE_ROOM', status: 'AVAILABLE', dailyRate: 5000, equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'] },
+      { bedId: 'BED-PR-02', bedNumber: 'P-02', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', bedType: 'PRIVATE_ROOM', status: 'AVAILABLE', dailyRate: 5000, equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'] },
+      {
+        bedId: 'BED-PR-03',
+        bedNumber: 'P-03',
+        wardId: 'WARD-PR-01',
+        wardName: 'Private Deluxe Suite Ward',
+        bedType: 'PRIVATE_ROOM',
+        status: 'OCCUPIED',
+        currentPatientId: 'P10001',
+        currentPatientName: 'Aarav K Patel',
+        currentAdmissionId: 'ADM202610001',
+        dailyRate: 5000,
+        equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV']
+      },
+      { bedId: 'BED-PR-04', bedNumber: 'P-04', wardId: 'WARD-PR-01', wardName: 'Private Deluxe Suite Ward', bedType: 'PRIVATE_ROOM', status: 'AVAILABLE', dailyRate: 5000, equipment: ['Oxygen Port', 'Full Multi-Parameter Monitor', 'Smart Bed', 'TV'] },
+
+      // ICU
+      { bedId: 'BED-ICU-01', bedNumber: 'ICU-01', wardId: 'WARD-ICU-01', wardName: 'Critical Care ICU Unit', bedType: 'ICU', status: 'AVAILABLE', dailyRate: 12000, isVentilatorSupported: true, isIsolationCapable: true, equipment: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor', 'Defibrillator', 'Dual Syringe Pumps'] },
+      { bedId: 'BED-ICU-02', bedNumber: 'ICU-02', wardId: 'WARD-ICU-01', wardName: 'Critical Care ICU Unit', bedType: 'ICU', status: 'AVAILABLE', dailyRate: 12000, isVentilatorSupported: true, equipment: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor', 'Dual Syringe Pumps'] },
+      { bedId: 'BED-ICU-03', bedNumber: 'ICU-03', wardId: 'WARD-ICU-01', wardName: 'Critical Care ICU Unit', bedType: 'ICU', status: 'AVAILABLE', dailyRate: 12000, isVentilatorSupported: true, equipment: ['Mechanical Ventilator', 'Advanced Hemodynamic Monitor'] },
+
+      // Emergency Beds
+      { bedId: 'BED-EMG-01', bedNumber: 'EMG-01', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipment: ['Trauma Stretcher', 'Crash Cart Access', 'Oxygen'] },
+      { bedId: 'BED-EMG-02', bedNumber: 'EMG-02', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipment: ['Trauma Stretcher', 'Crash Cart Access', 'Oxygen'] },
+      { bedId: 'BED-EMG-03', bedNumber: 'EMG-03', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipment: ['Trauma Stretcher', 'Oxygen'] },
+      { bedId: 'BED-EMG-04', bedNumber: 'EMG-04', wardId: 'WARD-EMG-01', wardName: 'Emergency Trauma Observation', bedType: 'EMERGENCY_BED', status: 'AVAILABLE', dailyRate: 2000, equipment: ['Trauma Stretcher', 'Oxygen'] }
+    ];
+
+    for (const b of demoBeds) {
+      await Bed.findOneAndUpdate({ bedId: b.bedId }, b, { upsert: true, new: true });
+    }
+
+    // 13. Seed Module 4 Demo Admission Requests & Admissions
+    console.log('[Seed Master] Seeding Demo Admission Requests and Inpatient Episodes...');
+    
+    // Admission Request 1: Rahul / Aarav (P10001) - Admitted into P-03
+    const admReq1 = {
+      admissionRequestId: 'ADMREQ1001',
+      patientId: 'P10001',
+      patientName: 'Aarav K Patel',
+      visitId: 'V202610001',
+      source: 'OPD',
+      requestedBy: 'DOC1001',
+      requestingDoctorId: 'DOC1001',
+      requestingDoctorName: 'Dr. Rajesh Verma',
+      requestingDepartmentId: 'DEP-CARD',
+      requestingDepartmentName: 'Department of Cardiology',
+      clinicalRequirementReference: 'CLINREQ-CARD-001 (Post-Angiography Observation)',
+      clinicalRequiredCategory: 'PRIVATE_ROOM',
+      accommodationPreference: 'PRIVATE_ROOM',
+      priority: 'NORMAL',
+      status: 'ADMITTED',
+      approvalStatus: 'APPROVED',
+      approvedBy: 'Dr. Rajesh Verma',
+      approvedAt: new Date(Date.now() - 4 * 3600 * 1000),
+      assignedWardId: 'WARD-PR-01',
+      assignedBedId: 'BED-PR-03',
+      assignedBedNumber: 'P-03',
+      admissionId: 'ADM202610001',
+      correlationId: `CORR-${todayClean}-ADM1001`
+    };
+    await AdmissionRequest.findOneAndUpdate({ admissionRequestId: admReq1.admissionRequestId }, admReq1, { upsert: true, new: true });
+
+    // Active Inpatient Admission for P10001
+    const adm1 = {
+      admissionId: 'ADM202610001',
+      patientId: 'P10001',
+      patientName: 'Aarav K Patel',
+      visitId: 'V202610001',
+      admissionRequestId: 'ADMREQ1001',
+      admissionType: 'INPATIENT',
+      source: 'OPD',
+      admissionDate: new Date(Date.now() - 3 * 3600 * 1000),
+      admissionDateStr: todayStr,
+      admissionTime: '11:30',
+      status: 'ADMITTED',
+      admittingDoctorId: 'DOC1001',
+      admittingDoctorName: 'Dr. Rajesh Verma',
+      admittingDepartmentId: 'DEP-CARD',
+      admittingDepartmentName: 'Department of Cardiology',
+      clinicalRequirementReference: 'CLINREQ-CARD-001 (Post-Angiography Observation)',
+      accommodationPreference: 'PRIVATE_ROOM',
+      assignedWardId: 'WARD-PR-01',
+      assignedWardName: 'Private Deluxe Suite Ward',
+      assignedBedId: 'BED-PR-03',
+      assignedBedNumber: 'P-03',
+      identityStatus: 'VERIFIED',
+      insuranceStatus: 'VERIFIED',
+      insuranceDetails: {
+        provider: 'Star Health Insurance',
+        policyNumber: 'POL-STAR-88741',
+        preAuthStatus: 'APPROVED',
+        approvedAmount: 50000
+      },
+      billingStatus: 'ACTIVE',
+      billingAccountId: 'BILL-ADM-ADM202610001',
+      dischargeStatus: 'NOT_DISCHARGED',
+      checklistStatus: 'COMPLETED',
+      checklistId: `CHKLIST-${todayClean}-00101`,
+      externalSyncStatus: 'SYNCED',
+      externalAdmissionId: `EXT-ADM-2026-90412`,
+      correlationId: `CORR-${todayClean}-ADM1001`
+    };
+    await Admission.findOneAndUpdate({ admissionId: adm1.admissionId }, adm1, { upsert: true, new: true });
+
+    // Admission Request 2: Priya Patel (P10002) - Emergency Request (BED_PENDING)
+    const admReq2 = {
+      admissionRequestId: 'ADMREQ1002',
+      patientId: 'P10002',
+      patientName: 'Priya N Patel',
+      visitId: 'V202610002',
+      source: 'EMERGENCY',
+      requestedBy: 'DOC1002',
+      requestingDoctorId: 'DOC1002',
+      requestingDoctorName: 'Dr. Anita Patel',
+      requestingDepartmentId: 'DEP-GMED',
+      requestingDepartmentName: 'Department of General Medicine',
+      clinicalRequirementReference: 'CLINREQ-EMG-002 (Acute Respiratory Distress)',
+      clinicalRequiredCategory: 'EMERGENCY_BED',
+      accommodationPreference: 'EMERGENCY_BED',
+      priority: 'EMERGENCY',
+      status: 'BED_PENDING',
+      approvalStatus: 'APPROVED',
+      approvedBy: 'Emergency Duty Officer',
+      approvedAt: new Date(Date.now() - 30 * 60 * 1000),
+      correlationId: `CORR-${todayClean}-ADM1002`
+    };
+    await AdmissionRequest.findOneAndUpdate({ admissionRequestId: admReq2.admissionRequestId }, admReq2, { upsert: true, new: true });
+
+    // Admission Request 3: Amit Verma (P10003) - OPD Request (PENDING_APPROVAL)
+    const admReq3 = {
+      admissionRequestId: 'ADMREQ1003',
+      patientId: 'P10003',
+      patientName: 'Amit K Verma',
+      visitId: 'V202610003',
+      source: 'OPD',
+      requestedBy: 'DOC1001',
+      requestingDoctorId: 'DOC1001',
+      requestingDoctorName: 'Dr. Rajesh Verma',
+      requestingDepartmentId: 'DEP-GMED',
+      requestingDepartmentName: 'Department of General Medicine',
+      clinicalRequirementReference: 'CLINREQ-MED-003 (Evaluation for Persistent Pyrexia)',
+      clinicalRequiredCategory: 'GENERAL_WARD',
+      accommodationPreference: 'SEMI_PRIVATE',
+      priority: 'NORMAL',
+      status: 'PENDING_APPROVAL',
+      approvalStatus: 'PENDING',
+      correlationId: `CORR-${todayClean}-ADM1003`
+    };
+    await AdmissionRequest.findOneAndUpdate({ admissionRequestId: admReq3.admissionRequestId }, admReq3, { upsert: true, new: true });
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1, 2, 3, and 4 (Patient Admission) Master Data!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);
@@ -1275,4 +1576,5 @@ const seedMaster = async () => {
 };
 
 seedMaster();
+
 

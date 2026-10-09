@@ -39,6 +39,7 @@ export const Sidebar = () => {
         { to: '/patient/visits', label: 'My Visit Encounters', icon: Clock },
         { to: '/patient/appointments', label: 'My Appointments', icon: Calendar },
         { to: '/patient/checkin', label: 'Online Check-In', icon: Layers },
+        { to: '/patient/admissions', label: 'Inpatient Stays', icon: BedDouble },
         { to: '/patient/bills', label: 'Bills & Payments', icon: CreditCard },
         { to: '/patient/records', label: 'Medical Documents', icon: FileText }
       ];
@@ -48,6 +49,7 @@ export const Sidebar = () => {
     if (hasRole('RECEPTIONIST')) {
       return [
         { to: '/operations/dashboard', label: 'Operations Dashboard', icon: LayoutDashboard },
+        { to: '/operations/admissions', label: 'Admissions & Beds', icon: BedDouble },
         { to: '/operations/appointments', label: 'Appointment Desk', icon: Calendar },
         { to: '/front-desk/registration', label: 'Register Patient', icon: UserPlus },
         { to: '/front-desk/patients/search', label: 'Patient Master Directory', icon: Search },
@@ -65,7 +67,8 @@ export const Sidebar = () => {
         { to: '/front-desk/patients/search', label: 'Patient Search', icon: Search },
         { to: '/clinical/appointments', label: 'Doctor Schedule', icon: Calendar },
         { to: '/clinical/opd-queue', label: 'OPD Queue', icon: Layers },
-        { to: '/clinical/inpatients', label: 'Inpatient Ward', icon: BedDouble },
+        { to: '/clinical/admissions', label: 'Admission Orders', icon: BedDouble },
+        { to: '/operations/admissions', label: 'Inpatient Bed Desk', icon: BedDouble },
         { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
         { to: '/clinical/lab-orders', label: 'Lab Orders', icon: FlaskConical },
         { to: '/clinical/radiology', label: 'Radiology Orders', icon: Radio }
@@ -76,6 +79,7 @@ export const Sidebar = () => {
     if (hasRole('BILLING_STAFF', 'INSURANCE_REPRESENTATIVE')) {
       return [
         { to: '/finance/dashboard', label: 'Finance Dashboard', icon: LayoutDashboard },
+        { to: '/operations/admissions', label: 'Inpatient Admissions', icon: BedDouble },
         { to: '/front-desk/patients/search', label: 'Patient Master Search', icon: Search },
         { to: '/finance/billing', label: 'Invoices & Payments', icon: CreditCard },
         { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck },
@@ -86,6 +90,7 @@ export const Sidebar = () => {
     // Administration & Management Portal Nav (Admin, HR, Procurement, Management)
     return [
       { to: '/admin/dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
+      { to: '/operations/admissions', label: 'Inpatient Admissions', icon: BedDouble },
       { to: '/operations/appointments', label: 'Appointment Desk', icon: Calendar },
       { to: '/front-desk/patients/search', label: 'Patient Master Directory', icon: Search },
       { to: '/front-desk/registrations', label: 'All Registrations', icon: FileText },

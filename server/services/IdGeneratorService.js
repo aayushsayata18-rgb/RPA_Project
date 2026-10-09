@@ -300,6 +300,119 @@ class IdGeneratorService {
   }
 
   /**
+   * Generate unique Admission ID (e.g. ADM202610001, ADM202610002)
+   */
+  static async generateAdmissionId() {
+    const Admission = require('../models/Admission');
+    const currentYear = new Date().getFullYear();
+    const key = `ADMISSION_ID_${currentYear}`;
+    const prefix = `ADM${currentYear}`;
+
+    const lastAdmission = await Admission.findOne({ admissionId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ admissionId: -1 })
+      .select('admissionId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (lastAdmission && lastAdmission.admissionId) {
+      const numPart = lastAdmission.admissionId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Admission Request ID (e.g. ADMREQ202610001 or ADMREQ1001)
+   */
+  static async generateAdmissionRequestId() {
+    const AdmissionRequest = require('../models/AdmissionRequest');
+    const currentYear = new Date().getFullYear();
+    const key = `ADMISSION_REQUEST_ID_${currentYear}`;
+    const prefix = `ADMREQ${currentYear}`;
+
+    const lastReq = await AdmissionRequest.findOne({ admissionRequestId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ admissionRequestId: -1 })
+      .select('admissionRequestId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (lastReq && lastReq.admissionRequestId) {
+      const numPart = lastReq.admissionRequestId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Checklist ID (e.g. CHKLIST-20261009-00101)
+   */
+  static async generateChecklistId() {
+    const AdmissionChecklist = require('../models/AdmissionChecklist');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `ADMISSION_CHECKLIST_ID_${ymd}`;
+    const prefix = `CHKLIST-${ymd}-`;
+
+    const lastChk = await AdmissionChecklist.findOne({ checklistId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ checklistId: -1 })
+      .select('checklistId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastChk && lastChk.checklistId) {
+      const numPart = lastChk.checklistId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
    * Generate correlation ID (e.g. CORR-20261006-000123)
    */
   static generateCorrelationId() {

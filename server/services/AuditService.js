@@ -7,12 +7,16 @@ class AuditService {
    */
   static async logEvent({
     userId = 'SYSTEM',
+    actorUserId = null,
     userEmail = null,
     role = 'SYSTEM',
+    actorRole = null,
     action,
-    module,
-    entityType,
-    entityId,
+    module = null,
+    category = null,
+    entityType = null,
+    entityId = null,
+    patientId = null,
     oldValue = null,
     newValue = null,
     ipAddress = null,
@@ -25,15 +29,20 @@ class AuditService {
     try {
       const eventId = `AUD-${Date.now()}-${uuidv4().substring(0, 8).toUpperCase()}`;
 
+      const resolvedDetails = typeof details === 'object' && details !== null ? JSON.stringify(details) : String(details || '');
+      const resolvedModule = module || category || 'ADMISSION';
+      const resolvedEntityType = entityType || (category ? String(category) : 'ADMISSION');
+      const resolvedEntityId = String(entityId || patientId || 'SYSTEM');
+
       const event = new AuditEvent({
         eventId,
-        userId,
+        userId: actorUserId || userId || 'SYSTEM',
         userEmail,
-        role,
+        role: actorRole || role || 'SYSTEM',
         action,
-        module,
-        entityType,
-        entityId: String(entityId),
+        module: resolvedModule,
+        entityType: resolvedEntityType,
+        entityId: resolvedEntityId,
         oldValue,
         newValue,
         ipAddress,
@@ -41,14 +50,13 @@ class AuditService {
         correlationId: correlationId || eventId,
         rpaJobId,
         status,
-        details
+        details: resolvedDetails
       });
 
       await event.save();
       return event;
     } catch (error) {
       console.error('[AuditService Error]: Failed to persist audit event:', error.message);
-      // Non-blocking failure so business operations do not crash
       return null;
     }
   }
