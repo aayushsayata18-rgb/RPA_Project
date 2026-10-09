@@ -148,6 +148,43 @@ class IdGeneratorService {
   }
 
   /**
+   * Generate unique Appointment ID (e.g. A202610001)
+   */
+  static async generateAppointmentId() {
+    const Appointment = require('../models/Appointment');
+    const currentYear = new Date().getFullYear();
+    const key = `APPOINTMENT_ID_${currentYear}`;
+    const prefix = `A${currentYear}`;
+
+    const lastApt = await Appointment.findOne({ appointmentId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ appointmentId: -1 })
+      .select('appointmentId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (lastApt && lastApt.appointmentId) {
+      const numPart = lastApt.appointmentId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
    * Generate correlation ID (e.g. CORR-20261006-000123)
    */
   static generateCorrelationId() {

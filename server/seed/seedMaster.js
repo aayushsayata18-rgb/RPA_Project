@@ -10,6 +10,12 @@ const Visit = require('../models/Visit');
 const Registration = require('../models/Registration');
 const EmergencyTemporaryRecord = require('../models/EmergencyTemporaryRecord');
 const ExceptionCase = require('../models/ExceptionCase');
+const Department = require('../models/Department');
+const Doctor = require('../models/Doctor');
+const DoctorSchedule = require('../models/DoctorSchedule');
+const Appointment = require('../models/Appointment');
+const AppointmentHistory = require('../models/AppointmentHistory');
+const AppointmentReminder = require('../models/AppointmentReminder');
 const { ROLES, PORTAL_ROLES } = require('../config/roles');
 const { ROLE_PERMISSIONS, PERMISSIONS } = require('../config/permissions');
 
@@ -120,9 +126,52 @@ const seedMaster = async () => {
         name: 'Appointment Confirmation',
         event: 'APPOINTMENT_CONFIRMED',
         channel: 'ALL',
-        subjectTemplate: 'Appointment Confirmed - Hospital Automation',
+        subjectTemplate: 'Appointment Confirmed - Hospital Platform',
         bodyTemplate: 'Dear {{patientName}}, your appointment with Dr. {{doctorName}} is confirmed for {{appointmentDateTime}}. Appointment ID: {{appointmentId}}.',
         variables: ['patientName', 'doctorName', 'appointmentDateTime', 'appointmentId']
+      },
+      {
+        templateCode: 'APPOINTMENT_REMINDER_SMS',
+        name: 'Appointment Reminder SMS',
+        event: 'APPOINTMENT_REMINDER_SMS',
+        channel: 'SMS',
+        bodyTemplate: 'Reminder: Hello {{patientName}}, you have an upcoming appointment with Dr. {{doctorName}} on {{appointmentDateTime}} (Room: {{roomNumber}}). Appointment ID: {{appointmentId}}.',
+        variables: ['patientName', 'doctorName', 'appointmentDateTime', 'appointmentId', 'roomNumber']
+      },
+      {
+        templateCode: 'APPOINTMENT_REMINDER_EMAIL',
+        name: 'Appointment Reminder Email',
+        event: 'APPOINTMENT_REMINDER_EMAIL',
+        channel: 'EMAIL',
+        subjectTemplate: 'Upcoming Appointment Reminder - {{appointmentId}}',
+        bodyTemplate: 'Dear {{patientName}},\n\nThis is a friendly reminder for your scheduled appointment with Dr. {{doctorName}} on {{appointmentDateTime}} at Room {{roomNumber}}.\n\nAppointment ID: {{appointmentId}}\n\nPlease arrive 15 minutes early for check-in.',
+        variables: ['patientName', 'doctorName', 'appointmentDateTime', 'appointmentId', 'roomNumber']
+      },
+      {
+        templateCode: 'APPOINTMENT_CANCELLED_SMS',
+        name: 'Appointment Cancelled Notice',
+        event: 'APPOINTMENT_CANCELLED_SMS',
+        channel: 'ALL',
+        subjectTemplate: 'Appointment Cancelled - {{appointmentId}}',
+        bodyTemplate: 'Dear {{patientName}}, your appointment {{appointmentId}} with Dr. {{doctorName}} on {{appointmentDate}} at {{appointmentTime}} has been cancelled.',
+        variables: ['patientName', 'doctorName', 'appointmentDate', 'appointmentTime', 'appointmentId']
+      },
+      {
+        templateCode: 'APPOINTMENT_RESCHEDULED_SMS',
+        name: 'Appointment Rescheduled Notice',
+        event: 'APPOINTMENT_RESCHEDULED_SMS',
+        channel: 'ALL',
+        subjectTemplate: 'Appointment Rescheduled - {{appointmentId}}',
+        bodyTemplate: 'Dear {{patientName}}, your appointment has been rescheduled. New appointment ID: {{appointmentId}} with Dr. {{doctorName}} on {{appointmentDateTime}}.',
+        variables: ['patientName', 'doctorName', 'appointmentDateTime', 'appointmentId', 'previousAppointmentId']
+      },
+      {
+        templateCode: 'APPOINTMENT_NO_SHOW_SMS',
+        name: 'Appointment No-Show Notice',
+        event: 'APPOINTMENT_NO_SHOW_SMS',
+        channel: 'SMS',
+        bodyTemplate: 'Hello {{patientName}}, we noticed you missed your scheduled appointment ({{appointmentId}}) with Dr. {{doctorName}}. You may rebook anytime via our patient portal.',
+        variables: ['patientName', 'doctorName', 'appointmentId']
       },
       {
         templateCode: 'OPD_TOKEN_GENERATED',
@@ -563,7 +612,401 @@ const seedMaster = async () => {
       { upsert: true, new: true }
     );
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1 Master Data!');
+    // 7. Seed Module 2: Departments & Specialties
+    console.log('[Seed Master] Seeding Module 2 Departments & Clinical Specialties...');
+    const demoDepartments = [
+      {
+        departmentId: 'DEP-CARD',
+        name: 'Department of Cardiology',
+        code: 'CARD',
+        description: 'Advanced adult & pediatric cardiovascular diagnostics, interventions, and preventive cardiology.',
+        specialties: [{ specialtyId: 'SPEC-CARD-01', name: 'Cardiology', description: 'General & Interventional Cardiology' }],
+        headOfDepartment: 'Dr. Rajesh Verma',
+        location: { building: 'Tower A', floor: '2nd Floor', wing: 'East Wing' },
+        isActive: true
+      },
+      {
+        departmentId: 'DEP-GMED',
+        name: 'Department of General Medicine',
+        code: 'GMED',
+        description: 'Comprehensive primary care, chronic disease management, and internal medicine.',
+        specialties: [{ specialtyId: 'SPEC-GMED-01', name: 'General Medicine', description: 'Internal Medicine & Family Care' }],
+        headOfDepartment: 'Dr. Anita Patel',
+        location: { building: 'Main OPD Block', floor: 'Ground Floor', wing: 'West Wing' },
+        isActive: true
+      },
+      {
+        departmentId: 'DEP-DERM',
+        name: 'Department of Dermatology',
+        code: 'DERM',
+        description: 'Clinical dermatology, trichology, and dermatological procedures.',
+        specialties: [{ specialtyId: 'SPEC-DERM-01', name: 'Dermatology', description: 'Skin & Allergy Care' }],
+        headOfDepartment: 'Dr. Vikram Shah',
+        location: { building: 'Tower B', floor: '1st Floor', wing: 'North Wing' },
+        isActive: true
+      },
+      {
+        departmentId: 'DEP-ORTH',
+        name: 'Department of Orthopedics',
+        code: 'ORTH',
+        description: 'Bone, joint, spine, sports medicine, and trauma reconstruction surgery.',
+        specialties: [{ specialtyId: 'SPEC-ORTH-01', name: 'Orthopedics', description: 'Joint & Musculoskeletal Care' }],
+        headOfDepartment: 'Dr. Sunil Desai',
+        location: { building: 'Tower A', floor: '3rd Floor', wing: 'Central Wing' },
+        isActive: true
+      },
+      {
+        departmentId: 'DEP-PED',
+        name: 'Department of Pediatrics',
+        code: 'PED',
+        description: 'Neonatal, infant, child, and adolescent healthcare & immunization.',
+        specialties: [{ specialtyId: 'SPEC-PED-01', name: 'Pediatrics', description: 'Child Health & Growth' }],
+        headOfDepartment: 'Dr. Priya Nair',
+        location: { building: 'Tower B', floor: '2nd Floor', wing: 'South Wing' },
+        isActive: true
+      }
+    ];
+
+    for (const dep of demoDepartments) {
+      await Department.findOneAndUpdate({ departmentId: dep.departmentId }, dep, { upsert: true, new: true });
+      console.log(`  -> Seeded Department: ${dep.departmentId} - ${dep.name}`);
+    }
+
+    // 8. Seed Module 2: Doctor Profiles
+    console.log('[Seed Master] Seeding Module 2 Doctor Master Profiles...');
+    const demoDoctors = [
+      {
+        doctorId: 'DOC1001',
+        firstName: 'Rajesh',
+        lastName: 'Verma',
+        fullName: 'Dr. Rajesh Verma',
+        departmentId: 'DEP-CARD',
+        departmentName: 'Department of Cardiology',
+        specialty: 'Cardiology',
+        qualifications: ['MBBS', 'MD (Internal Medicine)', 'DM (Cardiology)', 'FACC'],
+        experienceYears: 14,
+        consultationFee: 800,
+        roomNumber: 'OPD-201',
+        contactNumber: '9876543212',
+        email: 'doctor@hospital.com',
+        slotDurationMinutes: 30,
+        maxCapacityPerSlot: 1,
+        bio: 'Senior Interventional Cardiologist specializing in preventive heart health and coronary care.',
+        status: 'ACTIVE'
+      },
+      {
+        doctorId: 'DOC1002',
+        firstName: 'Anita',
+        lastName: 'Patel',
+        fullName: 'Dr. Anita Patel',
+        departmentId: 'DEP-GMED',
+        departmentName: 'Department of General Medicine',
+        specialty: 'General Medicine',
+        qualifications: ['MBBS', 'MD (Internal Medicine)'],
+        experienceYears: 10,
+        consultationFee: 500,
+        roomNumber: 'OPD-102',
+        contactNumber: '9876543261',
+        email: 'anita.patel@hospital.com',
+        slotDurationMinutes: 30,
+        maxCapacityPerSlot: 1,
+        bio: 'Consultant Physician with expertise in lifestyle disorders, infectious diseases, and elder care.',
+        status: 'ACTIVE'
+      },
+      {
+        doctorId: 'DOC1003',
+        firstName: 'Vikram',
+        lastName: 'Shah',
+        fullName: 'Dr. Vikram Shah',
+        departmentId: 'DEP-DERM',
+        departmentName: 'Department of Dermatology',
+        specialty: 'Dermatology',
+        qualifications: ['MBBS', 'MD (Dermatology & Venereology)'],
+        experienceYears: 8,
+        consultationFee: 600,
+        roomNumber: 'OPD-103',
+        contactNumber: '9876543262',
+        email: 'vikram.shah@hospital.com',
+        slotDurationMinutes: 30,
+        maxCapacityPerSlot: 1,
+        bio: 'Consultant Dermatologist specializing in clinical dermatology and laser treatments.',
+        status: 'ACTIVE'
+      },
+      {
+        doctorId: 'DOC1004',
+        firstName: 'Sunil',
+        lastName: 'Desai',
+        fullName: 'Dr. Sunil Desai',
+        departmentId: 'DEP-ORTH',
+        departmentName: 'Department of Orthopedics',
+        specialty: 'Orthopedics',
+        qualifications: ['MBBS', 'MS (Orthopedics)', 'MCh (Joint Replacement)'],
+        experienceYears: 12,
+        consultationFee: 750,
+        roomNumber: 'OPD-304',
+        contactNumber: '9876543263',
+        email: 'sunil.desai@hospital.com',
+        slotDurationMinutes: 30,
+        maxCapacityPerSlot: 1,
+        bio: 'Orthopedic surgeon with extensive experience in knee/hip arthroplasty and sports injuries.',
+        status: 'ACTIVE'
+      },
+      {
+        doctorId: 'DOC1005',
+        firstName: 'Priya',
+        lastName: 'Nair',
+        fullName: 'Dr. Priya Nair',
+        departmentId: 'DEP-PED',
+        departmentName: 'Department of Pediatrics',
+        specialty: 'Pediatrics',
+        qualifications: ['MBBS', 'MD (Pediatrics)', 'DCH'],
+        experienceYears: 7,
+        consultationFee: 500,
+        roomNumber: 'OPD-205',
+        contactNumber: '9876543264',
+        email: 'priya.nair@hospital.com',
+        slotDurationMinutes: 30,
+        maxCapacityPerSlot: 1,
+        bio: 'Child health specialist focused on developmental pediatrics and pediatric nutrition.',
+        status: 'ACTIVE'
+      }
+    ];
+
+    const standardDays = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+    const standardShifts = [
+      { shiftName: 'Morning Shift', startTime: '09:00', endTime: '12:00' },
+      { shiftName: 'Afternoon Shift', startTime: '14:00', endTime: '17:00' }
+    ];
+    const standardBreaks = [{ startTime: '13:00', endTime: '14:00', reason: 'Lunch Break' }];
+
+    for (const doc of demoDoctors) {
+      await Doctor.findOneAndUpdate({ doctorId: doc.doctorId }, doc, { upsert: true, new: true });
+      console.log(`  -> Seeded Doctor: ${doc.doctorId} - ${doc.fullName} (${doc.specialty})`);
+
+      // Seed Doctor Schedule
+      const weeklyAvailability = standardDays.map((dayOfWeek) => ({
+        dayOfWeek,
+        isAvailable: true,
+        shifts: standardShifts,
+        breaks: standardBreaks,
+        maxCapacityPerSlot: 1
+      }));
+
+      await DoctorSchedule.findOneAndUpdate(
+        { doctorId: doc.doctorId },
+        {
+          doctorId: doc.doctorId,
+          weeklyAvailability,
+          slotDurationMinutes: 30,
+          defaultMaxCapacityPerSlot: 1,
+          leaves: [],
+          blockedSlots: [],
+          isActive: true
+        },
+        { upsert: true, new: true }
+      );
+    }
+
+    // 9. Seed Module 2: Realistic Demo Appointments Across Statuses
+    console.log('[Seed Master] Seeding Demo Appointments across all status lifecycles...');
+    const today = new Date();
+    const todayStr = today.toISOString().slice(0, 10);
+    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+    const tomorrowStr = tomorrow.toISOString().slice(0, 10);
+
+    const demoAppointments = [
+      {
+        appointmentId: 'A202610001',
+        patientId: 'P10001',
+        patientName: 'Aarav K Patel',
+        patientPhone: '9876543216',
+        patientEmail: 'patient@hospital.com',
+        doctorId: 'DOC1001',
+        doctorName: 'Dr. Rajesh Verma',
+        departmentId: 'DEP-CARD',
+        departmentName: 'Department of Cardiology',
+        specialty: 'Cardiology',
+        appointmentDate: today,
+        appointmentDateStr: todayStr,
+        startTime: '10:30',
+        endTime: '11:00',
+        appointmentType: 'NEW_CONSULTATION',
+        source: 'PATIENT_PORTAL',
+        status: 'CONFIRMED',
+        bookingReference: 'REF-A202610001-98A1',
+        reason: 'Routine preventive cardiac review and ECG interpretation',
+        checkInStatus: 'NOT_CHECKED_IN',
+        reminderStatus: 'SCHEDULED',
+        roomNumber: 'OPD-201',
+        consultationFee: 800,
+        correlationId: 'CORR-20261009-APT001'
+      },
+      {
+        appointmentId: 'A202610002',
+        patientId: 'P10002',
+        patientName: 'Priya Sharma',
+        patientPhone: '9876543220',
+        patientEmail: 'priya.sharma@example.com',
+        doctorId: 'DOC1003',
+        doctorName: 'Dr. Vikram Shah',
+        departmentId: 'DEP-DERM',
+        departmentName: 'Department of Dermatology',
+        specialty: 'Dermatology',
+        appointmentDate: today,
+        appointmentDateStr: todayStr,
+        startTime: '11:00',
+        endTime: '11:30',
+        appointmentType: 'FOLLOW_UP',
+        source: 'FRONT_DESK',
+        status: 'COMPLETED',
+        bookingReference: 'REF-A202610002-33F2',
+        reason: 'Follow-up for forearm skin allergy check',
+        checkInStatus: 'CHECKED_IN',
+        checkedInAt: today,
+        reminderStatus: 'DELIVERED',
+        roomNumber: 'OPD-103',
+        consultationFee: 600,
+        correlationId: 'CORR-20261009-APT002'
+      },
+      {
+        appointmentId: 'A202610003',
+        patientId: 'P10003',
+        patientName: 'Amit R Mehta',
+        patientPhone: '9876543230',
+        patientEmail: 'amit.mehta@example.com',
+        doctorId: 'DOC1004',
+        doctorName: 'Dr. Sunil Desai',
+        departmentId: 'DEP-ORTH',
+        departmentName: 'Department of Orthopedics',
+        specialty: 'Orthopedics',
+        appointmentDate: today,
+        appointmentDateStr: todayStr,
+        startTime: '09:30',
+        endTime: '10:00',
+        appointmentType: 'NEW_CONSULTATION',
+        source: 'PATIENT_PORTAL',
+        status: 'CANCELLED',
+        cancellationReason: 'PATIENT_REQUEST',
+        cancellationNotes: 'Patient out of town on work travel.',
+        cancelledAt: today,
+        bookingReference: 'REF-A202610003-88B1',
+        reason: 'Right shoulder joint stiffness and discomfort',
+        checkInStatus: 'NOT_CHECKED_IN',
+        reminderStatus: 'CANCELLED',
+        roomNumber: 'OPD-304',
+        consultationFee: 750,
+        correlationId: 'CORR-20261009-APT003'
+      },
+      {
+        appointmentId: 'A202610004',
+        patientId: 'P10004',
+        patientName: 'Neha Shah',
+        patientPhone: '9876543240',
+        patientEmail: 'neha.shah@example.com',
+        doctorId: 'DOC1002',
+        doctorName: 'Dr. Anita Patel',
+        departmentId: 'DEP-GMED',
+        departmentName: 'Department of General Medicine',
+        specialty: 'General Medicine',
+        appointmentDate: today,
+        appointmentDateStr: todayStr,
+        startTime: '14:00',
+        endTime: '14:30',
+        appointmentType: 'NEW_CONSULTATION',
+        source: 'PATIENT_PORTAL',
+        status: 'RESCHEDULED',
+        rescheduledToAppointmentId: 'A202610006',
+        rescheduledAt: today,
+        bookingReference: 'REF-A202610004-77A9',
+        reason: 'Recurrent migraine evaluation',
+        checkInStatus: 'NOT_CHECKED_IN',
+        reminderStatus: 'CANCELLED',
+        roomNumber: 'OPD-102',
+        consultationFee: 500,
+        correlationId: 'CORR-20261009-APT004'
+      },
+      {
+        appointmentId: 'A202610005',
+        patientId: 'P10005',
+        patientName: 'Rohan D Desai',
+        patientPhone: '9876543250',
+        patientEmail: 'rohan.desai@example.com',
+        doctorId: 'DOC1001',
+        doctorName: 'Dr. Rajesh Verma',
+        departmentId: 'DEP-CARD',
+        departmentName: 'Department of Cardiology',
+        specialty: 'Cardiology',
+        appointmentDate: today,
+        appointmentDateStr: todayStr,
+        startTime: '09:00',
+        endTime: '09:30',
+        appointmentType: 'NEW_CONSULTATION',
+        source: 'FRONT_DESK',
+        status: 'NO_SHOW',
+        checkInStatus: 'NO_SHOW',
+        bookingReference: 'REF-A202610005-55C1',
+        reason: 'Chest heaviness on exertion',
+        reminderStatus: 'DELIVERED',
+        roomNumber: 'OPD-201',
+        consultationFee: 800,
+        correlationId: 'CORR-20261009-APT005'
+      },
+      {
+        appointmentId: 'A202610006',
+        patientId: 'P10004',
+        patientName: 'Neha Shah',
+        patientPhone: '9876543240',
+        patientEmail: 'neha.shah@example.com',
+        doctorId: 'DOC1002',
+        doctorName: 'Dr. Anita Patel',
+        departmentId: 'DEP-GMED',
+        departmentName: 'Department of General Medicine',
+        specialty: 'General Medicine',
+        appointmentDate: tomorrow,
+        appointmentDateStr: tomorrowStr,
+        startTime: '15:00',
+        endTime: '15:30',
+        appointmentType: 'NEW_CONSULTATION',
+        source: 'PATIENT_PORTAL',
+        status: 'CONFIRMED',
+        rescheduledFromAppointmentId: 'A202610004',
+        bookingReference: 'REF-A202610006-99D3',
+        reason: 'Recurrent migraine evaluation (Rescheduled)',
+        checkInStatus: 'NOT_CHECKED_IN',
+        reminderStatus: 'SCHEDULED',
+        roomNumber: 'OPD-102',
+        consultationFee: 500,
+        correlationId: 'CORR-20261009-APT006'
+      }
+    ];
+
+    for (const apt of demoAppointments) {
+      await Appointment.findOneAndUpdate({ appointmentId: apt.appointmentId }, apt, { upsert: true, new: true });
+
+      // Add History Entry
+      await AppointmentHistory.findOneAndUpdate(
+        { appointmentId: apt.appointmentId, action: apt.status === 'CONFIRMED' ? 'CREATED' : apt.status },
+        {
+          historyId: `HIST-${apt.appointmentId}-${apt.status}`,
+          appointmentId: apt.appointmentId,
+          action: apt.status === 'CONFIRMED' ? 'CREATED' : apt.status,
+          newStatus: apt.status,
+          newDate: apt.appointmentDateStr,
+          newStartTime: apt.startTime,
+          newDoctorId: apt.doctorId,
+          reason: `Seeded ${apt.status} appointment`,
+          actorUserId: 'SEED_MASTER',
+          actorRole: 'SYSTEM',
+          correlationId: apt.correlationId,
+          details: `Initial demo record for appointment ${apt.appointmentId}`
+        },
+        { upsert: true, new: true }
+      );
+
+      console.log(`  -> Seeded Appointment: ${apt.appointmentId} [${apt.status}] for ${apt.patientName} with ${apt.doctorName}`);
+    }
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1 & Module 2 Master Data!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);
@@ -572,3 +1015,4 @@ const seedMaster = async () => {
 };
 
 seedMaster();
+

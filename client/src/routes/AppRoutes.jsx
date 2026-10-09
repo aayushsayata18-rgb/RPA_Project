@@ -22,6 +22,12 @@ import { IdentityReviewPage } from '../pages/operations/IdentityReviewPage';
 import { EmergencyRegistrationPage } from '../pages/operations/EmergencyRegistrationPage';
 import { RegistrationsListPage } from '../pages/operations/RegistrationsListPage';
 
+// Module 2: Appointment Management Pages
+import { PatientAppointmentsPage } from '../pages/patient/PatientAppointmentsPage';
+import { BookAppointmentPage } from '../pages/patient/BookAppointmentPage';
+import { OperationsAppointmentsPage } from '../pages/operations/OperationsAppointmentsPage';
+import { DoctorAppointmentsPage } from '../pages/clinical/DoctorAppointmentsPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -66,8 +72,50 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="patient/appointments"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientAppointmentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patient/appointments/book"
+          element={
+            <ProtectedRoute>
+              <BookAppointmentPage />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Module 1: Operations & Front-Desk Routes */}
+        {/* Module 2: Clinical Portal Appointments */}
+        <Route
+          path="clinical/appointments"
+          element={
+            <ProtectedRoute allowedRoles={['DOCTOR', 'NURSE', 'SYSTEM_ADMIN']}>
+              <DoctorAppointmentsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 1 & 2: Operations & Front-Desk Routes */}
+        <Route
+          path="operations/appointments"
+          element={
+            <ProtectedRoute allowedRoles={['RECEPTIONIST', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT']}>
+              <OperationsAppointmentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="front-desk/appointments"
+          element={
+            <ProtectedRoute allowedRoles={['RECEPTIONIST', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT']}>
+              <OperationsAppointmentsPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="front-desk/registration"
           element={

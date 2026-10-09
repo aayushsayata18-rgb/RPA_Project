@@ -15,6 +15,10 @@ const patientRoutes = require('./patientRoutes');
 const registrationRoutes = require('./registrationRoutes');
 const visitRoutes = require('./visitRoutes');
 
+// Module 2: Appointment Management Routes
+const appointmentRoutes = require('./appointmentRoutes');
+const doctorRoutes = require('./doctorRoutes');
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/audit', auditRoutes);
@@ -28,6 +32,12 @@ router.use('/documents', documentRoutes);
 router.use('/patients', patientRoutes);
 router.use('/registrations', registrationRoutes);
 router.use('/visits', visitRoutes);
+
+// Module 2 Endpoints
+router.use('/appointments', appointmentRoutes);
+router.use('/v1/appointments', appointmentRoutes);
+router.use('/doctors', doctorRoutes);
+router.use('/v1/doctors', doctorRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

@@ -48,6 +48,7 @@ export const Sidebar = () => {
     if (hasRole('RECEPTIONIST')) {
       return [
         { to: '/operations/dashboard', label: 'Operations Dashboard', icon: LayoutDashboard },
+        { to: '/operations/appointments', label: 'Appointment Desk', icon: Calendar },
         { to: '/front-desk/registration', label: 'Register Patient', icon: UserPlus },
         { to: '/front-desk/patients/search', label: 'Patient Master Directory', icon: Search },
         { to: '/front-desk/registrations', label: 'Registrations Stream', icon: FileText },
@@ -85,6 +86,7 @@ export const Sidebar = () => {
     // Administration & Management Portal Nav (Admin, HR, Procurement, Management)
     return [
       { to: '/admin/dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
+      { to: '/operations/appointments', label: 'Appointment Desk', icon: Calendar },
       { to: '/front-desk/patients/search', label: 'Patient Master Directory', icon: Search },
       { to: '/front-desk/registrations', label: 'All Registrations', icon: FileText },
       { to: '/front-desk/identity-review', label: 'Identity Review Queue', icon: UserCheck },
