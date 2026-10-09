@@ -29,7 +29,7 @@ Phase 2: Core Patient Journey & Clinical Care Flow
 - Step 04: 05_BED_MANAGEMENT.md (Wards, Rooms, Physical Beds, Status Lifecycle)
 - Step 05: 04_PATIENT_ADMISSION.md (Inpatient Requests, Bed Reservation, Admission IDs)
 - Step 06: 06_DISCHARGE_PROCESSING.md (Clinical Clearance, Billing Settlement Gate, Housekeeping Trigger)
-- Step 07: 07_PATIENT_RECORDS.md (Longitudinal Patient History View across lifecycle)
+- Step 07: 07_PATIENT_RECORDS.md (Longitudinal Patient History View across lifecycle) [COMPLETED]
 
 ---
 
