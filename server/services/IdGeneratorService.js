@@ -185,6 +185,121 @@ class IdGeneratorService {
   }
 
   /**
+   * Generate unique Token ID (e.g. TOKEN-20261009-00102)
+   */
+  static async generateTokenId() {
+    const OPDToken = require('../models/OPDToken');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `OPD_TOKEN_ID_${ymd}`;
+    const prefix = `TOKEN-${ymd}-`;
+
+    const lastToken = await OPDToken.findOne({ tokenId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ tokenId: -1 })
+      .select('tokenId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastToken && lastToken.tokenId) {
+      const numPart = lastToken.tokenId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate unique CheckIn ID (e.g. CHK-20261009-0001)
+   */
+  static async generateCheckInId() {
+    const CheckIn = require('../models/CheckIn');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `CHECKIN_ID_${ymd}`;
+    const prefix = `CHK-${ymd}-`;
+
+    const lastCheckin = await CheckIn.findOne({ checkInId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ checkInId: -1 })
+      .select('checkInId')
+      .lean();
+
+    let baseSeq = 1;
+    if (lastCheckin && lastCheckin.checkInId) {
+      const numPart = lastCheckin.checkInId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(4, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate atomic daily Token Number for a department (e.g. GM-101, CARD-201)
+   */
+  static async generateTokenNumber(prefix = 'GM', dateStr = null) {
+    const cleanPrefix = (prefix || 'GM').toUpperCase().trim();
+    const todayStr = dateStr || new Date().toISOString().slice(0, 10);
+    const key = `OPD_TOKEN_SEQ_${cleanPrefix}_${todayStr}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    // Default starting number is 100 + counter (e.g. 101, 102...)
+    let seq = counter.sequenceValue;
+    if (seq < 101) {
+      counter.sequenceValue = 101;
+      await counter.save();
+      seq = 101;
+    }
+
+    return {
+      tokenNumber: `${cleanPrefix}-${seq}`,
+      sequenceNumber: seq
+    };
+  }
+
+  /**
+   * Generate unique Queue ID (e.g. QUEUE-GM-20261009 or QUEUE-DOC1001-20261009)
+   */
+  static generateQueueId(prefix = 'GM', dateStr = null) {
+    const cleanPrefix = (prefix || 'GM').toUpperCase().trim().replace(/[^A-Z0-9]/g, '');
+    const todayStr = (dateStr || new Date().toISOString().slice(0, 10)).replace(/-/g, '');
+    return `QUEUE-${cleanPrefix}-${todayStr}`;
+  }
+
+  /**
    * Generate correlation ID (e.g. CORR-20261006-000123)
    */
   static generateCorrelationId() {

@@ -1006,7 +1006,267 @@ const seedMaster = async () => {
       console.log(`  -> Seeded Appointment: ${apt.appointmentId} [${apt.status}] for ${apt.patientName} with ${apt.doctorName}`);
     }
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1 & Module 2 Master Data!');
+    // 12. Seed Module 3: OPD Queues, Tokens, CheckIns & History
+    console.log('\n[Seed Master] Seeding Module 3: OPD Queues and Live Tokens...');
+    const OPDQueue = require('../models/OPDQueue');
+    const OPDToken = require('../models/OPDToken');
+    const CheckIn = require('../models/CheckIn');
+    const OPDTokenHistory = require('../models/OPDTokenHistory');
+    const todayClean = todayStr.replace(/-/g, '');
+
+    const demoQueues = [
+      {
+        queueId: `QUEUE-GM-${todayClean}`,
+        hospitalId: 'HOSP-001',
+        queueDate: today,
+        queueDateStr: todayStr,
+        departmentId: 'DEP-GMED',
+        departmentName: 'Department of General Medicine',
+        doctorId: 'DOC1002',
+        doctorName: 'Dr. Anita Patel',
+        roomNumber: 'OPD-102',
+        queueType: 'DEPARTMENT_SPECIFIC',
+        status: 'OPEN',
+        currentToken: 'GM-101',
+        currentTokenId: `TOKEN-${todayClean}-00101`,
+        totalCheckedIn: 3,
+        totalWaiting: 2,
+        totalInService: 1,
+        totalCompleted: 0,
+        totalSkipped: 0
+      },
+      {
+        queueId: `QUEUE-CARD-${todayClean}`,
+        hospitalId: 'HOSP-001',
+        queueDate: today,
+        queueDateStr: todayStr,
+        departmentId: 'DEP-CARD',
+        departmentName: 'Department of Cardiology',
+        doctorId: 'DOC1001',
+        doctorName: 'Dr. Rajesh Verma',
+        roomNumber: 'OPD-201',
+        queueType: 'DEPARTMENT_SPECIFIC',
+        status: 'OPEN',
+        currentToken: 'CARD-201',
+        currentTokenId: `TOKEN-${todayClean}-00201`,
+        totalCheckedIn: 1,
+        totalWaiting: 0,
+        totalInService: 0,
+        totalCompleted: 1,
+        totalSkipped: 0
+      },
+      {
+        queueId: `QUEUE-DERM-${todayClean}`,
+        hospitalId: 'HOSP-001',
+        queueDate: today,
+        queueDateStr: todayStr,
+        departmentId: 'DEP-DERM',
+        departmentName: 'Department of Dermatology',
+        doctorId: 'DOC1003',
+        doctorName: 'Dr. Sneha Roy',
+        roomNumber: 'OPD-301',
+        queueType: 'DEPARTMENT_SPECIFIC',
+        status: 'OPEN',
+        currentToken: null,
+        totalCheckedIn: 1,
+        totalWaiting: 0,
+        totalInService: 0,
+        totalCompleted: 0,
+        totalSkipped: 1
+      },
+      {
+        queueId: `QUEUE-ORTHO-${todayClean}`,
+        hospitalId: 'HOSP-001',
+        queueDate: today,
+        queueDateStr: todayStr,
+        departmentId: 'DEP-ORTH',
+        departmentName: 'Department of Orthopedics',
+        doctorId: null,
+        doctorName: null,
+        roomNumber: 'OPD-401',
+        queueType: 'DEPARTMENT_SPECIFIC',
+        status: 'OPEN',
+        currentToken: null,
+        totalCheckedIn: 0,
+        totalWaiting: 0,
+        totalInService: 0,
+        totalCompleted: 0,
+        totalSkipped: 0
+      }
+    ];
+
+    for (const q of demoQueues) {
+      await OPDQueue.findOneAndUpdate({ queueId: q.queueId }, q, { upsert: true, new: true });
+      console.log(`  -> Seeded OPD Queue: ${q.queueId} [${q.departmentName}]`);
+    }
+
+    const demoTokens = [
+      {
+        tokenId: `TOKEN-${todayClean}-00101`,
+        tokenNumber: 'GM-101',
+        sequenceNumber: 101,
+        patientId: 'P10001',
+        patientName: 'Rahul Sharma',
+        patientPhone: '9876543210',
+        appointmentId: 'A202610001',
+        visitId: 'V202610001',
+        queueId: `QUEUE-GM-${todayClean}`,
+        doctorId: 'DOC1002',
+        doctorName: 'Dr. Anita Patel',
+        departmentId: 'DEP-GMED',
+        departmentName: 'Department of General Medicine',
+        roomNumber: 'OPD-102',
+        checkInChannel: 'ONLINE_SELF_CHECKIN',
+        checkInTime: new Date(Date.now() - 40 * 60 * 1000),
+        expectedAppointmentTime: '10:00',
+        status: 'IN_SERVICE',
+        priorityType: 'NORMAL',
+        serviceStartedAt: new Date(Date.now() - 10 * 60 * 1000),
+        serviceStartedBy: 'Dr. Anita Patel',
+        correlationId: `CORR-${todayClean}-TOK101`
+      },
+      {
+        tokenId: `TOKEN-${todayClean}-00102`,
+        tokenNumber: 'GM-102',
+        sequenceNumber: 102,
+        patientId: 'P10002',
+        patientName: 'Priya R Patel',
+        patientPhone: '9876543220',
+        appointmentId: 'A202610002',
+        visitId: 'V202610002',
+        queueId: `QUEUE-GM-${todayClean}`,
+        doctorId: 'DOC1002',
+        doctorName: 'Dr. Anita Patel',
+        departmentId: 'DEP-GMED',
+        departmentName: 'Department of General Medicine',
+        roomNumber: 'OPD-102',
+        checkInChannel: 'ONLINE_SELF_CHECKIN',
+        checkInTime: new Date(Date.now() - 25 * 60 * 1000),
+        expectedAppointmentTime: '10:30',
+        status: 'WAITING',
+        priorityType: 'NORMAL',
+        correlationId: `CORR-${todayClean}-TOK102`
+      },
+      {
+        tokenId: `TOKEN-${todayClean}-00103`,
+        tokenNumber: 'GM-103',
+        sequenceNumber: 103,
+        patientId: 'P10003',
+        patientName: 'Amit K Verma',
+        patientPhone: '9876543230',
+        appointmentId: 'A202610003',
+        visitId: 'V202610003',
+        queueId: `QUEUE-GM-${todayClean}`,
+        doctorId: 'DOC1002',
+        doctorName: 'Dr. Anita Patel',
+        departmentId: 'DEP-GMED',
+        departmentName: 'Department of General Medicine',
+        roomNumber: 'OPD-102',
+        checkInChannel: 'FRONT_DESK',
+        checkInTime: new Date(Date.now() - 15 * 60 * 1000),
+        expectedAppointmentTime: '11:00',
+        status: 'WAITING',
+        priorityType: 'NORMAL',
+        correlationId: `CORR-${todayClean}-TOK103`
+      },
+      {
+        tokenId: `TOKEN-${todayClean}-00201`,
+        tokenNumber: 'CARD-201',
+        sequenceNumber: 201,
+        patientId: 'P10005',
+        patientName: 'Rohan D Desai',
+        patientPhone: '9876543250',
+        appointmentId: 'A202610005',
+        visitId: 'V202610005',
+        queueId: `QUEUE-CARD-${todayClean}`,
+        doctorId: 'DOC1001',
+        doctorName: 'Dr. Rajesh Verma',
+        departmentId: 'DEP-CARD',
+        departmentName: 'Department of Cardiology',
+        roomNumber: 'OPD-201',
+        checkInChannel: 'FRONT_DESK',
+        checkInTime: new Date(Date.now() - 90 * 60 * 1000),
+        expectedAppointmentTime: '09:00',
+        status: 'COMPLETED',
+        priorityType: 'NORMAL',
+        completedAt: new Date(Date.now() - 30 * 60 * 1000),
+        completedBy: 'Dr. Rajesh Verma',
+        correlationId: `CORR-${todayClean}-TOK201`
+      },
+      {
+        tokenId: `TOKEN-${todayClean}-00301`,
+        tokenNumber: 'DERM-101',
+        sequenceNumber: 101,
+        patientId: 'P10004',
+        patientName: 'Neha Shah',
+        patientPhone: '9876543240',
+        appointmentId: 'A202610004',
+        visitId: 'V202610004',
+        queueId: `QUEUE-DERM-${todayClean}`,
+        doctorId: 'DOC1003',
+        doctorName: 'Dr. Sneha Roy',
+        departmentId: 'DEP-DERM',
+        departmentName: 'Department of Dermatology',
+        roomNumber: 'OPD-301',
+        checkInChannel: 'ONLINE_SELF_CHECKIN',
+        checkInTime: new Date(Date.now() - 60 * 60 * 1000),
+        expectedAppointmentTime: '14:00',
+        status: 'SKIPPED',
+        skippedAt: new Date(Date.now() - 20 * 60 * 1000),
+        skipReason: 'PATIENT_NOT_PRESENT',
+        priorityType: 'NORMAL',
+        correlationId: `CORR-${todayClean}-TOK301`
+      }
+    ];
+
+    for (const t of demoTokens) {
+      await OPDToken.findOneAndUpdate({ tokenId: t.tokenId }, t, { upsert: true, new: true });
+
+      // Seed CheckIn Record
+      await CheckIn.findOneAndUpdate(
+        { checkInId: `CHK-${t.tokenId}` },
+        {
+          checkInId: `CHK-${t.tokenId}`,
+          patientId: t.patientId,
+          patientName: t.patientName,
+          appointmentId: t.appointmentId,
+          visitId: t.visitId,
+          tokenId: t.tokenId,
+          tokenNumber: t.tokenNumber,
+          queueId: t.queueId,
+          channel: t.checkInChannel,
+          checkInTime: t.checkInTime,
+          checkedInBy: t.checkInChannel === 'ONLINE_SELF_CHECKIN' ? 'PATIENT_SELF' : 'RECEPTIONIST_01',
+          status: 'SUCCESS',
+          correlationId: t.correlationId
+        },
+        { upsert: true, new: true }
+      );
+
+      // Seed Token History
+      await OPDTokenHistory.findOneAndUpdate(
+        { tokenId: t.tokenId, action: 'CHECKED_IN' },
+        {
+          tokenId: t.tokenId,
+          tokenNumber: t.tokenNumber,
+          queueId: t.queueId,
+          previousStatus: null,
+          newStatus: 'WAITING',
+          action: 'CHECKED_IN',
+          actorUserId: 'SEED_MASTER',
+          actorRole: 'SYSTEM',
+          actorName: 'Seed Master',
+          reason: 'Initial Check-in demo seed',
+          timestamp: t.checkInTime,
+          correlationId: t.correlationId
+        },
+        { upsert: true, new: true }
+      );
+
+      console.log(`  -> Seeded Token: ${t.tokenNumber} (${t.status}) for ${t.patientName}`);
+    }
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1, 2, and 3 Master Data!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);

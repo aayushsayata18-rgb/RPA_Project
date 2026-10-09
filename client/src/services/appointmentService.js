@@ -63,3 +63,5 @@ export const appointmentService = {
     return response.data;
   }
 };
+
+export default appointmentService;

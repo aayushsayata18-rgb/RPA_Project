@@ -25,3 +25,5 @@ export const doctorService = {
     return response.data;
   }
 };
+
+export default doctorService;
