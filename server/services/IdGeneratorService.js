@@ -1088,6 +1088,77 @@ class IdGeneratorService {
     const padded = String(counter.sequenceValue).padStart(6, '0');
     return `${prefix}${padded}`;
   }
+
+  /**
+   * Generate permanent Employee ID (e.g. EMP10001, EMP10002) concurrency-safe
+   */
+  static async generateEmployeeId() {
+    const Employee = require('../models/Employee');
+    const prefix = 'EMP';
+    const key = 'EMPLOYEE_ID';
+
+    const lastEmp = await Employee.findOne({ employeeId: /^EMP\d+$/ })
+      .sort({ employeeId: -1 })
+      .select('employeeId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (lastEmp && lastEmp.employeeId) {
+      const num = parseInt(lastEmp.employeeId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Access Request ID (e.g. ACC10001, ACC10002)
+   */
+  static async generateAccessRequestId() {
+    const AccessRequest = require('../models/AccessRequest');
+    const prefix = 'ACC';
+    const key = 'ACCESS_REQUEST_ID';
+
+    const lastReq = await AccessRequest.findOne({ requestId: /^ACC\d+$/ })
+      .sort({ requestId: -1 })
+      .select('requestId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (lastReq && lastReq.requestId) {
+      const num = parseInt(lastReq.requestId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
 }
 
 module.exports = IdGeneratorService;
+

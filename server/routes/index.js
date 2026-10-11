@@ -43,6 +43,10 @@ const insuranceRoutes = require('./insuranceRoutes');
 // Module 10: Insurance Claims Management Routes
 const insuranceClaimRoutes = require('./insuranceClaimRoutes');
 
+// Module 12: Staff Management & Access Provisioning Routes
+const employeeRoutes = require('./employeeRoutes');
+const accessRequestRoutes = require('./accessRequestRoutes');
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/audit', auditRoutes);
@@ -116,6 +120,12 @@ router.use('/insurance/claims', insuranceClaimRoutes);
 router.use('/v1/insurance/claims', insuranceClaimRoutes);
 router.use('/claims', insuranceClaimRoutes);
 router.use('/v1/claims', insuranceClaimRoutes);
+
+// Module 12 Endpoints (Staff Management)
+router.use('/employees', employeeRoutes);
+router.use('/v1/employees', employeeRoutes);
+router.use('/access-requests', accessRequestRoutes);
+router.use('/v1/access-requests', accessRequestRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

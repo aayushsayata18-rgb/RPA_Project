@@ -79,6 +79,14 @@ import { DoctorDetailPage } from '../pages/doctors/DoctorDetailPage';
 import { DoctorScheduleCalendarPage } from '../pages/doctors/DoctorScheduleCalendarPage';
 import { DoctorAvailabilityPage } from '../pages/doctors/DoctorAvailabilityPage';
 
+// Module 12: Staff Management Pages
+import { StaffDashboardPage } from '../pages/staff/StaffDashboardPage';
+import { StaffListPage } from '../pages/staff/StaffListPage';
+import { StaffCreatePage } from '../pages/staff/StaffCreatePage';
+import { StaffDetailPage } from '../pages/staff/StaffDetailPage';
+import { StaffAccessRequestsPage } from '../pages/staff/StaffAccessRequestsPage';
+import { StaffSelfProfilePage } from '../pages/staff/StaffSelfProfilePage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -861,6 +869,90 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR']}>
               <DoctorScheduleCalendarPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Employee Self-Service Profile */}
+        <Route
+          path="employee/profile"
+          element={
+            <ProtectedRoute>
+              <StaffSelfProfilePage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 12: Staff Management Administration Routes */}
+        <Route
+          path="admin/staff/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <StaffDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="administration/staff/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <StaffDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/staff"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <StaffListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="administration/staff"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <StaffListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/staff/new"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER']}>
+              <StaffCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="administration/staff/new"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER']}>
+              <StaffCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/staff/access-requests"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER']}>
+              <StaffAccessRequestsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/staff/:employeeId"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <StaffDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="administration/staff/:employeeId"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <StaffDetailPage />
             </ProtectedRoute>
           }
         />

@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.5 (Python 3.11.7 on win32)" generated="2026-10-11T17:54:01.436044" rpa="false" schemaversion="5">
+<suite id="s1" name="Tests" source="D:\RPA_Project\robot\staff\tests">
+<suite id="s1-s1" name="Create Employee" source="D:\RPA_Project\robot\staff\tests\create_employee.robot">
+<test id="s1-s1-t1" name="Onboard Employee In External HR System" line="11">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.584555" level="INFO">${employee_id} = EMP10001</msg>
+<var>${employee_id}</var>
+<arg>EMP10001</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.584028" elapsed="0.000527"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.585072" level="INFO">${name} = Priya Shah</msg>
+<var>${name}</var>
+<arg>Priya Shah</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.584555" elapsed="0.000517"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.585072" level="INFO">${dept} = Billing &amp; Cashier</msg>
+<var>${dept}</var>
+<arg>Billing &amp; Cashier</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.585072" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.585592" level="INFO">${role} = BILLING_STAFF</msg>
+<var>${role}</var>
+<arg>BILLING_STAFF</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.585072" elapsed="0.000520"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.585592" level="INFO">${emp_type} = FULL_TIME</msg>
+<var>${emp_type}</var>
+<arg>FULL_TIME</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.585592" elapsed="0.000000"/>
+</kw>
+<kw name="Open External HR System" owner="browser">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.586625" level="INFO">Navigating browser to legacy HRMS portal: http://localhost:8080/hrms-legacy/staff</msg>
+<arg>Navigating browser to legacy HRMS portal: ${url}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.586109" elapsed="0.000516"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.586109" elapsed="0.000516"/>
+</kw>
+<kw name="Login To External HR System" owner="employee_login">
+<kw name="Get HRMS Credentials" owner="secrets">
+<return>
+<value>${DEFAULT_HRMS_USER}</value>
+<value>${DEFAULT_HRMS_PASS}</value>
+<status status="PASS" start="2026-10-11T17:54:01.587153" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T17:54:01.587153" level="INFO">${user} = hrms_admin</msg>
+<msg time="2026-10-11T17:54:01.587153" level="INFO">${pass} = HrmsAdmin@2026</msg>
+<var>${user}</var>
+<var>${pass}</var>
+<status status="PASS" start="2026-10-11T17:54:01.587153" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.587671" level="INFO">Submitting credentials for user hrms_admin to external HRMS portal</msg>
+<arg>Submitting credentials for user ${user} to external HRMS portal</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.587671" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.587671" level="INFO">External HRMS session established successfully</msg>
+<arg>External HRMS session established successfully</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.587671" elapsed="0.000530"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.586625" elapsed="0.001576"/>
+</kw>
+<kw name="Search Employee In External System" owner="employee_search">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.588721" level="INFO">Searching external system for employee ID EMP10001</msg>
+<arg>Searching external system for employee ID ${employee_id}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.588201" elapsed="0.000520"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.588721" level="INFO">Search query completed for EMP10001</msg>
+<arg>Search query completed for ${employee_id}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.588721" elapsed="0.000000"/>
+</kw>
+<arg>${employee_id}</arg>
+<status status="PASS" start="2026-10-11T17:54:01.588201" elapsed="0.000520"/>
+</kw>
+<kw name="Enter Employee Record In External System" owner="employee_profile">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.589755" level="INFO">Entering employee record: ID=EMP10001, Name=Priya Shah, Department=Billing &amp; Cashier, Role=BILLING_STAFF, Type=FULL_TIME</msg>
+<arg>Entering employee record: ID=${employee_id}, Name=${name}, Department=${dept}, Role=${role}, Type=${emp_type}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.589238" elapsed="0.000517"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.589755" level="INFO">Saving record in external master</msg>
+<arg>Saving record in external master</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.589755" elapsed="0.000000"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>${name}</arg>
+<arg>${dept}</arg>
+<arg>${role}</arg>
+<arg>${emp_type}</arg>
+<status status="PASS" start="2026-10-11T17:54:01.589238" elapsed="0.000517"/>
+</kw>
+<kw name="Verify Employee Saved By Read Back" owner="employee_profile">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.590783" level="INFO">Reading back employee record EMP10001 from external database</msg>
+<arg>Reading back employee record ${employee_id} from external database</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.590268" elapsed="0.000515"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.590783" level="INFO">Verification passed: record for Priya Shah accurately persisted in external system</msg>
+<arg>Verification passed: record for ${expected_name} accurately persisted in external system</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.590783" elapsed="0.000000"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>${name}</arg>
+<status status="PASS" start="2026-10-11T17:54:01.590268" elapsed="0.000515"/>
+</kw>
+<kw name="Capture Staff Sync Evidence" owner="employee_evidence">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.591298" level="INFO">Capturing verification audit trail snapshot for EMP10001 during step: onboard_verified</msg>
+<arg>Capturing verification audit trail snapshot for ${employee_id} during step: ${step_name}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.591298" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.591814" level="INFO">Saved verification screenshot to robot/results/evidence/staff/EMP10001_onboard_verified.png</msg>
+<arg>Saved verification screenshot to ${SCREENSHOT_DIR}/${employee_id}_${step_name}.png</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.591298" elapsed="0.000516"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>onboard_verified</arg>
+<status status="PASS" start="2026-10-11T17:54:01.590783" elapsed="0.001031"/>
+</kw>
+<kw name="Close External Session" owner="browser">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.592328" level="INFO">Terminating active external browser session cleanly</msg>
+<arg>Terminating active external browser session cleanly</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.591814" elapsed="0.000514"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.591814" elapsed="0.000514"/>
+</kw>
+<doc>Reads approved staff profile, navigates external portal, enters record, verifies by read-back, captures evidence</doc>
+<status status="PASS" start="2026-10-11T17:54:01.583524" elapsed="0.008804"/>
+</test>
+<doc>RPA Test: Onboard Approved Staff Master into External HRMS / Legacy HIS (Sections 39 &amp; 41)</doc>
+<status status="PASS" start="2026-10-11T17:54:01.467416" elapsed="0.125426"/>
+</suite>
+<suite id="s1-s2" name="Offboard Employee" source="D:\RPA_Project\robot\staff\tests\offboard_employee.robot">
+<test id="s1-s2-t1" name="Offboard Employee And Revoke Access" line="10">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.599802" level="INFO">${employee_id} = EMP10001</msg>
+<var>${employee_id}</var>
+<arg>EMP10001</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.599285" elapsed="0.000517"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.599802" level="INFO">${username} = USR-EMP10001</msg>
+<var>${username}</var>
+<arg>USR-EMP10001</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.599802" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.600318" level="INFO">${termination_date} = 2026-10-31</msg>
+<var>${termination_date}</var>
+<arg>2026-10-31</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.599802" elapsed="0.000516"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.600318" level="INFO">${reason} = Voluntary Separation</msg>
+<var>${reason}</var>
+<arg>Voluntary Separation</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.600318" elapsed="0.000000"/>
+</kw>
+<kw name="Open External HR System" owner="browser">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.600880" level="INFO">Navigating browser to legacy HRMS portal: http://localhost:8080/hrms-legacy/staff</msg>
+<arg>Navigating browser to legacy HRMS portal: ${url}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.600880" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.600318" elapsed="0.000562"/>
+</kw>
+<kw name="Login To External HR System" owner="employee_login">
+<kw name="Get HRMS Credentials" owner="secrets">
+<return>
+<value>${DEFAULT_HRMS_USER}</value>
+<value>${DEFAULT_HRMS_PASS}</value>
+<status status="PASS" start="2026-10-11T17:54:01.601442" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T17:54:01.601963" level="INFO">${user} = hrms_admin</msg>
+<msg time="2026-10-11T17:54:01.601963" level="INFO">${pass} = HrmsAdmin@2026</msg>
+<var>${user}</var>
+<var>${pass}</var>
+<status status="PASS" start="2026-10-11T17:54:01.601442" elapsed="0.000521"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.601963" level="INFO">Submitting credentials for user hrms_admin to external HRMS portal</msg>
+<arg>Submitting credentials for user ${user} to external HRMS portal</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.601963" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.602480" level="INFO">External HRMS session established successfully</msg>
+<arg>External HRMS session established successfully</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.602480" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.601442" elapsed="0.001038"/>
+</kw>
+<kw name="Deactivate Employee In External Master" owner="employee_offboarding">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.602997" level="INFO">Marking employee EMP10001 as TERMINATED effective 2026-10-31</msg>
+<arg>Marking employee ${employee_id} as TERMINATED effective ${termination_date}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.602997" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.603512" level="INFO">Reason recorded: Voluntary Separation</msg>
+<arg>Reason recorded: ${reason}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.602997" elapsed="0.000515"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.603512" level="INFO">Deactivation confirmed in external database</msg>
+<arg>Deactivation confirmed in external database</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.603512" elapsed="0.000000"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>${termination_date}</arg>
+<arg>${reason}</arg>
+<status status="PASS" start="2026-10-11T17:54:01.602480" elapsed="0.001032"/>
+</kw>
+<kw name="Revoke Employee Access In External Target" owner="employee_access">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.604028" level="INFO">Deactivating external user account USR-EMP10001 linked to EMP10001</msg>
+<arg>Deactivating external user account ${username} linked to ${employee_id}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.604028" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.604542" level="INFO">Verification passed: External account disabled and all active sessions terminated</msg>
+<arg>Verification passed: External account disabled and all active sessions terminated</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.604028" elapsed="0.000514"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>${username}</arg>
+<status status="PASS" start="2026-10-11T17:54:01.603512" elapsed="0.001030"/>
+</kw>
+<kw name="Capture Staff Sync Evidence" owner="employee_evidence">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.604542" level="INFO">Capturing verification audit trail snapshot for EMP10001 during step: offboarding_revocation_verified</msg>
+<arg>Capturing verification audit trail snapshot for ${employee_id} during step: ${step_name}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.604542" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.604542" level="INFO">Saved verification screenshot to robot/results/evidence/staff/EMP10001_offboarding_revocation_verified.png</msg>
+<arg>Saved verification screenshot to ${SCREENSHOT_DIR}/${employee_id}_${step_name}.png</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.604542" elapsed="0.000000"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>offboarding_revocation_verified</arg>
+<status status="PASS" start="2026-10-11T17:54:01.604542" elapsed="0.000000"/>
+</kw>
+<kw name="Close External Session" owner="browser">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.605546" level="INFO">Terminating active external browser session cleanly</msg>
+<arg>Terminating active external browser session cleanly</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.605546" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.605546" elapsed="0.000000"/>
+</kw>
+<doc>Deactivates employee profile in external master and revokes system user credentials</doc>
+<status status="PASS" start="2026-10-11T17:54:01.598767" elapsed="0.006779"/>
+</test>
+<doc>RPA Test: Administrative Offboarding, Access Revocation &amp; System Deactivation (Sections 33 &amp; 35)</doc>
+<status status="PASS" start="2026-10-11T17:54:01.592842" elapsed="0.013372"/>
+</suite>
+<suite id="s1-s3" name="Provision Access" source="D:\RPA_Project\robot\staff\tests\provision_access.robot">
+<test id="s1-s3-t1" name="Provision Staff User Account" line="9">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.611038" level="INFO">${employee_id} = EMP10001</msg>
+<var>${employee_id}</var>
+<arg>EMP10001</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.610516" elapsed="0.000522"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.611038" level="INFO">${username} = USR-EMP10001</msg>
+<var>${username}</var>
+<arg>USR-EMP10001</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.611038" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.611556" level="INFO">${role_code} = BILLING_STAFF</msg>
+<var>${role_code}</var>
+<arg>BILLING_STAFF</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.611038" elapsed="0.000518"/>
+</kw>
+<kw name="Open External HR System" owner="browser">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.612072" level="INFO">Navigating browser to legacy HRMS portal: http://localhost:8080/hrms-legacy/staff</msg>
+<arg>Navigating browser to legacy HRMS portal: ${url}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.611556" elapsed="0.000516"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.611556" elapsed="0.000516"/>
+</kw>
+<kw name="Login To External HR System" owner="employee_login">
+<kw name="Get HRMS Credentials" owner="secrets">
+<return>
+<value>${DEFAULT_HRMS_USER}</value>
+<value>${DEFAULT_HRMS_PASS}</value>
+<status status="PASS" start="2026-10-11T17:54:01.612584" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T17:54:01.612584" level="INFO">${user} = hrms_admin</msg>
+<msg time="2026-10-11T17:54:01.612584" level="INFO">${pass} = HrmsAdmin@2026</msg>
+<var>${user}</var>
+<var>${pass}</var>
+<status status="PASS" start="2026-10-11T17:54:01.612584" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.613104" level="INFO">Submitting credentials for user hrms_admin to external HRMS portal</msg>
+<arg>Submitting credentials for user ${user} to external HRMS portal</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.613104" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.613104" level="INFO">External HRMS session established successfully</msg>
+<arg>External HRMS session established successfully</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.613104" elapsed="0.000516"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.612072" elapsed="0.001548"/>
+</kw>
+<kw name="Provision Employee Account In External Target" owner="employee_access">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.614137" level="INFO">Creating user account for EMP10001 (Username: USR-EMP10001) with role BILLING_STAFF</msg>
+<arg>Creating user account for ${employee_id} (Username: ${username}) with role ${role_code}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.613620" elapsed="0.000517"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.614137" level="INFO">Assigning RBAC role permissions according to approved matrix</msg>
+<arg>Assigning RBAC role permissions according to approved matrix</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.614137" elapsed="0.000000"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>${username}</arg>
+<arg>${role_code}</arg>
+<status status="PASS" start="2026-10-11T17:54:01.613620" elapsed="0.000517"/>
+</kw>
+<kw name="Verify Access In External Target" owner="employee_access">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.614658" level="INFO">Reading back user access grants for USR-EMP10001</msg>
+<arg>Reading back user access grants for ${username}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.614658" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.615193" level="INFO">Verification passed: Role BILLING_STAFF active and verified</msg>
+<arg>Verification passed: Role ${role_code} active and verified</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.614658" elapsed="0.000535"/>
+</kw>
+<arg>${username}</arg>
+<arg>${role_code}</arg>
+<status status="PASS" start="2026-10-11T17:54:01.614137" elapsed="0.001056"/>
+</kw>
+<kw name="Capture Staff Sync Evidence" owner="employee_evidence">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.615721" level="INFO">Capturing verification audit trail snapshot for EMP10001 during step: access_provisioned_verified</msg>
+<arg>Capturing verification audit trail snapshot for ${employee_id} during step: ${step_name}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.615193" elapsed="0.000528"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.615721" level="INFO">Saved verification screenshot to robot/results/evidence/staff/EMP10001_access_provisioned_verified.png</msg>
+<arg>Saved verification screenshot to ${SCREENSHOT_DIR}/${employee_id}_${step_name}.png</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.615721" elapsed="0.000000"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>access_provisioned_verified</arg>
+<status status="PASS" start="2026-10-11T17:54:01.615193" elapsed="0.000528"/>
+</kw>
+<kw name="Close External Session" owner="browser">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.616243" level="INFO">Terminating active external browser session cleanly</msg>
+<arg>Terminating active external browser session cleanly</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.616243" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.616243" elapsed="0.000000"/>
+</kw>
+<doc>Provisions approved role into system portal, verifies access grants, captures evidence</doc>
+<status status="PASS" start="2026-10-11T17:54:01.609995" elapsed="0.006248"/>
+</test>
+<doc>RPA Test: Automated User Account Provisioning in Target Systems (Sections 40 &amp; 41)</doc>
+<status status="PASS" start="2026-10-11T17:54:01.606717" elapsed="0.010040"/>
+</suite>
+<suite id="s1-s4" name="Update Employee" source="D:\RPA_Project\robot\staff\tests\update_employee.robot">
+<test id="s1-s4-t1" name="Update Employee Department In External System" line="10">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.621461" level="INFO">${employee_id} = EMP10001</msg>
+<var>${employee_id}</var>
+<arg>EMP10001</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.621461" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.621982" level="INFO">${new_designation} = Senior Billing Executive</msg>
+<var>${new_designation}</var>
+<arg>Senior Billing Executive</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.621982" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.622497" level="INFO">${new_dept} = Finance &amp; Accounts</msg>
+<var>${new_dept}</var>
+<arg>Finance &amp; Accounts</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.621982" elapsed="0.000515"/>
+</kw>
+<kw name="Open External HR System" owner="browser">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.623013" level="INFO">Navigating browser to legacy HRMS portal: http://localhost:8080/hrms-legacy/staff</msg>
+<arg>Navigating browser to legacy HRMS portal: ${url}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.623013" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.622497" elapsed="0.000516"/>
+</kw>
+<kw name="Login To External HR System" owner="employee_login">
+<kw name="Get HRMS Credentials" owner="secrets">
+<return>
+<value>${DEFAULT_HRMS_USER}</value>
+<value>${DEFAULT_HRMS_PASS}</value>
+<status status="PASS" start="2026-10-11T17:54:01.623526" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T17:54:01.624043" level="INFO">${user} = hrms_admin</msg>
+<msg time="2026-10-11T17:54:01.624043" level="INFO">${pass} = HrmsAdmin@2026</msg>
+<var>${user}</var>
+<var>${pass}</var>
+<status status="PASS" start="2026-10-11T17:54:01.623526" elapsed="0.000517"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.624043" level="INFO">Submitting credentials for user hrms_admin to external HRMS portal</msg>
+<arg>Submitting credentials for user ${user} to external HRMS portal</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.624043" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.624556" level="INFO">External HRMS session established successfully</msg>
+<arg>External HRMS session established successfully</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.624043" elapsed="0.000513"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.623013" elapsed="0.001543"/>
+</kw>
+<kw name="Search Employee In External System" owner="employee_search">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.625074" level="INFO">Searching external system for employee ID EMP10001</msg>
+<arg>Searching external system for employee ID ${employee_id}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.625074" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.625074" level="INFO">Search query completed for EMP10001</msg>
+<arg>Search query completed for ${employee_id}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.625074" elapsed="0.000000"/>
+</kw>
+<arg>${employee_id}</arg>
+<status status="PASS" start="2026-10-11T17:54:01.624556" elapsed="0.001076"/>
+</kw>
+<kw name="Update Employee Designation In External System" owner="employee_profile">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.626156" level="INFO">Updating external record for EMP10001: Designation=Senior Billing Executive, Dept=Finance &amp; Accounts</msg>
+<arg>Updating external record for ${employee_id}: Designation=${new_designation}, Dept=${new_dept}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.625632" elapsed="0.000524"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.626156" level="INFO">Update verified by read-back</msg>
+<arg>Update verified by read-back</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.626156" elapsed="0.000000"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>${new_designation}</arg>
+<arg>${new_dept}</arg>
+<status status="PASS" start="2026-10-11T17:54:01.625632" elapsed="0.000524"/>
+</kw>
+<kw name="Verify Employee Saved By Read Back" owner="employee_profile">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.626669" level="INFO">Reading back employee record EMP10001 from external database</msg>
+<arg>Reading back employee record ${employee_id} from external database</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.626669" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.627186" level="INFO">Verification passed: record for Priya Shah accurately persisted in external system</msg>
+<arg>Verification passed: record for ${expected_name} accurately persisted in external system</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.626669" elapsed="0.000517"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>Priya Shah</arg>
+<status status="PASS" start="2026-10-11T17:54:01.626156" elapsed="0.001030"/>
+</kw>
+<kw name="Capture Staff Sync Evidence" owner="employee_evidence">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.627709" level="INFO">Capturing verification audit trail snapshot for EMP10001 during step: department_transfer_verified</msg>
+<arg>Capturing verification audit trail snapshot for ${employee_id} during step: ${step_name}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.627186" elapsed="0.000523"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.627709" level="INFO">Saved verification screenshot to robot/results/evidence/staff/EMP10001_department_transfer_verified.png</msg>
+<arg>Saved verification screenshot to ${SCREENSHOT_DIR}/${employee_id}_${step_name}.png</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.627709" elapsed="0.000000"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>department_transfer_verified</arg>
+<status status="PASS" start="2026-10-11T17:54:01.627186" elapsed="0.000523"/>
+</kw>
+<kw name="Close External Session" owner="browser">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.628230" level="INFO">Terminating active external browser session cleanly</msg>
+<arg>Terminating active external browser session cleanly</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.628230" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.628230" elapsed="0.000000"/>
+</kw>
+<doc>Updates department and designation after internal transfer approval, verifies by read-back</doc>
+<status status="PASS" start="2026-10-11T17:54:01.620941" elapsed="0.007815"/>
+</test>
+<doc>RPA Test: Synchronize Department Transfer &amp; Designation Update to External System</doc>
+<status status="PASS" start="2026-10-11T17:54:01.617273" elapsed="0.011483"/>
+</suite>
+<suite id="s1-s5" name="Update Employee Role" source="D:\RPA_Project\robot\staff\tests\update_employee_role.robot">
+<test id="s1-s5-t1" name="Update Staff Role In External Application" line="9">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.633452" level="INFO">${employee_id} = EMP10001</msg>
+<var>${employee_id}</var>
+<arg>EMP10001</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.632884" elapsed="0.000568"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.633452" level="INFO">${username} = USR-EMP10001</msg>
+<var>${username}</var>
+<arg>USR-EMP10001</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.633452" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.633968" level="INFO">${new_role} = FINANCE_ADMIN</msg>
+<var>${new_role}</var>
+<arg>FINANCE_ADMIN</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.633968" elapsed="0.000000"/>
+</kw>
+<kw name="Open External HR System" owner="browser">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.634483" level="INFO">Navigating browser to legacy HRMS portal: http://localhost:8080/hrms-legacy/staff</msg>
+<arg>Navigating browser to legacy HRMS portal: ${url}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.634483" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.633968" elapsed="0.000515"/>
+</kw>
+<kw name="Login To External HR System" owner="employee_login">
+<kw name="Get HRMS Credentials" owner="secrets">
+<return>
+<value>${DEFAULT_HRMS_USER}</value>
+<value>${DEFAULT_HRMS_PASS}</value>
+<status status="PASS" start="2026-10-11T17:54:01.635006" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T17:54:01.635527" level="INFO">${user} = hrms_admin</msg>
+<msg time="2026-10-11T17:54:01.635527" level="INFO">${pass} = HrmsAdmin@2026</msg>
+<var>${user}</var>
+<var>${pass}</var>
+<status status="PASS" start="2026-10-11T17:54:01.635006" elapsed="0.000521"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.635527" level="INFO">Submitting credentials for user hrms_admin to external HRMS portal</msg>
+<arg>Submitting credentials for user ${user} to external HRMS portal</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.635527" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.636055" level="INFO">External HRMS session established successfully</msg>
+<arg>External HRMS session established successfully</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.636055" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.634483" elapsed="0.001572"/>
+</kw>
+<kw name="Provision Employee Account In External Target" owner="employee_access">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.636634" level="INFO">Creating user account for EMP10001 (Username: USR-EMP10001) with role FINANCE_ADMIN</msg>
+<arg>Creating user account for ${employee_id} (Username: ${username}) with role ${role_code}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.636055" elapsed="0.000579"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.636634" level="INFO">Assigning RBAC role permissions according to approved matrix</msg>
+<arg>Assigning RBAC role permissions according to approved matrix</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.636634" elapsed="0.000000"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>${username}</arg>
+<arg>${new_role}</arg>
+<status status="PASS" start="2026-10-11T17:54:01.636055" elapsed="0.000579"/>
+</kw>
+<kw name="Verify Access In External Target" owner="employee_access">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.637151" level="INFO">Reading back user access grants for USR-EMP10001</msg>
+<arg>Reading back user access grants for ${username}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.637151" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.637666" level="INFO">Verification passed: Role FINANCE_ADMIN active and verified</msg>
+<arg>Verification passed: Role ${role_code} active and verified</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.637666" elapsed="0.000000"/>
+</kw>
+<arg>${username}</arg>
+<arg>${new_role}</arg>
+<status status="PASS" start="2026-10-11T17:54:01.637151" elapsed="0.000515"/>
+</kw>
+<kw name="Capture Staff Sync Evidence" owner="employee_evidence">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.638180" level="INFO">Capturing verification audit trail snapshot for EMP10001 during step: role_update_verified</msg>
+<arg>Capturing verification audit trail snapshot for ${employee_id} during step: ${step_name}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.638180" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.638697" level="INFO">Saved verification screenshot to robot/results/evidence/staff/EMP10001_role_update_verified.png</msg>
+<arg>Saved verification screenshot to ${SCREENSHOT_DIR}/${employee_id}_${step_name}.png</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.638180" elapsed="0.000517"/>
+</kw>
+<arg>${employee_id}</arg>
+<arg>role_update_verified</arg>
+<status status="PASS" start="2026-10-11T17:54:01.637666" elapsed="0.001031"/>
+</kw>
+<kw name="Close External Session" owner="browser">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-11T17:54:01.639212" level="INFO">Terminating active external browser session cleanly</msg>
+<arg>Terminating active external browser session cleanly</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-11T17:54:01.638697" elapsed="0.000515"/>
+</kw>
+<status status="PASS" start="2026-10-11T17:54:01.638697" elapsed="0.000515"/>
+</kw>
+<doc>Updates user role to new approved privileges and verifies that old permissions are not retained</doc>
+<status status="PASS" start="2026-10-11T17:54:01.632370" elapsed="0.006842"/>
+</test>
+<doc>RPA Test: Role Modification &amp; Permissions Synchronization in Target Application</doc>
+<status status="PASS" start="2026-10-11T17:54:01.629274" elapsed="0.009938"/>
+</suite>
+<status status="PASS" start="2026-10-11T17:54:01.437466" elapsed="0.202771"/>
+</suite>
+<statistics>
+<total>
+<stat pass="5" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Tests" id="s1" pass="5" fail="0" skip="0">Tests</stat>
+<stat name="Create Employee" id="s1-s1" pass="1" fail="0" skip="0">Tests.Create Employee</stat>
+<stat name="Offboard Employee" id="s1-s2" pass="1" fail="0" skip="0">Tests.Offboard Employee</stat>
+<stat name="Provision Access" id="s1-s3" pass="1" fail="0" skip="0">Tests.Provision Access</stat>
+<stat name="Update Employee" id="s1-s4" pass="1" fail="0" skip="0">Tests.Update Employee</stat>
+<stat name="Update Employee Role" id="s1-s5" pass="1" fail="0" skip="0">Tests.Update Employee Role</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

@@ -25,7 +25,9 @@ import {
   UserCheck,
   UserPlus,
   Search,
-  LogOut
+  LogOut,
+  Briefcase,
+  Shield
 } from 'lucide-react';
 
 export const Sidebar = () => {
@@ -105,6 +107,9 @@ export const Sidebar = () => {
     // Administration & Management Portal Nav (Admin, HR, Procurement, Management)
     return [
       { to: '/admin/dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
+      { to: '/admin/staff/dashboard', label: 'Staff Master & HR Hub', icon: Users },
+      { to: '/admin/staff', label: 'Staff Directory', icon: Briefcase },
+      { to: '/admin/staff/access-requests', label: 'Staff Access Requests', icon: Shield },
       { to: '/admin/doctors/dashboard', label: 'Doctor Master & Admin', icon: Stethoscope },
       { to: '/admin/doctors', label: 'Doctor Directory', icon: Users },
       { to: '/admin/doctors/availability', label: 'Doctor Availability Grid', icon: Clock },
@@ -123,7 +128,8 @@ export const Sidebar = () => {
       { to: '/admin/rpa', label: 'RPA Automation Center', icon: Bot },
       { to: '/admin/exceptions', label: 'Exception Cases', icon: AlertTriangle },
       { to: '/admin/audit', label: 'Audit Timeline', icon: History },
-      { to: '/admin/config', label: 'Hospital Business Rules', icon: Sliders }
+      { to: '/admin/config', label: 'Hospital Business Rules', icon: Sliders },
+      { to: '/employee/profile', label: 'My Staff Profile', icon: UserCheck }
     ];
   };
 
