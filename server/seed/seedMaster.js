@@ -2548,7 +2548,11 @@ const seedMaster = async () => {
       await GeneratedDocument.findOneAndUpdate({ documentId: doc.documentId }, doc, { upsert: true, new: true });
     }
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1-7 Master Data & Demo records!');
+    // Module 9: Insurance Verification Seeding
+    const seedModule9Insurance = require('./seedModule9Insurance');
+    await seedModule9Insurance();
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1-9 Master Data & Demo records!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);

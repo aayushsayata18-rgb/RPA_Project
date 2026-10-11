@@ -908,6 +908,44 @@ class IdGeneratorService {
     const shortCode = uuidv4().substring(0, 6).toUpperCase();
     return `CORR-${ymd}-${shortCode}`;
   }
+
+  /**
+   * Generate unique Policy ID (e.g. INS-POL-00045)
+   */
+  static async generatePolicyId() {
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key: 'INSURANCE_POLICY_ID' },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let baseSeq = 10001;
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `INS-POL-${padded}`;
+  }
+
+  /**
+   * Generate unique Verification ID (e.g. IV-2026-000123)
+   */
+  static async generateVerificationId() {
+    const year = new Date().getFullYear();
+    const key = `INSURANCE_VERIFICATION_ID_${year}`;
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let baseSeq = 101;
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    const padded = String(counter.sequenceValue).padStart(6, '0');
+    return `IV-${year}-${padded}`;
+  }
 }
 
 module.exports = IdGeneratorService;

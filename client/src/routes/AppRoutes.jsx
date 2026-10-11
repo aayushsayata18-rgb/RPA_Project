@@ -59,6 +59,12 @@ import { BillingManagementPage } from '../pages/operations/BillingManagementPage
 import { InvoiceDetailPage } from '../pages/operations/InvoiceDetailPage';
 import { PatientBillsPage } from '../pages/patient/PatientBillsPage';
 
+// Module 9: Insurance Verification Pages
+import { InsuranceDashboardPage } from '../pages/operations/InsuranceDashboardPage';
+import { PatientInsurancePage as OperationsPatientInsurancePage } from '../pages/operations/PatientInsurancePage';
+import { VerificationDetailPage } from '../pages/operations/VerificationDetailPage';
+import { PatientInsurancePage } from '../pages/patient/PatientInsurancePage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -203,6 +209,15 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        {/* Module 9: Patient Insurance Self-Service */}
+        <Route
+          path="patient/insurance"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientInsurancePage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Module 2 & 3: Clinical Portal Appointments & OPD Queue */}
         <Route
@@ -336,6 +351,71 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <InvoiceDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* Module 9: Insurance Verification & Policy Management */}
+        <Route
+          path="finance/insurance"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'INSURANCE_REPRESENTATIVE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <InsuranceDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="insurance"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'INSURANCE_REPRESENTATIVE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <InsuranceDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="finance-insurance/insurance"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'INSURANCE_REPRESENTATIVE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <InsuranceDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/insurance"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'INSURANCE_REPRESENTATIVE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <InsuranceDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="finance/verifications/:verificationId"
+          element={
+            <ProtectedRoute>
+              <VerificationDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="verifications/:verificationId"
+          element={
+            <ProtectedRoute>
+              <VerificationDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="finance/patients/:patientId/insurance"
+          element={
+            <ProtectedRoute>
+              <OperationsPatientInsurancePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/patients/:patientId/insurance"
+          element={
+            <ProtectedRoute>
+              <OperationsPatientInsurancePage />
             </ProtectedRoute>
           }
         />

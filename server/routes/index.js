@@ -35,6 +35,9 @@ const dischargeRequestRoutes = require('./dischargeRequestRoutes');
 const billingRoutes = require('./billingRoutes');
 const paymentRoutes = require('./paymentRoutes');
 
+// Module 9: Insurance Verification Routes
+const insuranceRoutes = require('./insuranceRoutes');
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/audit', auditRoutes);
@@ -94,6 +97,10 @@ router.use('/billing', billingRoutes);
 router.use('/v1/billing', billingRoutes);
 router.use('/payments', paymentRoutes);
 router.use('/v1/payments', paymentRoutes);
+
+// Module 9 Endpoints
+router.use('/insurance', insuranceRoutes);
+router.use('/v1/insurance', insuranceRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

@@ -42,6 +42,7 @@ export const Sidebar = () => {
         { to: '/patient/checkin', label: 'Online Check-In', icon: Layers },
         { to: '/patient/admissions', label: 'Inpatient Stays', icon: BedDouble },
         { to: '/patient/bills', label: 'My Invoices & Bills', icon: CreditCard },
+        { to: '/patient/insurance', label: 'My Insurance Coverage', icon: ShieldCheck },
         { to: '/patient/discharges', label: 'Discharge Summaries', icon: LogOut },
         { to: '/patient/records', label: 'Medical Documents', icon: FileText }
       ];
@@ -62,7 +63,8 @@ export const Sidebar = () => {
         { to: '/front-desk/registrations', label: 'All Registrations', icon: FileText },
         { to: '/front-desk/identity-review', label: 'Identity Review Queue', icon: UserCheck },
         { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
-        { to: '/operations/opd-desk', label: 'Front-Desk Queue', icon: Layers }
+        { to: '/operations/opd-desk', label: 'Front-Desk Queue', icon: Layers },
+        { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck }
       ];
     }
 
@@ -103,6 +105,7 @@ export const Sidebar = () => {
     return [
       { to: '/admin/dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
       { to: '/finance/billing', label: 'Billing & Financial Desk', icon: CreditCard },
+      { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck },
       { to: '/operations/patient-records', label: 'Patient Records Master', icon: FileText },
       { to: '/operations/beds', label: 'Bed Management Hub', icon: BedDouble },
       { to: '/operations/admissions', label: 'Inpatient Admissions', icon: BedDouble },
