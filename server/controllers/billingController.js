@@ -35,6 +35,7 @@ class BillingController {
 
       const mapped = items.map(c => ({
         ...c,
+        serviceName: c.serviceName || c.description,
         totalPrice: c.netAmount !== undefined ? c.netAmount : c.grossAmount
       }));
 
@@ -58,12 +59,15 @@ class BillingController {
     try {
       const item = await BillingService.addBillableItem({
         ...req.body,
+        description: req.body.description || req.body.serviceName,
+        unitPrice: req.body.unitPrice !== undefined ? req.body.unitPrice : req.body.unitRate,
         actorUser: req.user,
         correlationId: req.headers['x-correlation-id']
       });
 
       const obj = item.toJSON ? item.toJSON() : item;
-      obj.totalPrice = obj.netAmount;
+      obj.totalPrice = obj.netAmount !== undefined ? obj.netAmount : obj.grossAmount;
+      obj.serviceName = obj.serviceName || obj.description;
 
       return res.status(201).json({
         success: true,

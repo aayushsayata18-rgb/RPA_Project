@@ -4,6 +4,7 @@ Resource         ../resources/common.resource
 Resource         ../resources/authentication.resource
 Resource         ../resources/billing_keywords.resource
 Resource         ../resources/payment_keywords.resource
+Library          String
 
 Suite Setup      Setup Hospital Session
 
@@ -14,22 +15,25 @@ ${INVOICE_ID}     ${EMPTY}
 ${DEPOSIT_NUM}    ${EMPTY}
 ${TXN_ID}         ${EMPTY}
 ${QUERY_NUM}      ${EMPTY}
+${RUN_ID}         ${EMPTY}
 
 *** Keywords ***
 Setup Hospital Session
     ${adminTok}=    Login Hospital User    ${ADMIN_EMAIL}    ${DEFAULT_PASSWORD}
     Set Suite Variable    ${AUTH_TOKEN}    ${adminTok}
+    ${rand}=        Generate Random String    6    [NUMBERS]
+    Set Suite Variable    ${RUN_ID}    ${rand}
 
 *** Test Cases ***
 TC-BIL-E2E-001 Ingest Multiple Billable Services
     [Documentation]    Ingests Consultation, Laboratory and Pharmacy billable items
-    ${cRes}=    Create Billable Item    ${AUTH_TOKEN}    ${PATIENT_ID}    CONSULTATION    CONS-SPEC    Specialist Consultation    1    sourceId=CONS_E2E_01
+    ${cRes}=    Create Billable Item    ${AUTH_TOKEN}    ${PATIENT_ID}    CONSULTATION    CONS-SPEC    Specialist Consultation    1    sourceId=CONS_E2E_${RUN_ID}
     Should Be Equal As Integers    ${cRes.status_code}    201
 
-    ${lRes}=    Create Billable Item    ${AUTH_TOKEN}    ${PATIENT_ID}    LABORATORY    LAB-LFT    Liver Function Panel    1    sourceId=LAB_E2E_01
+    ${lRes}=    Create Billable Item    ${AUTH_TOKEN}    ${PATIENT_ID}    LABORATORY    LAB-LFT    Liver Function Panel    1    sourceId=LAB_E2E_${RUN_ID}
     Should Be Equal As Integers    ${lRes.status_code}    201
 
-    ${pRes}=    Create Billable Item    ${AUTH_TOKEN}    ${PATIENT_ID}    PHARMACY    PHARM-IVFLUID    Normal Saline IV    2    sourceId=PHARM_E2E_01
+    ${pRes}=    Create Billable Item    ${AUTH_TOKEN}    ${PATIENT_ID}    PHARMACY    PHARM-IVFLUID    Normal Saline IV    2    sourceId=PHARM_E2E_${RUN_ID}
     Should Be Equal As Integers    ${pRes.status_code}    201
 
 TC-BIL-E2E-002 Record Advance Deposit For Patient

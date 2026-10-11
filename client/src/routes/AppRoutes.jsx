@@ -71,6 +71,14 @@ import { ClaimCreatePage } from '../pages/operations/ClaimCreatePage';
 import { ClaimDetailPage } from '../pages/operations/ClaimDetailPage';
 import { PatientClaimsPage } from '../pages/patient/PatientClaimsPage';
 
+// Module 11: Doctor Management Pages
+import { DoctorDashboardPage } from '../pages/doctors/DoctorDashboardPage';
+import { DoctorListPage } from '../pages/doctors/DoctorListPage';
+import { DoctorCreatePage } from '../pages/doctors/DoctorCreatePage';
+import { DoctorDetailPage } from '../pages/doctors/DoctorDetailPage';
+import { DoctorScheduleCalendarPage } from '../pages/doctors/DoctorScheduleCalendarPage';
+import { DoctorAvailabilityPage } from '../pages/doctors/DoctorAvailabilityPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -755,6 +763,104 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER']}>
               <UsersMasterPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 11: Doctor Management & Administrative Master */}
+        <Route
+          path="admin/doctors"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR', 'RECEPTIONIST']}>
+              <DoctorListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="administration/doctors"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR', 'RECEPTIONIST']}>
+              <DoctorListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/doctors/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <DoctorDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="administration/doctors/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <DoctorDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/doctors/new"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER']}>
+              <DoctorCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="administration/doctors/new"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER']}>
+              <DoctorCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/doctors/availability"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR', 'RECEPTIONIST']}>
+              <DoctorAvailabilityPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="administration/doctors/availability"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR', 'RECEPTIONIST']}>
+              <DoctorAvailabilityPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/doctors/:doctorId"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR', 'RECEPTIONIST']}>
+              <DoctorDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="administration/doctors/:doctorId"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR', 'RECEPTIONIST']}>
+              <DoctorDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/doctors/:doctorId/schedule"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR']}>
+              <DoctorScheduleCalendarPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="administration/doctors/:doctorId/schedule"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR']}>
+              <DoctorScheduleCalendarPage />
             </ProtectedRoute>
           }
         />

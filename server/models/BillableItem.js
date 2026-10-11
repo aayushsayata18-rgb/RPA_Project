@@ -120,4 +120,12 @@ BillableItemSchema.index({ sourceModule: 1, sourceType: 1, sourceId: 1 }, { spar
 BillableItemSchema.index({ patientId: 1, status: 1 });
 BillableItemSchema.index({ admissionId: 1, status: 1 });
 
+BillableItemSchema.virtual('serviceName').get(function () {
+  return this.description;
+});
+
+BillableItemSchema.virtual('totalPrice').get(function () {
+  return this.netAmount !== undefined ? this.netAmount : this.grossAmount;
+});
+
 module.exports = mongoose.model('BillableItem', BillableItemSchema);

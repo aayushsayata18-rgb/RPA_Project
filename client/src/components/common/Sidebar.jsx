@@ -105,6 +105,9 @@ export const Sidebar = () => {
     // Administration & Management Portal Nav (Admin, HR, Procurement, Management)
     return [
       { to: '/admin/dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
+      { to: '/admin/doctors/dashboard', label: 'Doctor Master & Admin', icon: Stethoscope },
+      { to: '/admin/doctors', label: 'Doctor Directory', icon: Users },
+      { to: '/admin/doctors/availability', label: 'Doctor Availability Grid', icon: Clock },
       { to: '/finance/billing', label: 'Billing & Financial Desk', icon: CreditCard },
       { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck },
       { to: '/finance/claims', label: 'Insurance Claims', icon: FileText },

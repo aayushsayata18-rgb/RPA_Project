@@ -2556,7 +2556,11 @@ const seedMaster = async () => {
     const seedModule10Claims = require('./seedModule10Claims');
     await seedModule10Claims();
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1-10 Master Data & Demo records!');
+    // Module 11: Doctor Management Master Seeding
+    const seedModule11Doctors = require('./seedModule11Doctors');
+    await seedModule11Doctors();
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1-11 Master Data & Demo records!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);
