@@ -54,6 +54,11 @@ import { PatientDischargesPage } from '../pages/patient/PatientDischargesPage';
 import { PatientRecordsPage } from '../pages/patient/PatientRecordsPage';
 import { PatientRecordsManagementPage } from '../pages/operations/PatientRecordsManagementPage';
 
+// Module 8: Billing & Payment Management Pages
+import { BillingManagementPage } from '../pages/operations/BillingManagementPage';
+import { InvoiceDetailPage } from '../pages/operations/InvoiceDetailPage';
+import { PatientBillsPage } from '../pages/patient/PatientBillsPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -172,11 +177,20 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        {/* Module 8: Patient Portal Bills & Payments */}
         <Route
           path="patient/bills"
           element={
             <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
-              <PatientDischargesPage />
+              <PatientBillsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="portal/billing"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientBillsPage />
             </ProtectedRoute>
           }
         />
@@ -284,11 +298,44 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        {/* Module 8: Staff Billing & Financial Desk */}
         <Route
           path="finance/billing"
           element={
-            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT']}>
-              <OperationsDischargesPage />
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <BillingManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="billing"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <BillingManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/billing"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <BillingManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="billing/invoices/:id"
+          element={
+            <ProtectedRoute>
+              <InvoiceDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="finance/billing/invoices/:id"
+          element={
+            <ProtectedRoute>
+              <InvoiceDetailPage />
             </ProtectedRoute>
           }
         />

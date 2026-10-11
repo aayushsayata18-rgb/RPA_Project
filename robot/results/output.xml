@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.5 (Python 3.11.7 on win32)" generated="2026-10-11T15:10:15.979253" rpa="false" schemaversion="5">
+<suite id="s1" name="Billing Reconciliation &amp; Payment">
+<suite id="s1-s1" name="Billing Reconciliation" source="d:\RPA_Project\robot\tests\billing_reconciliation.robot">
+<kw name="Setup Hospital Session" type="SETUP">
+<kw name="Login Hospital User" owner="authentication">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.154441" level="INFO">${payload} = {'email': 'admin@hospital.com', 'password': 'Password@123'}</msg>
+<var>${payload}</var>
+<arg>email=${email}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.153911" elapsed="0.000530"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.154967" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.154441" elapsed="0.000526"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.229963" level="INFO">POST Request : url=http://localhost:5000/api/auth/login 
+ path_url=/api/auth/login 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '59'} 
+ body=b'{"email": "admin@hospital.com", "password": "Password@123"}' 
+ </msg>
+<msg time="2026-10-11T15:10:16.229963" level="INFO">POST Response : url=http://localhost:5000/api/auth/login 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '2477', 'ETag': 'W/"9ad-u5XNHw16RBkcZUkyvdu6+rYuvjA"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Login successful.","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s","user":{"userId":"USR-SYSADMIN-001","email":"admin@hospital.com","firstName":"System","lastName":"Administrator","role":"SYSTEM_ADMIN","permissions":["PATIENT_REGISTER","PATIENT_VIEW","PATIENT_UPDATE","PATIENT_LINK","PATIENT_RECORDS_VIEW","PATIENT_RECORDS_SEARCH","PATIENT_RECORDS_DOCUMENTS_VIEW","PATIENT_RECORDS_DOCUMENTS_DOWNLOAD","PATIENT_RECORDS_BILLING_VIEW","PATIENT_RECORDS_INSURANCE_VIEW","PATIENT_RECORDS_LAB_VIEW","PATIENT_RECORDS_RADIOLOGY_VIEW","PATIENT_RECORDS_PHARMACY_VIEW","PATIENT_RECORDS_PROFILE_EDIT","PATIENT_RECORDS_ACCESS_HISTORY_VIEW","PATIENT_RECORDS_SYNC_MANAGE","APPOINTMENT_CREATE","APPOINTMENT_VIEW","APPOINTMENT_CANCEL","APPOINTMENT_RESCHEDULE","APPOINTMENT_MANAGE","OPD_CHECKIN","OPD_QUEUE_VIEW","OPD_QUEUE_MANAGE","OPD_CONSULTATION_START","OPD_CONSULTATION_COMPLETE","ADMISSION_CREATE","ADMISSION_APPROVE","ADMISSION_VIEW","BED_VIEW","BED_ASSIGN","BED_TRANSFER","BED_STATUS_UPDATE","DISCHARGE_REQUEST","DISCHARGE_APPROVE","DISCHARGE_FINALIZE","DISCHARGE_VIEW","INVOICE_CREATE","INVOICE_VIEW","INVOICE_UPDATE","PAYMENT_CREATE","PAYMENT_VIEW","PAYMENT_RECONCILE","FINANCIAL_ADJUSTMENT","INSURANCE_VERIFY","INSURANCE_VIEW","CLAIM_CREATE","CLAIM_SUBMIT","CLAIM_TRACK","CLAIM_MANAGE","DOCTOR_MANAGE","DOCTOR_SCHEDULE_MANAGE","DOCTOR_VIEW","EMPLOYEE_MANAGE","EMPLOYEE_VIEW","ATTENDANCE_VIEW","ATTENDANCE_RECORD","ATTENDANCE_CORRECT","SHIFT_MANAGE","SHIFT_ASSIGN","LEAVE_REQUEST","LEAVE_APPROVE","PAYROLL_VIEW","PAYROLL_PROCESS","PHARMACY_VIEW","PHARMACY_DISPENSE","INVENTORY_VIEW","INVENTORY_MANAGE","PROCUREMENT_VIEW","PROCUREMENT_MANAGE","VENDOR_VIEW","VENDOR_MANAGE","LAB_ORDER_CREATE","LAB_ORDER_VIEW","LAB_SAMPLE_PROCESS","LAB_RESULT_VERIFY","RADIOLOGY_ORDER_CREATE","RADIOLOGY_ORDER_VIEW","RADIOLOGY_SCHEDULE","RADIOLOGY_REPORT_VERIFY","MAINTENANCE_TICKET_CREATE","MAINTENANCE_TICKET_MANAGE","HOUSEKEEPING_TASK_CREATE","HOUSEKEEPING_TASK_MANAGE","FEEDBACK_SUBMIT","FEEDBACK_VIEW","FEEDBACK_RESOLVE","NOTIFICATION_VIEW","NOTIFICATION_SEND","NOTIFICATION_TEMPLATE_MANAGE","DOCUMENT_VIEW","DOCUMENT_GENERATE","DOCUMENT_TEMPLATE_MANAGE","REPORT_VIEW","REPORT_EXPORT","AUDIT_VIEW","EXCEPTION_VIEW","EXCEPTION_RESOLVE","RPA_VIEW","RPA_RUN","RPA_RETRY","RPA_CANCEL","SYSTEM_CONFIG_MANAGE"]}}} 
+ </msg>
+<msg time="2026-10-11T15:10:16.229963" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/auth/login</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=200</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.154967" elapsed="0.075529"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.231068" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s</msg>
+<var>${token}</var>
+<arg>${response.json()}[data][token]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.230496" elapsed="0.000572"/>
+</kw>
+<return>
+<value>${token}</value>
+<status status="PASS" start="2026-10-11T15:10:16.231602" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T15:10:16.231602" level="INFO">${adminTok} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s</msg>
+<var>${adminTok}</var>
+<arg>${ADMIN_EMAIL}</arg>
+<arg>${DEFAULT_PASSWORD}</arg>
+<status status="PASS" start="2026-10-11T15:10:16.153379" elapsed="0.078223"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.232143" level="INFO">${AUTH_TOKEN} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s</msg>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${adminTok}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.231602" elapsed="0.000541"/>
+</kw>
+<status status="PASS" start="2026-10-11T15:10:16.152872" elapsed="0.079271"/>
+</kw>
+<test id="s1-s1-t1" name="TC-DIS-020 Finalize Discharge Billing and Generate Itemized Invoice" line="19">
+<kw name="Finalize Discharge Billing" owner="discharge_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.233199" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJx...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.233199" elapsed="0.000521"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.233720" level="INFO">${payload} = {'discountAmount': '0'}</msg>
+<var>${payload}</var>
+<arg>discountAmount=${discountAmount}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.233720" elapsed="0.000000"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.247731" level="INFO">POST Request : url=http://localhost:5000/api/discharges/DIS20261006015/finalize-billing 
+ path_url=/api/discharges/DIS20261006015/finalize-billing 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s', 'Content-Type': 'application/json', 'Content-Length': '23'} 
+ body=b'{"discountAmount": "0"}' 
+ </msg>
+<msg time="2026-10-11T15:10:16.248234" level="INFO">POST Response : url=http://localhost:5000/api/discharges/DIS20261006015/finalize-billing 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '3704', 'ETag': 'W/"e78-muE1NE7BMxK/UafOe14RmHls76U"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Billing finalized successfully.","data":{"invoice":{"invoiceType":"FINAL_DISCHARGE","currency":"INR","adjustmentTotal":0,"createdByUserId":"SYSTEM","_id":"6ac8c4b06257e3acc408a2a6","invoiceId":"INV20261006-01","__v":0,"admissionId":"ADM10023","coveredAmount":3000,"createdAt":"2026-10-09T10:40:48.248Z","depositAmount":5000,"dischargeId":"DIS20261006015","discountAmount":0,"disputeStatus":"NONE","grossTotal":14000,"invoiceDate":"2026-10-06T00:00:00.000Z","items":[{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"ROOM_ACCOMMODATION","description":"Private Deluxe Suite Stay (3 Days)","quantity":3,"unitPrice":2500,"totalPrice":7500,"_id":"6acb507c106b7579ba5cdffb","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"CONSULTATION","description":"Inpatient Specialist Rounds (Dr. Verma)","quantity":1,"unitPrice":1000,"totalPrice":1000,"_id":"6acb507c106b7579ba5cdffc","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"LABORATORY","description":"Complete Blood Count &amp; Electrolytes","quantity":1,"unitPrice":2000,"totalPrice":2000,"_id":"6acb507c106b7579ba5cdffd","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"PHARMACY","description":"Post-Op Antibiotics &amp; Cardiovascular Medication","quantity":1,"unitPrice":3500,"totalPrice":3500,"_id":"6acb507c106b7579ba5cdffe","serviceDate":"2026-10-11T09:01:48.328Z"}],"outstandingBalance":6000,"paidAmount":0,"patientId":"P10045","patientName":"Rahul Shah","payableAmount":6000,"status":"FINALIZED","taxAmount":0,"updatedAt":"2026-10-11T09:01:48.328Z","invoiceNumber":"INV20261006-01","grossAmount":14000,"subtotal":14000,"taxTotal":0,"discountTotal":0,"insuranceCoverage":3000,"depositApplied":5000,"netPayable":6000,"balanceAmount":6000,"lineItems":[{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"ROOM_ACCOMMODATION","description":"Private Deluxe Suite Stay (3 Days)","quantity":3,"unitPrice":2500,"totalPrice":7500,"_id":"6acb507c106b7579ba5cdffb","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"CONSULTATION","description":"Inpatient Specialist Rounds (Dr. Verma)","quantity":1,"unitPrice":1000,"totalPrice":1000,"_id":"6acb507c106b7579ba5cdffc","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"LABORATORY","description":"Complete Blood Count &amp; Electrolytes","quantity":1,"unitPrice":2000,"totalPrice":2000,"_id":"6acb507c106b7579ba5cdffd","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"PHARMACY","description":"Post-Op Antibiotics &amp; Cardiovascular Medication","quantity":1,"unitPrice":3500,"totalPrice":3500,"_id":"6acb507c106b7579ba5cdffe","serviceDate":"2026-10-11T09:01:48.328Z"}],"issueDate":"2026-10-06T00:00:00.000Z","id":"6ac8c4b06257e3acc408a2a6"},"isExisting":true}} 
+ </msg>
+<msg time="2026-10-11T15:10:16.248234" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/discharges/${dischargeId}/finalize-billing</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.234244" elapsed="0.013990"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-11T15:10:16.248234" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T15:10:16.248234" level="INFO">${res} = &lt;Response [200]&gt;</msg>
+<var>${res}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>DIS20261006015</arg>
+<arg>discountAmount=0</arg>
+<status status="PASS" start="2026-10-11T15:10:16.232666" elapsed="0.015568"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.248753" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${res.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.248753" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.249274" level="INFO">${body} = {'success': True, 'message': 'Billing finalized successfully.', 'data': {'invoice': {'invoiceType': 'FINAL_DISCHARGE', 'currency': 'INR', 'adjustmentTotal': 0, 'createdByUserId': 'SYSTEM', '_id': '6ac...</msg>
+<var>${body}</var>
+<arg>${res.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.249274" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${body}[success]</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.249274" elapsed="0.000520"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.250313" level="INFO">${invoice} = {'invoiceType': 'FINAL_DISCHARGE', 'currency': 'INR', 'adjustmentTotal': 0, 'createdByUserId': 'SYSTEM', '_id': '6ac8c4b06257e3acc408a2a6', 'invoiceId': 'INV20261006-01', '__v': 0, 'admissionId': 'ADM...</msg>
+<var>${invoice}</var>
+<arg>${body}[data][invoice]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.249794" elapsed="0.000519"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${invoice}</arg>
+<arg>invoiceNumber</arg>
+<doc>Fails if `key` is not found from `dictionary`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.250313" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${invoice}</arg>
+<arg>grossAmount</arg>
+<doc>Fails if `key` is not found from `dictionary`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.250313" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${invoice}</arg>
+<arg>netPayable</arg>
+<doc>Fails if `key` is not found from `dictionary`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.250833" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${invoice}[grossAmount] &gt; 0</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.250833" elapsed="0.000000"/>
+</kw>
+<doc>Calculates stay duration, aggregates service line items, applies deposits and outputs final invoice</doc>
+<status status="PASS" start="2026-10-11T15:10:16.232143" elapsed="0.018690"/>
+</test>
+<test id="s1-s1-t2" name="TC-DIS-021 Insurance Pre-Authorization Verification Check" line="31">
+<kw name="Verify Discharge Insurance" owner="discharge_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.252404" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJx...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.251875" elapsed="0.000529"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.262998" level="INFO">POST Request : url=http://localhost:5000/api/discharges/DIS20261006015/verify-insurance 
+ path_url=/api/discharges/DIS20261006015/verify-insurance 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s', 'Content-Type': 'application/json', 'Content-Length': '2'} 
+ body=b'[]' 
+ </msg>
+<msg time="2026-10-11T15:10:16.262998" level="INFO">POST Response : url=http://localhost:5000/api/discharges/DIS20261006015/verify-insurance 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '344', 'ETag': 'W/"158-WaffW7ZVB4fsj0nmxLEr8AWdzfU"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Insurance verification completed.","data":{"success":true,"dischargeId":"DIS20261006015","admissionId":"ADM10023","insuranceStatus":"VERIFIED","policyDetails":{"provider":"Star Health Insurance","policyNumber":"POL-STAR-99201","preAuthStatus":"APPROVED","approvedAmount":3000},"coveredAmount":3000,"isApproved":true}} 
+ </msg>
+<msg time="2026-10-11T15:10:16.263523" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/discharges/${dischargeId}/verify-insurance</arg>
+<arg>json=@{EMPTY}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.252404" elapsed="0.011119"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-11T15:10:16.263523" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T15:10:16.263523" level="INFO">${res} = &lt;Response [200]&gt;</msg>
+<var>${res}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>DIS20261006015</arg>
+<status status="PASS" start="2026-10-11T15:10:16.251875" elapsed="0.011648"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.264051" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${res.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.264051" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.264051" level="INFO">${body} = {'success': True, 'message': 'Insurance verification completed.', 'data': {'success': True, 'dischargeId': 'DIS20261006015', 'admissionId': 'ADM10023', 'insuranceStatus': 'VERIFIED', 'policyDetails': ...</msg>
+<var>${body}</var>
+<arg>${res.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.264051" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${body}[success]</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.264051" elapsed="0.001003"/>
+</kw>
+<doc>Verifies insurance deduction without inventing unapproved coverage</doc>
+<status status="PASS" start="2026-10-11T15:10:16.251353" elapsed="0.013701"/>
+</test>
+<test id="s1-s1-t3" name="TC-DIS-022 Retrieve Final Itemized Invoice Details" line="39">
+<kw name="Get Discharge Details" owner="discharge_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.265910" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJx...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.265910" elapsed="0.000000"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.273794" level="INFO">GET Request : url=http://localhost:5000/api/discharges/DIS20261006015 
+ path_url=/api/discharges/DIS20261006015 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg time="2026-10-11T15:10:16.273794" level="INFO">GET Response : url=http://localhost:5000/api/discharges/DIS20261006015 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1225', 'ETag': 'W/"4c9-WfJFMS2AmEFYMkougUnAqJZaA6M"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"_id":"6ac8b65c6257e3acc408a296","dischargeNumber":"DIS20261006015","__v":0,"admissionId":"ADM10023","admittingDoctorName":"Dr. Rajesh Verma","assignedBedId":"BED-PR-03","assignedBedNumber":"P-03","assignedWardId":"WARD-PR-01","assignedWardName":"Private Deluxe Suite Ward","bedReleaseStatus":"PENDING","bedReleaseTaskId":"","correlationId":"CORR-20261006-001","coveredAmount":3000,"createdAt":"2026-10-09T09:39:40.025Z","depositAmount":5000,"dischargeDate":"2026-10-11T09:01:48.312Z","dischargeRequestId":"DREQ-20261006-001","dischargeType":"PLANNED","discountAmount":0,"exceptionCount":0,"grossAmount":14000,"insuranceStatus":"VERIFIED","notes":"Planned discharge under Dr. Rajesh Verma","patientId":"P10045","patientName":"Rahul Shah","payableAmount":6000,"paymentMethod":"COUNTER_CASH","paymentStatus":"UNPAID","paymentTransactionId":"PAY-20261009-00118","pendingItems":[],"requestedAt":"2026-10-11T07:01:48.312Z","status":"PENDING_PAYMENT","updatedAt":"2026-10-11T09:40:16.244Z","visitId":"VIS20261006001","finalInvoiceId":"6ac8c4b06257e3acc408a2a6","finalInvoiceNumber":"INV20261006-01","paymentVerifiedAt":"2026-10-09T10:23:30.498Z","checklist":null,"invoice":null,"history":[],"documents":[]}} 
+ </msg>
+<msg time="2026-10-11T15:10:16.274329" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/discharges/${dischargeId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.266440" elapsed="0.007889"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-11T15:10:16.274329" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T15:10:16.274329" level="INFO">${disRes} = &lt;Response [200]&gt;</msg>
+<var>${disRes}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>DIS20261006015</arg>
+<status status="PASS" start="2026-10-11T15:10:16.265399" elapsed="0.008930"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.274863" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${disRes.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.274863" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.275395" level="INFO">${invNum} = INV20261006-01</msg>
+<var>${invNum}</var>
+<arg>${disRes.json()}[data][finalInvoiceNumber]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.274863" elapsed="0.000532"/>
+</kw>
+<kw name="Get Invoice Details" owner="billing_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.276447" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJx...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.275923" elapsed="0.000524"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.284506" level="INFO">GET Request : url=http://localhost:5000/api/billing/invoices/INV20261006-01 
+ path_url=/api/billing/invoices/INV20261006-01 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg time="2026-10-11T15:10:16.284506" level="INFO">GET Response : url=http://localhost:5000/api/billing/invoices/INV20261006-01 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '2259', 'ETag': 'W/"8d3-YxwEuTBFURYM8hwcgahswqg4TRc"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"_id":"6ac8c4b06257e3acc408a2a6","invoiceId":"INV20261006-01","__v":0,"admissionId":"ADM10023","coveredAmount":3000,"createdAt":"2026-10-09T10:40:48.248Z","depositAmount":5000,"dischargeId":"DIS20261006015","discountAmount":0,"disputeStatus":"NONE","grossTotal":14000,"invoiceDate":"2026-10-06T00:00:00.000Z","items":[{"category":"ROOM_ACCOMMODATION","description":"Private Deluxe Suite Stay (3 Days)","quantity":3,"unitPrice":2500,"totalPrice":7500,"_id":"6acb507c106b7579ba5cdffb","serviceDate":"2026-10-11T09:01:48.328Z"},{"category":"CONSULTATION","description":"Inpatient Specialist Rounds (Dr. Verma)","quantity":1,"unitPrice":1000,"totalPrice":1000,"_id":"6acb507c106b7579ba5cdffc","serviceDate":"2026-10-11T09:01:48.328Z"},{"category":"LABORATORY","description":"Complete Blood Count &amp; Electrolytes","quantity":1,"unitPrice":2000,"totalPrice":2000,"_id":"6acb507c106b7579ba5cdffd","serviceDate":"2026-10-11T09:01:48.328Z"},{"category":"PHARMACY","description":"Post-Op Antibiotics &amp; Cardiovascular Medication","quantity":1,"unitPrice":3500,"totalPrice":3500,"_id":"6acb507c106b7579ba5cdffe","serviceDate":"2026-10-11T09:01:48.328Z"}],"outstandingBalance":6000,"paidAmount":0,"patientId":"P10045","patientName":"Rahul Shah","payableAmount":6000,"status":"FINALIZED","taxAmount":0,"updatedAt":"2026-10-11T09:01:48.328Z","invoiceNumber":"INV20261006-01","grossAmount":14000,"netPayable":6000,"lineItems":[{"category":"ROOM_ACCOMMODATION","description":"Private Deluxe Suite Stay (3 Days)","quantity":3,"unitPrice":2500,"totalPrice":7500,"_id":"6acb507c106b7579ba5cdffb","serviceDate":"2026-10-11T09:01:48.328Z"},{"category":"CONSULTATION","description":"Inpatient Specialist Rounds (Dr. Verma)","quantity":1,"unitPrice":1000,"totalPrice":1000,"_id":"6acb507c106b7579ba5cdffc","serviceDate":"2026-10-11T09:01:48.328Z"},{"category":"LABORATORY","description":"Complete Blood Count &amp; Electrolytes","quantity":1,"unitPrice":2000,"totalPrice":2000,"_id":"6acb507c106b7579ba5cdffd","serviceDate":"2026-10-11T09:01:48.328Z"},{"category":"PHARMACY","description":"Post-Op Antibiotics &amp; Cardiovascular Medication","quantity":1,"unitPrice":3500,"totalPrice":3500,"_id":"6acb507c106b7579ba5cdffe","serviceDate":"2026-10-11T09:01:48.328Z"}]}} 
+ </msg>
+<msg time="2026-10-11T15:10:16.285082" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/billing/invoices/${invoiceNumber}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.276447" elapsed="0.008635"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-11T15:10:16.285082" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T15:10:16.285082" level="INFO">${invRes} = &lt;Response [200]&gt;</msg>
+<var>${invRes}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${invNum}</arg>
+<status status="PASS" start="2026-10-11T15:10:16.275395" elapsed="0.009687"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.285604" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${invRes.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.285082" elapsed="0.000522"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.286129" level="INFO">${body} = {'success': True, 'data': {'_id': '6ac8c4b06257e3acc408a2a6', 'invoiceId': 'INV20261006-01', '__v': 0, 'admissionId': 'ADM10023', 'coveredAmount': 3000, 'createdAt': '2026-10-09T10:40:48.248Z', 'depos...</msg>
+<var>${body}</var>
+<arg>${invRes.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.285604" elapsed="0.000525"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${body}[data][invoiceNumber]</arg>
+<arg>${invNum}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.286129" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>len(${body}[data][lineItems]) &gt;= 1</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.286667" elapsed="0.000000"/>
+</kw>
+<doc>Fetches generated invoice record with line items breakdown</doc>
+<status status="PASS" start="2026-10-11T15:10:16.265399" elapsed="0.021811"/>
+</test>
+<doc>Module 6: Billing Reconciliation, Accommodation Stay Calculation &amp; Invoicing Suite</doc>
+<status status="PASS" start="2026-10-11T15:10:16.009099" elapsed="0.278111"/>
+</suite>
+<suite id="s1-s2" name="Payment" source="d:\RPA_Project\robot\tests\payment.robot">
+<kw name="Setup Hospital Session" type="SETUP">
+<kw name="Login Hospital User" owner="authentication">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.297280" level="INFO">${payload} = {'email': 'admin@hospital.com', 'password': 'Password@123'}</msg>
+<var>${payload}</var>
+<arg>email=${email}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.296759" elapsed="0.000521"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.297796" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.297280" elapsed="0.000516"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.367171" level="INFO">POST Request : url=http://localhost:5000/api/auth/login 
+ path_url=/api/auth/login 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '59'} 
+ body=b'{"email": "admin@hospital.com", "password": "Password@123"}' 
+ </msg>
+<msg time="2026-10-11T15:10:16.367171" level="INFO">POST Response : url=http://localhost:5000/api/auth/login 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '2477', 'ETag': 'W/"9ad-u5XNHw16RBkcZUkyvdu6+rYuvjA"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Login successful.","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s","user":{"userId":"USR-SYSADMIN-001","email":"admin@hospital.com","firstName":"System","lastName":"Administrator","role":"SYSTEM_ADMIN","permissions":["PATIENT_REGISTER","PATIENT_VIEW","PATIENT_UPDATE","PATIENT_LINK","PATIENT_RECORDS_VIEW","PATIENT_RECORDS_SEARCH","PATIENT_RECORDS_DOCUMENTS_VIEW","PATIENT_RECORDS_DOCUMENTS_DOWNLOAD","PATIENT_RECORDS_BILLING_VIEW","PATIENT_RECORDS_INSURANCE_VIEW","PATIENT_RECORDS_LAB_VIEW","PATIENT_RECORDS_RADIOLOGY_VIEW","PATIENT_RECORDS_PHARMACY_VIEW","PATIENT_RECORDS_PROFILE_EDIT","PATIENT_RECORDS_ACCESS_HISTORY_VIEW","PATIENT_RECORDS_SYNC_MANAGE","APPOINTMENT_CREATE","APPOINTMENT_VIEW","APPOINTMENT_CANCEL","APPOINTMENT_RESCHEDULE","APPOINTMENT_MANAGE","OPD_CHECKIN","OPD_QUEUE_VIEW","OPD_QUEUE_MANAGE","OPD_CONSULTATION_START","OPD_CONSULTATION_COMPLETE","ADMISSION_CREATE","ADMISSION_APPROVE","ADMISSION_VIEW","BED_VIEW","BED_ASSIGN","BED_TRANSFER","BED_STATUS_UPDATE","DISCHARGE_REQUEST","DISCHARGE_APPROVE","DISCHARGE_FINALIZE","DISCHARGE_VIEW","INVOICE_CREATE","INVOICE_VIEW","INVOICE_UPDATE","PAYMENT_CREATE","PAYMENT_VIEW","PAYMENT_RECONCILE","FINANCIAL_ADJUSTMENT","INSURANCE_VERIFY","INSURANCE_VIEW","CLAIM_CREATE","CLAIM_SUBMIT","CLAIM_TRACK","CLAIM_MANAGE","DOCTOR_MANAGE","DOCTOR_SCHEDULE_MANAGE","DOCTOR_VIEW","EMPLOYEE_MANAGE","EMPLOYEE_VIEW","ATTENDANCE_VIEW","ATTENDANCE_RECORD","ATTENDANCE_CORRECT","SHIFT_MANAGE","SHIFT_ASSIGN","LEAVE_REQUEST","LEAVE_APPROVE","PAYROLL_VIEW","PAYROLL_PROCESS","PHARMACY_VIEW","PHARMACY_DISPENSE","INVENTORY_VIEW","INVENTORY_MANAGE","PROCUREMENT_VIEW","PROCUREMENT_MANAGE","VENDOR_VIEW","VENDOR_MANAGE","LAB_ORDER_CREATE","LAB_ORDER_VIEW","LAB_SAMPLE_PROCESS","LAB_RESULT_VERIFY","RADIOLOGY_ORDER_CREATE","RADIOLOGY_ORDER_VIEW","RADIOLOGY_SCHEDULE","RADIOLOGY_REPORT_VERIFY","MAINTENANCE_TICKET_CREATE","MAINTENANCE_TICKET_MANAGE","HOUSEKEEPING_TASK_CREATE","HOUSEKEEPING_TASK_MANAGE","FEEDBACK_SUBMIT","FEEDBACK_VIEW","FEEDBACK_RESOLVE","NOTIFICATION_VIEW","NOTIFICATION_SEND","NOTIFICATION_TEMPLATE_MANAGE","DOCUMENT_VIEW","DOCUMENT_GENERATE","DOCUMENT_TEMPLATE_MANAGE","REPORT_VIEW","REPORT_EXPORT","AUDIT_VIEW","EXCEPTION_VIEW","EXCEPTION_RESOLVE","RPA_VIEW","RPA_RUN","RPA_RETRY","RPA_CANCEL","SYSTEM_CONFIG_MANAGE"]}}} 
+ </msg>
+<msg time="2026-10-11T15:10:16.367677" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/auth/login</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=200</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.297796" elapsed="0.069881"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.368213" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s</msg>
+<var>${token}</var>
+<arg>${response.json()}[data][token]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.368213" elapsed="0.000000"/>
+</kw>
+<return>
+<value>${token}</value>
+<status status="PASS" start="2026-10-11T15:10:16.368213" elapsed="0.000539"/>
+</return>
+<msg time="2026-10-11T15:10:16.368752" level="INFO">${adminTok} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s</msg>
+<var>${adminTok}</var>
+<arg>${ADMIN_EMAIL}</arg>
+<arg>${DEFAULT_PASSWORD}</arg>
+<status status="PASS" start="2026-10-11T15:10:16.296759" elapsed="0.071993"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.369276" level="INFO">${AUTH_TOKEN} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s</msg>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${adminTok}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.368752" elapsed="0.000524"/>
+</kw>
+<kw name="Get Discharge Details" owner="discharge_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.369817" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJx...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.369276" elapsed="0.000541"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.377939" level="INFO">GET Request : url=http://localhost:5000/api/discharges/DIS20261006015 
+ path_url=/api/discharges/DIS20261006015 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg time="2026-10-11T15:10:16.377939" level="INFO">GET Response : url=http://localhost:5000/api/discharges/DIS20261006015 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1225', 'ETag': 'W/"4c9-WfJFMS2AmEFYMkougUnAqJZaA6M"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"_id":"6ac8b65c6257e3acc408a296","dischargeNumber":"DIS20261006015","__v":0,"admissionId":"ADM10023","admittingDoctorName":"Dr. Rajesh Verma","assignedBedId":"BED-PR-03","assignedBedNumber":"P-03","assignedWardId":"WARD-PR-01","assignedWardName":"Private Deluxe Suite Ward","bedReleaseStatus":"PENDING","bedReleaseTaskId":"","correlationId":"CORR-20261006-001","coveredAmount":3000,"createdAt":"2026-10-09T09:39:40.025Z","depositAmount":5000,"dischargeDate":"2026-10-11T09:01:48.312Z","dischargeRequestId":"DREQ-20261006-001","dischargeType":"PLANNED","discountAmount":0,"exceptionCount":0,"grossAmount":14000,"insuranceStatus":"VERIFIED","notes":"Planned discharge under Dr. Rajesh Verma","patientId":"P10045","patientName":"Rahul Shah","payableAmount":6000,"paymentMethod":"COUNTER_CASH","paymentStatus":"UNPAID","paymentTransactionId":"PAY-20261009-00118","pendingItems":[],"requestedAt":"2026-10-11T07:01:48.312Z","status":"PENDING_PAYMENT","updatedAt":"2026-10-11T09:40:16.244Z","visitId":"VIS20261006001","finalInvoiceId":"6ac8c4b06257e3acc408a2a6","finalInvoiceNumber":"INV20261006-01","paymentVerifiedAt":"2026-10-09T10:23:30.498Z","checklist":null,"invoice":null,"history":[],"documents":[]}} 
+ </msg>
+<msg time="2026-10-11T15:10:16.378478" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/discharges/${dischargeId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.369817" elapsed="0.008661"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-11T15:10:16.378478" elapsed="0.000544"/>
+</return>
+<msg time="2026-10-11T15:10:16.379022" level="INFO">${disRes} = &lt;Response [200]&gt;</msg>
+<var>${disRes}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>DIS20261006015</arg>
+<status status="PASS" start="2026-10-11T15:10:16.369276" elapsed="0.009746"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.379022" level="INFO">${inv} = INV20261006-01</msg>
+<var>${inv}</var>
+<arg>${disRes.json()}[data][finalInvoiceNumber]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.379022" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.380058" level="INFO">${INVOICE_NUM} = INV20261006-01</msg>
+<arg>${INVOICE_NUM}</arg>
+<arg>${inv}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.380058" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-11T15:10:16.296239" elapsed="0.083819"/>
+</kw>
+<test id="s1-s2-t1" name="TC-DIS-030 Create Payment Gateway Session For Online Settlement" line="25">
+<kw name="Create Payment Gateway Session" owner="payment_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.381621" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJx...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.381075" elapsed="0.000546"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.382151" level="INFO">${payload} = {'invoiceNumber': 'INV20261006-01', 'amount': '100.00', 'paymentMethod': 'ONLINE_GATEWAY'}</msg>
+<var>${payload}</var>
+<arg>invoiceNumber=${invoiceNumber}</arg>
+<arg>amount=${amount}</arg>
+<arg>paymentMethod=${paymentMethod}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.381621" elapsed="0.000530"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.394971" level="INFO">POST Request : url=http://localhost:5000/api/payments/create-session 
+ path_url=/api/payments/create-session 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s', 'Content-Type': 'application/json', 'Content-Length': '90'} 
+ body=b'{"invoiceNumber": "INV20261006-01", "amount": "100.00", "paymentMethod": "ONLINE_GATEWAY"}' 
+ </msg>
+<msg time="2026-10-11T15:10:16.395480" level="INFO">POST Response : url=http://localhost:5000/api/payments/create-session 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '323', 'ETag': 'W/"143-kiFaAzLAUyCUKS6U9dqZY7fYauA"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Payment session created.","data":{"sessionId":"GW-1791711616390-6AC7EC1A","transactionId":"PAY-20261011-00106","gatewayReferenceId":"GW-1791711616390-6AC7EC1A","amount":100,"currency":"INR","paymentSessionUrl":"/portal/payments/checkout?txnId=PAY-20261011-00106&amp;gwRef=GW-1791711616390-6AC7EC1A"}} 
+ </msg>
+<msg time="2026-10-11T15:10:16.395480" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/payments/create-session</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.382151" elapsed="0.013329"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-11T15:10:16.395480" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T15:10:16.395480" level="INFO">${res} = &lt;Response [200]&gt;</msg>
+<var>${res}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${INVOICE_NUM}</arg>
+<arg>100.00</arg>
+<arg>ONLINE_GATEWAY</arg>
+<status status="PASS" start="2026-10-11T15:10:16.380058" elapsed="0.015422"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.396529" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${res.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.396005" elapsed="0.000524"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.396529" level="INFO">${body} = {'success': True, 'message': 'Payment session created.', 'data': {'sessionId': 'GW-1791711616390-6AC7EC1A', 'transactionId': 'PAY-20261011-00106', 'gatewayReferenceId': 'GW-1791711616390-6AC7EC1A', 'a...</msg>
+<var>${body}</var>
+<arg>${res.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.396529" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${body}[success]</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.397054" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${body}[data]</arg>
+<arg>sessionId</arg>
+<doc>Fails if `key` is not found from `dictionary`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.397054" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${body}[data]</arg>
+<arg>transactionId</arg>
+<doc>Fails if `key` is not found from `dictionary`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.397577" elapsed="0.000000"/>
+</kw>
+<doc>Creates mock payment gateway order session with unique transaction reference</doc>
+<status status="PASS" start="2026-10-11T15:10:16.380058" elapsed="0.017519"/>
+</test>
+<test id="s1-s2-t2" name="TC-DIS-031 Verify Payment Gateway Callback" line="34">
+<kw name="Create Payment Gateway Session" owner="payment_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.398617" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJx...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.398097" elapsed="0.000520"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.399148" level="INFO">${payload} = {'invoiceNumber': 'INV20261006-01', 'amount': '150.00', 'paymentMethod': 'ONLINE_GATEWAY'}</msg>
+<var>${payload}</var>
+<arg>invoiceNumber=${invoiceNumber}</arg>
+<arg>amount=${amount}</arg>
+<arg>paymentMethod=${paymentMethod}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.398617" elapsed="0.000531"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.410175" level="INFO">POST Request : url=http://localhost:5000/api/payments/create-session 
+ path_url=/api/payments/create-session 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s', 'Content-Type': 'application/json', 'Content-Length': '90'} 
+ body=b'{"invoiceNumber": "INV20261006-01", "amount": "150.00", "paymentMethod": "ONLINE_GATEWAY"}' 
+ </msg>
+<msg time="2026-10-11T15:10:16.410724" level="INFO">POST Response : url=http://localhost:5000/api/payments/create-session 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '323', 'ETag': 'W/"143-/vWgHlDeusKe4w80nDnqcUSwM+w"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Payment session created.","data":{"sessionId":"GW-1791711616406-0441A942","transactionId":"PAY-20261011-00107","gatewayReferenceId":"GW-1791711616406-0441A942","amount":150,"currency":"INR","paymentSessionUrl":"/portal/payments/checkout?txnId=PAY-20261011-00107&amp;gwRef=GW-1791711616406-0441A942"}} 
+ </msg>
+<msg time="2026-10-11T15:10:16.410724" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/payments/create-session</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.399148" elapsed="0.011576"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-11T15:10:16.410724" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T15:10:16.410724" level="INFO">${sessRes} = &lt;Response [200]&gt;</msg>
+<var>${sessRes}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${INVOICE_NUM}</arg>
+<arg>150.00</arg>
+<arg>ONLINE_GATEWAY</arg>
+<status status="PASS" start="2026-10-11T15:10:16.398097" elapsed="0.012627"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.411772" level="INFO">${txId} = PAY-20261011-00107</msg>
+<var>${txId}</var>
+<arg>${sessRes.json()}[data][transactionId]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.411253" elapsed="0.000519"/>
+</kw>
+<kw name="Verify Payment Signature Callback" owner="payment_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.412295" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJx...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.412295" elapsed="0.000000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.413346" level="INFO">${payload} = {'gatewayPaymentId': 'PAY-20261011-00107', 'signature': 'mock_sig_PAY-20261011-00107', 'paymentMethod': 'ONLINE_GATEWAY', 'status': 'SUCCESS'}</msg>
+<var>${payload}</var>
+<arg>gatewayPaymentId=${gatewayPaymentId}</arg>
+<arg>signature=${signature}</arg>
+<arg>paymentMethod=${paymentMethod}</arg>
+<arg>status=${status}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.412295" elapsed="0.001051"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.432608" level="INFO">POST Request : url=http://localhost:5000/api/payments/verify 
+ path_url=/api/payments/verify 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s', 'Content-Type': 'application/json', 'Content-Length': '142'} 
+ body=b'{"gatewayPaymentId": "PAY-20261011-00107", "signature": "mock_sig_PAY-20261011-00107", "paymentMethod": "ONLINE_GATEWAY", "status": "SUCCESS"}' 
+ </msg>
+<msg time="2026-10-11T15:10:16.432608" level="INFO">POST Response : url=http://localhost:5000/api/payments/verify 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1043', 'ETag': 'W/"413-bodJW+whrszA605x0s+PBVvBrFo"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Payment processed successfully.","data":{"status":"SUCCESS","transactionId":"PAY-20261011-00107","receiptNumber":"PAY-20261011-00107","success":true,"transaction":{"_id":"6acb5980720c3efeb4a57f06","transactionId":"PAY-20261011-00107","invoiceId":"INV20261006-01","patientId":"P10045","admissionId":"ADM10023","dischargeId":"DIS20261006015","amount":150,"currency":"INR","paymentMethod":"ONLINE_GATEWAY","gatewayName":"MOCK_HOSPITAL_GATEWAY","gatewayReferenceId":"GW-1791711616406-0441A942","status":"SUCCESS","recordedBy":"USR-SYSADMIN-001","correlationId":"CORR-20261011-7AE7ED","initiatedAt":"2026-10-11T09:40:16.406Z","createdAt":"2026-10-11T09:40:16.406Z","updatedAt":"2026-10-11T09:40:16.428Z","__v":0,"completedAt":"2026-10-11T09:40:16.418Z","gatewaySignature":"mock_sig_PAY-20261011-00107","receiptId":"DOC-1791711616425-BC811E","paymentNumber":"PAY-20261011-00107","method":"ONLINE_GATEWAY","receiptNumber":"DOC-1791711616425-BC811E","receivedAt":"2026-10-11T09:40:16.418Z","id":"6acb5980720c3efeb4a57f06"}}} 
+ </msg>
+<msg time="2026-10-11T15:10:16.433184" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/payments/verify</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.413346" elapsed="0.019838"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-11T15:10:16.433184" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T15:10:16.433184" level="INFO">${verRes} = &lt;Response [200]&gt;</msg>
+<var>${verRes}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${txId}</arg>
+<arg>mock_sig_${txId}</arg>
+<arg>ONLINE_GATEWAY</arg>
+<status status="PASS" start="2026-10-11T15:10:16.411772" elapsed="0.021412"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.433736" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${verRes.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.433184" elapsed="0.000552"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.434267" level="INFO">${body} = {'success': True, 'message': 'Payment processed successfully.', 'data': {'status': 'SUCCESS', 'transactionId': 'PAY-20261011-00107', 'receiptNumber': 'PAY-20261011-00107', 'success': True, 'transactio...</msg>
+<var>${body}</var>
+<arg>${verRes.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.434267" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${body}[success]</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.434267" elapsed="0.000522"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>'${body}[data][status]' == 'SUCCESS' or '${body}[data][status]' == 'PAID'</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.434789" elapsed="0.000000"/>
+</kw>
+<doc>Verifies simulated gateway callback with signature and marks transaction PAID</doc>
+<status status="PASS" start="2026-10-11T15:10:16.397577" elapsed="0.037770"/>
+</test>
+<test id="s1-s2-t3" name="TC-DIS-032 Record Counter Cash Settlement" line="48">
+<kw name="Record Counter Payment" owner="payment_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.436394" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJx...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.435869" elapsed="0.000525"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.436915" level="INFO">${payload} = {'invoiceNumber': 'INV20261006-01', 'amount': '200.00', 'paymentMethod': 'COUNTER_CASH', 'notes': 'Settled at billing desk'}</msg>
+<var>${payload}</var>
+<arg>invoiceNumber=${invoiceNumber}</arg>
+<arg>amount=${amount}</arg>
+<arg>paymentMethod=${paymentMethod}</arg>
+<arg>notes=${notes}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.436394" elapsed="0.000521"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.455438" level="INFO">POST Request : url=http://localhost:5000/api/payments/counter 
+ path_url=/api/payments/counter 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s', 'Content-Type': 'application/json', 'Content-Length': '124'} 
+ body=b'{"invoiceNumber": "INV20261006-01", "amount": "200.00", "paymentMethod": "COUNTER_CASH", "notes": "Settled at billing desk"}' 
+ </msg>
+<msg time="2026-10-11T15:10:16.456140" level="INFO">POST Response : url=http://localhost:5000/api/payments/counter 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '4584', 'ETag': 'W/"11e8-aKQi/6S30EmLs9Vz0pTs14b1018"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Counter payment recorded successfully.","data":{"receiptNumber":"PAY-20261011-00108","transactionId":"PAY-20261011-00108","success":true,"transaction":{"transactionId":"PAY-20261011-00108","invoiceId":"INV20261006-01","patientId":"P10045","admissionId":"ADM10023","dischargeId":"DIS20261006015","amount":200,"currency":"INR","paymentMethod":"COUNTER_CASH","gatewayName":"COUNTER_POS","gatewayReferenceId":"CTR-1791711616443","status":"SUCCESS","completedAt":"2026-10-11T09:40:16.443Z","recordedBy":"USR-SYSADMIN-001","correlationId":"CORR-20261011-E6AB33","_id":"6acb5980720c3efeb4a57f27","initiatedAt":"2026-10-11T09:40:16.444Z","createdAt":"2026-10-11T09:40:16.444Z","updatedAt":"2026-10-11T09:40:16.451Z","__v":0,"receiptId":"DOC-1791711616449-AF502A","paymentNumber":"PAY-20261011-00108","method":"COUNTER_CASH","receiptNumber":"DOC-1791711616449-AF502A","receivedAt":"2026-10-11T09:40:16.443Z","id":"6acb5980720c3efeb4a57f27"},"invoice":{"_id":"6ac8c4b06257e3acc408a2a6","invoiceId":"INV20261006-01","__v":0,"admissionId":"ADM10023","coveredAmount":3000,"createdAt":"2026-10-09T10:40:48.248Z","depositAmount":5000,"dischargeId":"DIS20261006015","discountAmount":0,"disputeStatus":"NONE","grossTotal":14000,"invoiceDate":"2026-10-06T00:00:00.000Z","items":[{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"ROOM_ACCOMMODATION","description":"Private Deluxe Suite Stay (3 Days)","quantity":3,"unitPrice":2500,"totalPrice":7500,"_id":"6acb507c106b7579ba5cdffb","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"CONSULTATION","description":"Inpatient Specialist Rounds (Dr. Verma)","quantity":1,"unitPrice":1000,"totalPrice":1000,"_id":"6acb507c106b7579ba5cdffc","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"LABORATORY","description":"Complete Blood Count &amp; Electrolytes","quantity":1,"unitPrice":2000,"totalPrice":2000,"_id":"6acb507c106b7579ba5cdffd","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"PHARMACY","description":"Post-Op Antibiotics &amp; Cardiovascular Medication","quantity":1,"unitPrice":3500,"totalPrice":3500,"_id":"6acb507c106b7579ba5cdffe","serviceDate":"2026-10-11T09:01:48.328Z"}],"outstandingBalance":5650,"paidAmount":350,"patientId":"P10045","patientName":"Rahul Shah","payableAmount":6000,"status":"PARTIALLY_PAID","taxAmount":0,"updatedAt":"2026-10-11T09:40:16.445Z","adjustmentTotal":0,"createdByUserId":"SYSTEM","currency":"INR","invoiceType":"FINAL_DISCHARGE","invoiceNumber":"INV20261006-01","grossAmount":14000,"subtotal":14000,"taxTotal":0,"discountTotal":0,"insuranceCoverage":3000,"depositApplied":5000,"netPayable":6000,"balanceAmount":5650,"lineItems":[{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"ROOM_ACCOMMODATION","description":"Private Deluxe Suite Stay (3 Days)","quantity":3,"unitPrice":2500,"totalPrice":7500,"_id":"6acb507c106b7579ba5cdffb","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"CONSULTATION","description":"Inpatient Specialist Rounds (Dr. Verma)","quantity":1,"unitPrice":1000,"totalPrice":1000,"_id":"6acb507c106b7579ba5cdffc","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"LABORATORY","description":"Complete Blood Count &amp; Electrolytes","quantity":1,"unitPrice":2000,"totalPrice":2000,"_id":"6acb507c106b7579ba5cdffd","serviceDate":"2026-10-11T09:01:48.328Z"},{"sourceModule":"OTHER","sourceType":"SERVICE_CHARGE","grossAmount":0,"discountAmount":0,"insuranceAmount":0,"taxAmount":0,"netAmount":0,"category":"PHARMACY","description":"Post-Op Antibiotics &amp; Cardiovascular Medication","quantity":1,"unitPrice":3500,"totalPrice":3500,"_id":"6acb507c106b7579ba5cdffe","serviceDate":"2026-10-11T09:01:48.328Z"}],"issueDate":"2026-10-06T00:00:00.000Z","id":"6ac8c4b06257e3acc408a2a6"}}} 
+ </msg>
+<msg time="2026-10-11T15:10:16.456140" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/payments/counter</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.436915" elapsed="0.019225"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-11T15:10:16.456140" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T15:10:16.456140" level="INFO">${res} = &lt;Response [200]&gt;</msg>
+<var>${res}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${INVOICE_NUM}</arg>
+<arg>200.00</arg>
+<arg>COUNTER_CASH</arg>
+<arg>Settled at billing desk</arg>
+<status status="PASS" start="2026-10-11T15:10:16.435869" elapsed="0.020271"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.456672" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${res.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.456672" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.457208" level="INFO">${body} = {'success': True, 'message': 'Counter payment recorded successfully.', 'data': {'receiptNumber': 'PAY-20261011-00108', 'transactionId': 'PAY-20261011-00108', 'success': True, 'transaction': {'transact...</msg>
+<var>${body}</var>
+<arg>${res.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.457208" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${body}[success]</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.457726" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${body}[data]</arg>
+<arg>receiptNumber</arg>
+<doc>Fails if `key` is not found from `dictionary`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.457726" elapsed="0.000000"/>
+</kw>
+<doc>Hospital cashier records POS/Cash settlement with immediate receipt issuance</doc>
+<status status="PASS" start="2026-10-11T15:10:16.435347" elapsed="0.022379"/>
+</test>
+<test id="s1-s2-t4" name="TC-DIS-033 Retrieve Payment Receipts For Invoice" line="57">
+<kw name="Get Payments For Invoice" owner="payment_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.459289" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJx...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.458765" elapsed="0.000524"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2026-10-11T15:10:16.467773" level="INFO">GET Request : url=http://localhost:5000/api/payments/invoice/INV20261006-01 
+ path_url=/api/payments/invoice/INV20261006-01 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxMTYxNiwiZXhwIjoxNzkyMzE2NDE2fQ.WyteJhyGVXPPAMADsSxfJxeRzCjtOAoOiNJx1Rv1A-s', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg time="2026-10-11T15:10:16.468352" level="INFO">GET Response : url=http://localhost:5000/api/payments/invoice/INV20261006-01 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1962', 'ETag': 'W/"7aa-b5p5UqEobpM/4I5hcEGXR6gsqsM"', 'Date': 'Sun, 11 Oct 2026 09:40:16 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":[{"_id":"6acb5980720c3efeb4a57f27","transactionId":"PAY-20261011-00108","invoiceId":"INV20261006-01","patientId":"P10045","admissionId":"ADM10023","dischargeId":"DIS20261006015","amount":200,"currency":"INR","paymentMethod":"COUNTER_CASH","gatewayName":"COUNTER_POS","gatewayReferenceId":"CTR-1791711616443","status":"SUCCESS","completedAt":"2026-10-11T09:40:16.443Z","recordedBy":"USR-SYSADMIN-001","correlationId":"CORR-20261011-E6AB33","initiatedAt":"2026-10-11T09:40:16.444Z","createdAt":"2026-10-11T09:40:16.444Z","updatedAt":"2026-10-11T09:40:16.451Z","__v":0,"receiptId":"DOC-1791711616449-AF502A","receiptNumber":"PAY-20261011-00108"},{"_id":"6acb5980720c3efeb4a57f06","transactionId":"PAY-20261011-00107","invoiceId":"INV20261006-01","patientId":"P10045","admissionId":"ADM10023","dischargeId":"DIS20261006015","amount":150,"currency":"INR","paymentMethod":"ONLINE_GATEWAY","gatewayName":"MOCK_HOSPITAL_GATEWAY","gatewayReferenceId":"GW-1791711616406-0441A942","status":"SUCCESS","recordedBy":"USR-SYSADMIN-001","correlationId":"CORR-20261011-7AE7ED","initiatedAt":"2026-10-11T09:40:16.406Z","createdAt":"2026-10-11T09:40:16.406Z","updatedAt":"2026-10-11T09:40:16.428Z","__v":0,"completedAt":"2026-10-11T09:40:16.418Z","gatewaySignature":"mock_sig_PAY-20261011-00107","receiptId":"DOC-1791711616425-BC811E","receiptNumber":"PAY-20261011-00107"},{"_id":"6acb5980720c3efeb4a57efa","transactionId":"PAY-20261011-00106","invoiceId":"INV20261006-01","patientId":"P10045","admissionId":"ADM10023","dischargeId":"DIS20261006015","amount":100,"currency":"INR","paymentMethod":"ONLINE_GATEWAY","gatewayName":"MOCK_HOSPITAL_GATEWAY","gatewayReferenceId":"GW-1791711616390-6AC7EC1A","status":"INITIATED","recordedBy":"USR-SYSADMIN-001","correlationId":"CORR-20261011-E3CA2E","initiatedAt":"2026-10-11T09:40:16.390Z","createdAt":"2026-10-11T09:40:16.390Z","updatedAt":"2026-10-11T09:40:16.390Z","__v":0,"receiptNumber":"PAY-20261011-00106"}]} 
+ </msg>
+<msg time="2026-10-11T15:10:16.468352" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/payments/invoice/${invoiceNumber}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.459289" elapsed="0.009063"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-11T15:10:16.468886" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-11T15:10:16.468886" level="INFO">${res} = &lt;Response [200]&gt;</msg>
+<var>${res}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${INVOICE_NUM}</arg>
+<status status="PASS" start="2026-10-11T15:10:16.458765" elapsed="0.010121"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.469423" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${res.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.468886" elapsed="0.000537"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-11T15:10:16.469947" level="INFO">${body} = {'success': True, 'data': [{'_id': '6acb5980720c3efeb4a57f27', 'transactionId': 'PAY-20261011-00108', 'invoiceId': 'INV20261006-01', 'patientId': 'P10045', 'admissionId': 'ADM10023', 'dischargeId': 'D...</msg>
+<var>${body}</var>
+<arg>${res.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.469423" elapsed="0.000524"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>len(${body}[data]) &gt;= 1</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-11T15:10:16.469947" elapsed="0.000519"/>
+</kw>
+<doc>Fetch all payment transactions and receipts recorded for an invoice</doc>
+<status status="PASS" start="2026-10-11T15:10:16.458246" elapsed="0.012220"/>
+</test>
+<doc>Module 6: Payment Processing, Gateway Signature &amp; Cashier Settlement Suite</doc>
+<status status="PASS" start="2026-10-11T15:10:16.287742" elapsed="0.183253"/>
+</suite>
+<status status="PASS" start="2026-10-11T15:10:15.980257" elapsed="0.491254"/>
+</suite>
+<statistics>
+<total>
+<stat pass="7" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Billing Reconciliation &amp; Payment" id="s1" pass="7" fail="0" skip="0">Billing Reconciliation &amp; Payment</stat>
+<stat name="Billing Reconciliation" id="s1-s1" pass="3" fail="0" skip="0">Billing Reconciliation &amp; Payment.Billing Reconciliation</stat>
+<stat name="Payment" id="s1-s2" pass="4" fail="0" skip="0">Billing Reconciliation &amp; Payment.Payment</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

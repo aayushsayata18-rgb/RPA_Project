@@ -1,6 +1,7 @@
 const DischargePaymentService = require('../services/DischargePaymentService');
 const PaymentTransaction = require('../models/PaymentTransaction');
 const Invoice = require('../models/Invoice');
+const AuditService = require('../services/AuditService');
 
 class PaymentController {
   /**
@@ -41,7 +42,7 @@ class PaymentController {
    */
   static async verifyCallback(req, res) {
     try {
-      const transactionId = req.body.transactionId || req.body.gatewayPaymentId || req.body.paymentId;
+      const transactionId = req.params?.id || req.body.transactionId || req.body.gatewayPaymentId || req.body.paymentId;
       const result = await DischargePaymentService.processPaymentCallback({
         ...req.body,
         transactionId,
@@ -55,7 +56,7 @@ class PaymentController {
         success: result.success !== false,
         message: result.alreadyProcessed ? 'Payment already processed.' : 'Payment processed successfully.',
         data: {
-          status: 'PAID',
+          status: result.status || 'PAID',
           transactionId: txObj.transactionId,
           receiptNumber: txObj.transactionId,
           ...result
@@ -66,6 +67,105 @@ class PaymentController {
       return res.status(400).json({
         success: false,
         error: { code: 'PAYMENT_VERIFY_FAILED', message: err.message }
+      });
+    }
+  }
+
+  /**
+   * Public Webhook handler for gateway providers (Razorpay, Stripe, Mock)
+   * Idempotency guarantee: Repeated webhooks must not create duplicate records
+   */
+  static async handleGatewayWebhook(req, res) {
+    try {
+      const provider = req.params?.provider || 'MOCK';
+      const signature = req.headers['x-razorpay-signature'] || req.headers['stripe-signature'] || req.body.signature || 'MOCK_SIG';
+      const eventData = req.body || {};
+      const transactionId = eventData.transactionId || eventData.orderId || eventData.paymentId;
+      const gatewayReferenceId = eventData.gatewayReferenceId || eventData.id;
+      const status = (eventData.status || 'SUCCESS').toUpperCase();
+
+      const result = await DischargePaymentService.processPaymentCallback({
+        transactionId,
+        gatewayReferenceId,
+        status: status === 'PAID' || status === 'CAPTURED' ? 'SUCCESS' : status,
+        signature,
+        actorUser: { userId: `GATEWAY_${provider.toUpperCase()}` },
+        correlationId: req.headers['x-correlation-id']
+      });
+
+      return res.json({
+        success: true,
+        received: true,
+        alreadyProcessed: !!result.alreadyProcessed,
+        provider,
+        data: result
+      });
+    } catch (err) {
+      console.error('[PaymentController.handleGatewayWebhook Error]:', err);
+      return res.status(400).json({
+        success: false,
+        error: { code: 'WEBHOOK_PROCESSING_FAILED', message: err.message }
+      });
+    }
+  }
+
+  /**
+   * Process refund on an existing transaction
+   */
+  static async processRefund(req, res) {
+    try {
+      const { id } = req.params;
+      const { refundAmount, reason } = req.body;
+
+      const tx = await PaymentTransaction.findOne({
+        $or: [{ transactionId: id }, { _id: (id && id.match(/^[0-9a-fA-F]{24}$/)) ? id : null }]
+      });
+
+      if (!tx) {
+        return res.status(404).json({
+          success: false,
+          error: { code: 'TRANSACTION_NOT_FOUND', message: `Transaction ${id} not found.` }
+        });
+      }
+
+      if (tx.status !== 'SUCCESS') {
+        return res.status(400).json({
+          success: false,
+          error: { code: 'REFUND_INVALID_STATUS', message: `Cannot refund transaction with status ${tx.status}.` }
+        });
+      }
+
+      const amt = Number(refundAmount || tx.amount);
+      tx.status = amt < tx.amount ? 'PARTIALLY_REFUNDED' : 'REFUNDED';
+      await tx.save();
+
+      // Recalculate invoice
+      const invoice = await Invoice.findOne({ invoiceId: tx.invoiceId });
+      if (invoice) {
+        invoice.paidAmount = Math.max(0, (invoice.paidAmount || 0) - amt);
+        invoice.outstandingBalance = Math.max(0, invoice.payableAmount - invoice.paidAmount);
+        invoice.status = invoice.outstandingBalance === invoice.payableAmount ? 'FINALIZED' : 'PARTIALLY_PAID';
+        await invoice.save();
+      }
+
+      await AuditService.logEvent({
+        userId: req.user?.userId || 'SYSTEM',
+        action: 'PAYMENT_REFUNDED',
+        module: 'PAYMENT',
+        entityType: 'PaymentTransaction',
+        entityId: tx.transactionId,
+        details: `Refund of ₹${amt} processed for txn ${tx.transactionId}. Reason: ${reason || 'Approved refund'}`
+      });
+
+      return res.json({
+        success: true,
+        message: 'Refund processed successfully.',
+        data: tx
+      });
+    } catch (err) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'REFUND_FAILED', message: err.message }
       });
     }
   }
@@ -163,7 +263,7 @@ class PaymentController {
    */
   static async listTransactions(req, res) {
     try {
-      const { patientId, admissionId, invoiceId, status, page = 1, limit = 20 } = req.query;
+      const { patientId, admissionId, invoiceId, status, page = 1, limit = 50 } = req.query;
       const query = {};
       if (patientId) query.patientId = patientId;
       if (admissionId) query.admissionId = admissionId;
@@ -176,9 +276,11 @@ class PaymentController {
         PaymentTransaction.countDocuments(query)
       ]);
 
+      const mapped = transactions.map(t => ({ ...t, receiptNumber: t.transactionId }));
+
       return res.json({
         success: true,
-        data: transactions,
+        data: mapped,
         pagination: { total, page: Number(page), totalPages: Math.ceil(total / Number(limit)) }
       });
     } catch (err) {
@@ -206,7 +308,7 @@ class PaymentController {
         });
       }
 
-      return res.json({ success: true, data: tx });
+      return res.json({ success: true, data: { ...tx, receiptNumber: tx.transactionId } });
     } catch (err) {
       return res.status(500).json({
         success: false,

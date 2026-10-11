@@ -725,6 +725,181 @@ class IdGeneratorService {
   }
 
   /**
+   * Generate unique Billable Item / Charge ID (e.g. CHG-20261009-00101)
+   */
+  static async generateBillableItemId() {
+    const BillableItem = require('../models/BillableItem');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `BILLABLE_ITEM_ID_${ymd}`;
+    const prefix = `CHG-${ymd}-`;
+
+    const lastItem = await BillableItem.findOne({ chargeId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ chargeId: -1 })
+      .select('chargeId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastItem && lastItem.chargeId) {
+      const numPart = lastItem.chargeId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate unique Deposit Number (e.g. DEP-20261009-00101)
+   */
+  static async generateDepositNumber() {
+    const Deposit = require('../models/Deposit');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `DEPOSIT_NUMBER_${ymd}`;
+    const prefix = `DEP-${ymd}-`;
+
+    const lastDep = await Deposit.findOne({ depositNumber: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ depositNumber: -1 })
+      .select('depositNumber')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastDep && lastDep.depositNumber) {
+      const numPart = lastDep.depositNumber.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate unique Adjustment Number (e.g. ADJ-20261009-00101)
+   */
+  static async generateAdjustmentNumber() {
+    const FinancialAdjustment = require('../models/FinancialAdjustment');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `ADJUSTMENT_NUMBER_${ymd}`;
+    const prefix = `ADJ-${ymd}-`;
+
+    const lastAdj = await FinancialAdjustment.findOne({ adjustmentNumber: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ adjustmentNumber: -1 })
+      .select('adjustmentNumber')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastAdj && lastAdj.adjustmentNumber) {
+      const numPart = lastAdj.adjustmentNumber.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate unique Billing Query Number (e.g. QRY-20261009-00101)
+   */
+  static async generateBillingQueryNumber() {
+    const BillingQuery = require('../models/BillingQuery');
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const key = `BILLING_QUERY_NUMBER_${ymd}`;
+    const prefix = `QRY-${ymd}-`;
+
+    const lastQry = await BillingQuery.findOne({ queryNumber: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ queryNumber: -1 })
+      .select('queryNumber')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastQry && lastQry.queryNumber) {
+      const numPart = lastQry.queryNumber.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const paddedSeq = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${paddedSeq}`;
+  }
+
+  /**
+   * Generate unique Rate ID (e.g. RATE-1001)
+   */
+  static async generateRateId() {
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key: 'RATE_ID' },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    let baseSeq = 1001;
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `RATE-${counter.sequenceValue}`;
+  }
+
+  /**
    * Generate correlation ID (e.g. CORR-20261006-000123)
    */
   static generateCorrelationId() {

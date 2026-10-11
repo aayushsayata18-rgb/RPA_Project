@@ -21,7 +21,6 @@ const PaymentTransactionSchema = new mongoose.Schema(
     },
     admissionId: {
       type: String,
-      required: true,
       index: true
     },
     dischargeId: {
@@ -30,7 +29,8 @@ const PaymentTransactionSchema = new mongoose.Schema(
     },
     amount: {
       type: Number,
-      required: true
+      required: true,
+      min: 0.01
     },
     currency: {
       type: String,
@@ -38,7 +38,7 @@ const PaymentTransactionSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ['ONLINE_GATEWAY', 'UPI', 'CARD', 'NET_BANKING', 'COUNTER_CASH', 'COUNTER_CARD', 'COUNTER_UPI', 'INSURANCE_CLAIM'],
+      enum: ['ONLINE_GATEWAY', 'UPI', 'CARD', 'NET_BANKING', 'COUNTER_CASH', 'COUNTER_CARD', 'COUNTER_UPI', 'BANK_TRANSFER', 'INSURANCE_CLAIM'],
       required: true
     },
     gatewayName: {
@@ -52,9 +52,12 @@ const PaymentTransactionSchema = new mongoose.Schema(
     gatewaySignature: {
       type: String
     },
+    paymentReference: {
+      type: String
+    },
     status: {
       type: String,
-      enum: ['INITIATED', 'PENDING', 'SUCCESS', 'FAILED', 'CANCELLED', 'REFUNDED'],
+      enum: ['INITIATED', 'PENDING', 'SUCCESS', 'FAILED', 'CANCELLED', 'REFUNDED', 'PARTIALLY_REFUNDED'],
       default: 'INITIATED',
       index: true
     },
@@ -68,8 +71,12 @@ const PaymentTransactionSchema = new mongoose.Schema(
     completedAt: {
       type: Date
     },
+    verifiedAt: {
+      type: Date
+    },
     receiptId: {
-      type: String
+      type: String,
+      index: true
     },
     recordedBy: {
       type: String,
@@ -81,8 +88,29 @@ const PaymentTransactionSchema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
   }
 );
+
+PaymentTransactionSchema.virtual('paymentNumber').get(function() {
+  return this.transactionId;
+});
+
+PaymentTransactionSchema.virtual('method').get(function() {
+  return this.paymentMethod;
+});
+
+PaymentTransactionSchema.virtual('receiptNumber').get(function() {
+  return this.receiptId || this.transactionId;
+});
+
+PaymentTransactionSchema.virtual('receivedAt').get(function() {
+  return this.completedAt || this.initiatedAt;
+});
+
+PaymentTransactionSchema.index({ invoiceId: 1, createdAt: -1 });
+PaymentTransactionSchema.index({ status: 1, createdAt: -1 });
 
 module.exports = mongoose.model('PaymentTransaction', PaymentTransactionSchema);

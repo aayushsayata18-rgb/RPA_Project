@@ -41,7 +41,8 @@ export const Sidebar = () => {
         { to: '/patient/appointments', label: 'My Appointments', icon: Calendar },
         { to: '/patient/checkin', label: 'Online Check-In', icon: Layers },
         { to: '/patient/admissions', label: 'Inpatient Stays', icon: BedDouble },
-        { to: '/patient/discharges', label: 'Discharge & Bill', icon: LogOut },
+        { to: '/patient/bills', label: 'My Invoices & Bills', icon: CreditCard },
+        { to: '/patient/discharges', label: 'Discharge Summaries', icon: LogOut },
         { to: '/patient/records', label: 'Medical Documents', icon: FileText }
       ];
     }
@@ -50,6 +51,7 @@ export const Sidebar = () => {
     if (hasRole('RECEPTIONIST', 'HOUSEKEEPING', 'MAINTENANCE')) {
       return [
         { to: '/operations/dashboard', label: 'Operations Dashboard', icon: LayoutDashboard },
+        { to: '/operations/billing', label: 'Billing & Cashier Desk', icon: CreditCard },
         { to: '/operations/patient-records', label: 'Patient Records Dossier', icon: FileText },
         { to: '/operations/beds', label: 'Bed Inventory & Map', icon: BedDouble },
         { to: '/operations/admissions', label: 'Admissions Desk', icon: Layers },
@@ -57,7 +59,7 @@ export const Sidebar = () => {
         { to: '/operations/appointments', label: 'Appointment Desk', icon: Calendar },
         { to: '/front-desk/registration', label: 'Register Patient', icon: UserPlus },
         { to: '/front-desk/patients/search', label: 'Patient Master Directory', icon: Search },
-        { to: '/front-desk/registrations', label: 'Registrations Stream', icon: FileText },
+        { to: '/front-desk/registrations', label: 'All Registrations', icon: FileText },
         { to: '/front-desk/identity-review', label: 'Identity Review Queue', icon: UserCheck },
         { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
         { to: '/operations/opd-desk', label: 'Front-Desk Queue', icon: Layers }
@@ -86,12 +88,12 @@ export const Sidebar = () => {
     if (hasRole('BILLING_STAFF', 'INSURANCE_REPRESENTATIVE')) {
       return [
         { to: '/finance/dashboard', label: 'Finance Dashboard', icon: LayoutDashboard },
+        { to: '/finance/billing', label: 'Billing & Invoicing Desk', icon: CreditCard },
         { to: '/operations/patient-records', label: 'Patient Records & Claims', icon: FileText },
         { to: '/operations/beds', label: 'Bed Occupancy & Rates', icon: BedDouble },
         { to: '/operations/admissions', label: 'Inpatient Admissions', icon: BedDouble },
         { to: '/operations/discharges', label: 'Discharge & Invoices', icon: LogOut },
         { to: '/front-desk/patients/search', label: 'Patient Master Search', icon: Search },
-        { to: '/finance/billing', label: 'Invoices & Payments', icon: CreditCard },
         { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck },
         { to: '/finance/claims', label: 'Insurance Claims', icon: FileText }
       ];
@@ -100,6 +102,7 @@ export const Sidebar = () => {
     // Administration & Management Portal Nav (Admin, HR, Procurement, Management)
     return [
       { to: '/admin/dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
+      { to: '/finance/billing', label: 'Billing & Financial Desk', icon: CreditCard },
       { to: '/operations/patient-records', label: 'Patient Records Master', icon: FileText },
       { to: '/operations/beds', label: 'Bed Management Hub', icon: BedDouble },
       { to: '/operations/admissions', label: 'Inpatient Admissions', icon: BedDouble },
