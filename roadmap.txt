@@ -36,7 +36,7 @@ Phase 2: Core Patient Journey & Clinical Care Flow
 Phase 3: Financial, Billing & Insurance Engine
 - Step 08: 08_BILLING.md (Invoices, Multi-service Charges, Deposits, Payment Gateway, Receipts) [COMPLETED]
 - Step 09: 09_INSURANCE_VERIFICATION.md (Policy Checks, Eligibility, Limits, Pre-auth, RPA Verification) [COMPLETED]
-- Step 10: 10_INSURANCE_CLAIMS.md (Claim Packages, Submission API/RPA, Status Polling, Settlement)
+- Step 10: 10_INSURANCE_CLAIMS.md (Claim Packages, Submission API/RPA, Status Polling, Settlement) [COMPLETED]
 
 ---
 

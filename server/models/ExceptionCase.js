@@ -33,6 +33,13 @@ const exceptionCaseSchema = new mongoose.Schema(
       required: true,
       index: true
     },
+    category: {
+      type: String,
+      index: true
+    },
+    title: {
+      type: String
+    },
     description: {
       type: String,
       required: true
@@ -52,6 +59,10 @@ const exceptionCaseSchema = new mongoose.Schema(
       type: String,
       enum: ['OPEN', 'UNDER_REVIEW', 'RESOLVED', 'DISMISSED', 'ESCALATED'],
       default: 'OPEN',
+      index: true
+    },
+    status: {
+      type: String,
       index: true
     },
     assignedRole: {

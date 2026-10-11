@@ -946,6 +946,148 @@ class IdGeneratorService {
     const padded = String(counter.sequenceValue).padStart(6, '0');
     return `IV-${year}-${padded}`;
   }
+  /**
+   * Generate unique Insurance Claim ID (e.g. CLM-2026-00098)
+   */
+  static async generateClaimId() {
+    const InsuranceClaim = require('../models/InsuranceClaim');
+    const year = new Date().getFullYear();
+    const prefix = `CLM-${year}-`;
+    const key = `INSURANCE_CLAIM_ID_${year}`;
+
+    const lastClaim = await InsuranceClaim.findOne({ claimId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ claimId: -1 })
+      .select('claimId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastClaim && lastClaim.claimId) {
+      const numPart = lastClaim.claimId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Claim Document ID (e.g. DOC-2026-000101)
+   */
+  static async generateClaimDocumentId() {
+    const InsuranceClaimDocument = require('../models/InsuranceClaimDocument');
+    const year = new Date().getFullYear();
+    const prefix = `DOC-${year}-`;
+    const key = `CLAIM_DOC_ID_${year}`;
+
+    const lastDoc = await InsuranceClaimDocument.findOne({ documentId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ documentId: -1 })
+      .select('documentId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastDoc && lastDoc.documentId) {
+      const num = parseInt(lastDoc.documentId.substring(prefix.length), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const padded = String(counter.sequenceValue).padStart(6, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Claim Query Reference/ID (e.g. CQ-2026-000101)
+   */
+  static async generateClaimQueryId() {
+    const InsuranceClaimQuery = require('../models/InsuranceClaimQuery');
+    const year = new Date().getFullYear();
+    const prefix = `CQ-${year}-`;
+    const key = `CLAIM_QUERY_ID_${year}`;
+
+    const lastQuery = await InsuranceClaimQuery.findOne({ queryId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ queryId: -1 })
+      .select('queryId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastQuery && lastQuery.queryId) {
+      const num = parseInt(lastQuery.queryId.substring(prefix.length), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const padded = String(counter.sequenceValue).padStart(6, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Claim Settlement ID (e.g. STL-2026-000101)
+   */
+  static async generateClaimSettlementId() {
+    const InsuranceClaimSettlement = require('../models/InsuranceClaimSettlement');
+    const year = new Date().getFullYear();
+    const prefix = `STL-${year}-`;
+    const key = `CLAIM_SETTLEMENT_ID_${year}`;
+
+    const lastStl = await InsuranceClaimSettlement.findOne({ settlementId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ settlementId: -1 })
+      .select('settlementId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastStl && lastStl.settlementId) {
+      const num = parseInt(lastStl.settlementId.substring(prefix.length), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const padded = String(counter.sequenceValue).padStart(6, '0');
+    return `${prefix}${padded}`;
+  }
 }
 
 module.exports = IdGeneratorService;

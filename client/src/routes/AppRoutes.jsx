@@ -65,6 +65,12 @@ import { PatientInsurancePage as OperationsPatientInsurancePage } from '../pages
 import { VerificationDetailPage } from '../pages/operations/VerificationDetailPage';
 import { PatientInsurancePage } from '../pages/patient/PatientInsurancePage';
 
+// Module 10: Insurance Claims Management Pages
+import { ClaimsDashboardPage } from '../pages/operations/ClaimsDashboardPage';
+import { ClaimCreatePage } from '../pages/operations/ClaimCreatePage';
+import { ClaimDetailPage } from '../pages/operations/ClaimDetailPage';
+import { PatientClaimsPage } from '../pages/patient/PatientClaimsPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -215,6 +221,23 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
               <PatientInsurancePage />
+            </ProtectedRoute>
+          }
+        />
+        {/* Module 10: Patient Claims Self-Service */}
+        <Route
+          path="patient/claims"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientClaimsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patient/insurance/claims"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientClaimsPage />
             </ProtectedRoute>
           }
         />
@@ -419,6 +442,72 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        {/* Module 10: Insurance Claims Management */}
+        <Route
+          path="finance/claims"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'INSURANCE_REPRESENTATIVE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <ClaimsDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="claims"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'INSURANCE_REPRESENTATIVE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <ClaimsDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="finance-insurance/claims"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'INSURANCE_REPRESENTATIVE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <ClaimsDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="finance/claims/create"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'INSURANCE_REPRESENTATIVE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT']}>
+              <ClaimCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="finance-insurance/claims/create"
+          element={
+            <ProtectedRoute allowedRoles={['BILLING_STAFF', 'INSURANCE_REPRESENTATIVE', 'ADMIN_MANAGER', 'SYSTEM_ADMIN', 'HOSPITAL_MANAGEMENT']}>
+              <ClaimCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="finance/claims/:id"
+          element={
+            <ProtectedRoute>
+              <ClaimDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="finance-insurance/claims/:id"
+          element={
+            <ProtectedRoute>
+              <ClaimDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="claims/:id"
+          element={
+            <ProtectedRoute>
+              <ClaimDetailPage />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="finance/discharges"
           element={

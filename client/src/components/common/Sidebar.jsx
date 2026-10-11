@@ -43,6 +43,7 @@ export const Sidebar = () => {
         { to: '/patient/admissions', label: 'Inpatient Stays', icon: BedDouble },
         { to: '/patient/bills', label: 'My Invoices & Bills', icon: CreditCard },
         { to: '/patient/insurance', label: 'My Insurance Coverage', icon: ShieldCheck },
+        { to: '/patient/claims', label: 'My Insurance Claims', icon: FileText },
         { to: '/patient/discharges', label: 'Discharge Summaries', icon: LogOut },
         { to: '/patient/records', label: 'Medical Documents', icon: FileText }
       ];
@@ -106,6 +107,7 @@ export const Sidebar = () => {
       { to: '/admin/dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
       { to: '/finance/billing', label: 'Billing & Financial Desk', icon: CreditCard },
       { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck },
+      { to: '/finance/claims', label: 'Insurance Claims', icon: FileText },
       { to: '/operations/patient-records', label: 'Patient Records Master', icon: FileText },
       { to: '/operations/beds', label: 'Bed Management Hub', icon: BedDouble },
       { to: '/operations/admissions', label: 'Inpatient Admissions', icon: BedDouble },
