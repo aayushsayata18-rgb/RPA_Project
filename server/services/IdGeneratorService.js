@@ -1158,6 +1158,146 @@ class IdGeneratorService {
 
     return `${prefix}${counter.sequenceValue}`;
   }
+
+  /**
+   * Generate unique Attendance ID (e.g. ATT10001, ATT10002)
+   */
+  static async generateAttendanceId() {
+    const Attendance = require('../models/Attendance');
+    const prefix = 'ATT';
+    const key = 'ATTENDANCE_ID';
+
+    const lastRecord = await Attendance.findOne({ attendanceId: /^ATT\d+$/ })
+      .sort({ attendanceId: -1 })
+      .select('attendanceId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (lastRecord && lastRecord.attendanceId) {
+      const num = parseInt(lastRecord.attendanceId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Attendance Correction ID (e.g. ATC10001)
+   */
+  static async generateAttendanceCorrectionId() {
+    const AttendanceCorrection = require('../models/AttendanceCorrection');
+    const prefix = 'ATC';
+    const key = 'ATTENDANCE_CORRECTION_ID';
+
+    const lastRecord = await AttendanceCorrection.findOne({ requestId: /^ATC\d+$/ })
+      .sort({ requestId: -1 })
+      .select('requestId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (lastRecord && lastRecord.requestId) {
+      const num = parseInt(lastRecord.requestId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Attendance Import Batch ID (e.g. BAT10001)
+   */
+  static async generateAttendanceBatchId() {
+    const AttendanceImportBatch = require('../models/AttendanceImportBatch');
+    const prefix = 'BAT';
+    const key = 'ATTENDANCE_BATCH_ID';
+
+    const lastRecord = await AttendanceImportBatch.findOne({ batchId: /^BAT\d+$/ })
+      .sort({ batchId: -1 })
+      .select('batchId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (lastRecord && lastRecord.batchId) {
+      const num = parseInt(lastRecord.batchId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Attendance Event ID (e.g. EVT10001)
+   */
+  static async generateAttendanceEventId() {
+    const AttendanceEvent = require('../models/AttendanceEvent');
+    const prefix = 'EVT';
+    const key = 'ATTENDANCE_EVENT_ID';
+
+    const lastRecord = await AttendanceEvent.findOne({ eventId: /^EVT\d+$/ })
+      .sort({ eventId: -1 })
+      .select('eventId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (lastRecord && lastRecord.eventId) {
+      const num = parseInt(lastRecord.eventId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
 }
 
 module.exports = IdGeneratorService;

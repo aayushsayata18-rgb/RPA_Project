@@ -2560,7 +2560,15 @@ const seedMaster = async () => {
     const seedModule11Doctors = require('./seedModule11Doctors');
     await seedModule11Doctors();
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1-11 Master Data & Demo records!');
+    // Module 12: Staff Management Master Seeding
+    const seedModule12Staff = require('./seedModule12Staff');
+    await seedModule12Staff();
+
+    // Module 13: Attendance Management Master Seeding
+    const seedModule13Attendance = require('./seedModule13Attendance');
+    await seedModule13Attendance();
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1-13 Master Data & Demo records!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);

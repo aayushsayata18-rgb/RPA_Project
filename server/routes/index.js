@@ -47,6 +47,9 @@ const insuranceClaimRoutes = require('./insuranceClaimRoutes');
 const employeeRoutes = require('./employeeRoutes');
 const accessRequestRoutes = require('./accessRequestRoutes');
 
+// Module 13: Attendance Management Routes
+const attendanceRoutes = require('./attendanceRoutes');
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/audit', auditRoutes);
@@ -126,6 +129,11 @@ router.use('/employees', employeeRoutes);
 router.use('/v1/employees', employeeRoutes);
 router.use('/access-requests', accessRequestRoutes);
 router.use('/v1/access-requests', accessRequestRoutes);
+
+// Module 13 Endpoints (Attendance Management)
+router.use('/attendance', attendanceRoutes);
+router.use('/v1/attendance', attendanceRoutes);
+router.use('/me/attendance', attendanceRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

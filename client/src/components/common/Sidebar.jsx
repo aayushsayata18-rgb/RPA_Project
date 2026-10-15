@@ -27,7 +27,9 @@ import {
   Search,
   LogOut,
   Briefcase,
-  Shield
+  Shield,
+  FileCheck,
+  RefreshCw
 } from 'lucide-react';
 
 export const Sidebar = () => {
@@ -129,6 +131,12 @@ export const Sidebar = () => {
       { to: '/admin/exceptions', label: 'Exception Cases', icon: AlertTriangle },
       { to: '/admin/audit', label: 'Audit Timeline', icon: History },
       { to: '/admin/config', label: 'Hospital Business Rules', icon: Sliders },
+      { to: '/attendance/dashboard', label: 'Attendance & Biometrics', icon: Clock },
+      { to: '/attendance/daily', label: 'Daily Punch Ledger', icon: Calendar },
+      { to: '/attendance/corrections', label: 'Attendance Corrections', icon: FileCheck },
+      { to: '/attendance/reconciliation', label: 'Roster Reconciliation', icon: RefreshCw },
+      { to: '/attendance/reports', label: 'Attendance Reports', icon: FileText },
+      { to: '/employee/attendance', label: 'My Timesheet & Punches', icon: UserCheck },
       { to: '/employee/profile', label: 'My Staff Profile', icon: UserCheck }
     ];
   };

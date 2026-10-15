@@ -31,6 +31,9 @@ class ExceptionService {
       const finalEntityType = entityType || referenceType || 'BED';
       const finalEntityId = String(entityId || referenceId || 'SYSTEM');
 
+      const validSources = ['SYSTEM', 'RPA', 'API', 'USER', 'PORTAL'];
+      const finalSource = validSources.includes(source) ? source : 'SYSTEM';
+
       const exception = new ExceptionCase({
         exceptionId,
         module,
@@ -40,7 +43,7 @@ class ExceptionService {
         exceptionType: finalType,
         description: finalDesc,
         severity,
-        source,
+        source: finalSource,
         currentStatus: 'OPEN',
         assignedRole,
         correlationId,

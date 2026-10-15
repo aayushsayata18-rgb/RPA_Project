@@ -87,6 +87,16 @@ import { StaffDetailPage } from '../pages/staff/StaffDetailPage';
 import { StaffAccessRequestsPage } from '../pages/staff/StaffAccessRequestsPage';
 import { StaffSelfProfilePage } from '../pages/staff/StaffSelfProfilePage';
 
+// Module 13: Attendance Management Pages
+import { AttendanceDashboardPage } from '../pages/attendance/AttendanceDashboardPage';
+import { DailyAttendancePage } from '../pages/attendance/DailyAttendancePage';
+import { AttendanceDetailPage } from '../pages/attendance/AttendanceDetailPage';
+import { AttendanceCorrectionsPage } from '../pages/attendance/AttendanceCorrectionsPage';
+import { AttendanceImportPage } from '../pages/attendance/AttendanceImportPage';
+import { AttendanceReconciliationPage } from '../pages/attendance/AttendanceReconciliationPage';
+import { AttendanceReportsPage } from '../pages/attendance/AttendanceReportsPage';
+import { MyAttendancePage } from '../pages/attendance/MyAttendancePage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -953,6 +963,146 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
               <StaffDetailPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 13: Attendance Management Administration Routes */}
+        <Route
+          path="admin/attendance/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <AttendanceDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="attendance"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <AttendanceDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="attendance/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <AttendanceDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/attendance/daily"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <DailyAttendancePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="attendance/daily"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <DailyAttendancePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/attendance/import"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER']}>
+              <AttendanceImportPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="attendance/import"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER']}>
+              <AttendanceImportPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/attendance/corrections"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <AttendanceCorrectionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="attendance/corrections"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <AttendanceCorrectionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/attendance/reconciliation"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <AttendanceReconciliationPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="attendance/reconciliation"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <AttendanceReconciliationPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/attendance/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <AttendanceReportsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="attendance/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <AttendanceReportsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/attendance/:id"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <AttendanceDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="attendance/:id"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'RECEPTIONIST']}>
+              <AttendanceDetailPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Employee Self-Service Attendance Routes */}
+        <Route
+          path="employee/attendance"
+          element={
+            <ProtectedRoute>
+              <MyAttendancePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="my-attendance"
+          element={
+            <ProtectedRoute>
+              <MyAttendancePage />
             </ProtectedRoute>
           }
         />
