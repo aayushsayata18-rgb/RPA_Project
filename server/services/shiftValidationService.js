@@ -78,6 +78,28 @@ class ShiftValidationService {
       });
     }
 
+    // Module 15 Leave Management Integration: Check approved leave records on date
+    try {
+      const LeaveRequest = require('../models/LeaveRequest');
+      const approvedLeave = await LeaveRequest.findOne({
+        employeeId: employee._id,
+        status: 'APPROVED',
+        startDate: { $lte: normalizedDate },
+        endDate: { $gte: normalizedDate }
+      });
+
+      if (approvedLeave) {
+        conflicts.push({
+          conflictType: 'LEAVE_CONFLICT',
+          severity: 'CRITICAL',
+          employeeId: employee._id,
+          employeeIdCode: employee.employeeId,
+          date: normalizedDate,
+          description: `Employee ${employee.employeeId} has approved ${approvedLeave.leaveTypeCode || 'LEAVE'} (${approvedLeave.requestNumber}) on ${normalizedDate.toISOString().split('T')[0]}.`
+        });
+      }
+    } catch (e) {}
+
     // 2. Shift Definition validation (Sec 6, 7)
     let shift = null;
     if (typeof shiftId === 'object' && shiftId._id) {

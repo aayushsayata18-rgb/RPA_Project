@@ -31,7 +31,8 @@ import {
   FileCheck,
   RefreshCw,
   CalendarDays,
-  Repeat
+  Repeat,
+  CalendarCheck
 } from 'lucide-react';
 
 export const Sidebar = () => {
@@ -71,7 +72,8 @@ export const Sidebar = () => {
         { to: '/front-desk/identity-review', label: 'Identity Review Queue', icon: UserCheck },
         { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
         { to: '/operations/opd-desk', label: 'Front-Desk Queue', icon: Layers },
-        { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck }
+        { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck },
+        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays }
       ];
     }
 
@@ -89,7 +91,8 @@ export const Sidebar = () => {
         { to: '/operations/admissions', label: 'Inpatient Bed Desk', icon: BedDouble },
         { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
         { to: '/clinical/lab-orders', label: 'Lab Orders', icon: FlaskConical },
-        { to: '/clinical/radiology', label: 'Radiology Orders', icon: Radio }
+        { to: '/clinical/radiology', label: 'Radiology Orders', icon: Radio },
+        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays }
       ];
     }
 
@@ -104,7 +107,8 @@ export const Sidebar = () => {
         { to: '/operations/discharges', label: 'Discharge & Invoices', icon: LogOut },
         { to: '/front-desk/patients/search', label: 'Patient Master Search', icon: Search },
         { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck },
-        { to: '/finance/claims', label: 'Insurance Claims', icon: FileText }
+        { to: '/finance/claims', label: 'Insurance Claims', icon: FileText },
+        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays }
       ];
     }
 
@@ -146,7 +150,13 @@ export const Sidebar = () => {
       { to: '/shifts/reports', label: 'Coverage & Shift Reports', icon: FileText },
       { to: '/my-schedule', label: 'My Shift Schedule', icon: Calendar },
       { to: '/employee/attendance', label: 'My Timesheet & Punches', icon: UserCheck },
-      { to: '/employee/profile', label: 'My Staff Profile', icon: UserCheck }
+      { to: '/employee/profile', label: 'My Staff Profile', icon: UserCheck },
+      { to: '/leave', label: 'Leave Management Hub', icon: CalendarCheck },
+      { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays },
+      { to: '/leave/approvals', label: 'Leave Approvals Queue', icon: FileCheck },
+      { to: '/leave/calendar', label: 'Leave Calendar & Holidays', icon: Calendar },
+      { to: '/leave/policies', label: 'Leave Policies & Types', icon: Sliders },
+      { to: '/leave/reports', label: 'Leave Analytics & Reports', icon: FileText }
     ];
   };
 

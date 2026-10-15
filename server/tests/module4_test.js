@@ -203,6 +203,21 @@ const runModule4Tests = async () => {
 
     // TEST 9: Emergency Admission with Temporary Identity & Linking
     console.log('\n[TEST 9] Emergency Admission Pipeline & Temporary Identity Linking');
+    await Bed.findOneAndUpdate(
+      { bedType: 'EMERGENCY_BED' },
+      {
+        $set: {
+          bedId: 'BED-EMG-01',
+          bedNumber: 'EMG-01',
+          wardId: 'WARD-EMG',
+          bedType: 'EMERGENCY_BED',
+          status: 'AVAILABLE',
+          operationalStatus: 'AVAILABLE',
+          housekeepingStatus: 'CLEAN'
+        }
+      },
+      { upsert: true, new: true }
+    );
     const emgResult = await AdmissionService.createEmergencyAdmission({
       provisionalName: 'Unknown Trauma Male',
       estimatedAge: 35,

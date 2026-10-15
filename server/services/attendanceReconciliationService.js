@@ -106,9 +106,30 @@ class AttendanceReconciliationService {
         matched++;
       }
 
-      // 2. Leave conflict simulation
+      // 2. Leave conflict & Approved Leave Reconciliation (Module 15 Integration)
+      try {
+        const LeaveRequest = require('../models/LeaveRequest');
+        const approvedLeave = await LeaveRequest.findOne({
+          employeeId: employee._id,
+          status: 'APPROVED',
+          startDate: { $lte: record.attendanceDate },
+          endDate: { $gte: record.attendanceDate }
+        });
+
+        if (approvedLeave) {
+          if (!record.checkIn.timestamp && !record.checkOut.timestamp) {
+            record.status = 'ON_LEAVE';
+            newReconStatus = 'MATCHED';
+            reconNote = `Scheduled absent matched with approved ${approvedLeave.leaveTypeCode} (${approvedLeave.requestNumber}).`;
+          } else if (approvedLeave.dayType === 'FULL_DAY') {
+            newReconStatus = 'LEAVE_CONFLICT';
+            reconNote = `Punch activity detected while on approved full-day leave ${approvedLeave.requestNumber}.`;
+          }
+        }
+      } catch (e) {}
+
       // If employee leave status conflicts with physical attendance punch
-      if (record.status === 'ON_LEAVE' && record.checkIn.timestamp) {
+      if ((record.status === 'ON_LEAVE' || newReconStatus === 'LEAVE_CONFLICT') && record.checkIn.timestamp) {
         newReconStatus = 'LEAVE_CONFLICT';
         reconNote = 'Punch activity detected while recorded on approved leave.';
         leaveConflicts++;

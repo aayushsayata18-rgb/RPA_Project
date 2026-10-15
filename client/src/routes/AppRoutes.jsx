@@ -106,6 +106,15 @@ import { ShiftRequestsPage } from '../pages/shifts/ShiftRequestsPage';
 import { ShiftReportsPage } from '../pages/shifts/ShiftReportsPage';
 import { MySchedulePage } from '../pages/shifts/MySchedulePage';
 
+// Module 15: Leave Management Pages
+import { LeaveDashboardPage } from '../pages/leave/LeaveDashboardPage';
+import { MyLeavePage } from '../pages/leave/MyLeavePage';
+import { LeaveRequestPage } from '../pages/leave/LeaveRequestPage';
+import { LeaveApprovalsPage } from '../pages/leave/LeaveApprovalsPage';
+import { LeaveCalendarPage } from '../pages/leave/LeaveCalendarPage';
+import { LeavePoliciesPage } from '../pages/leave/LeavePoliciesPage';
+import { LeaveReportsPage } from '../pages/leave/LeaveReportsPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -1187,6 +1196,82 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <MySchedulePage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 15: Leave Management Routes */}
+        <Route
+          path="leave"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'SUPERVISOR']}>
+              <LeaveDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="leave/my-leave"
+          element={
+            <ProtectedRoute>
+              <MyLeavePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="leave/request"
+          element={
+            <ProtectedRoute>
+              <LeaveRequestPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="leave/approvals"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'SUPERVISOR']}>
+              <LeaveApprovalsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="leave/calendar"
+          element={
+            <ProtectedRoute>
+              <LeaveCalendarPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="leave/policies"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER']}>
+              <LeavePoliciesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="leave/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'SUPERVISOR']}>
+              <LeaveReportsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Employee Self-Service Leave Aliases */}
+        <Route
+          path="my-leave"
+          element={
+            <ProtectedRoute>
+              <MyLeavePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="my-leave/request"
+          element={
+            <ProtectedRoute>
+              <LeaveRequestPage />
             </ProtectedRoute>
           }
         />

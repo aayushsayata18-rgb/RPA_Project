@@ -53,6 +53,9 @@ const attendanceRoutes = require('./attendanceRoutes');
 // Module 14: Shift Management Routes
 const shiftRoutes = require('./shiftRoutes');
 
+// Module 15: Leave Management Routes
+const leaveRoutes = require('./leaveRoutes');
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/audit', auditRoutes);
@@ -142,6 +145,11 @@ router.use('/me/attendance', attendanceRoutes);
 router.use('/shifts', shiftRoutes);
 router.use('/v1/shifts', shiftRoutes);
 router.use('/my-schedule', shiftRoutes);
+
+// Module 15 Endpoints (Leave Management)
+router.use('/leave', leaveRoutes);
+router.use('/v1/leave', leaveRoutes);
+router.use('/me/leave', leaveRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

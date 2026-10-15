@@ -1613,6 +1613,246 @@ class IdGeneratorService {
 
     return `${prefix}${counter.sequenceValue}`;
   }
+
+  /**
+   * Generate unique Leave Request ID (e.g. LR-2026-00001)
+   */
+  static async generateLeaveRequestId() {
+    const LeaveRequest = require('../models/LeaveRequest');
+    const currentYear = new Date().getFullYear();
+    const prefix = `LR-${currentYear}-`;
+    const key = `LEAVE_REQUEST_ID_${currentYear}`;
+
+    const last = await LeaveRequest.findOne({ requestNumber: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ requestNumber: -1 })
+      .select('requestNumber')
+      .lean();
+
+    let baseSeq = 1;
+    if (last && last.requestNumber) {
+      const numPart = last.requestNumber.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Leave Type ID (e.g. LT-1001)
+   */
+  static async generateLeaveTypeId() {
+    const LeaveType = require('../models/LeaveType');
+    const prefix = 'LT-';
+    const key = 'LEAVE_TYPE_ID';
+
+    const last = await LeaveType.findOne({ leaveTypeId: /^LT-\d+$/ })
+      .sort({ leaveTypeId: -1 })
+      .select('leaveTypeId')
+      .lean();
+
+    let baseSeq = 1001;
+    if (last && last.leaveTypeId) {
+      const num = parseInt(last.leaveTypeId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Leave Policy ID (e.g. LP-1001)
+   */
+  static async generateLeavePolicyId() {
+    const LeavePolicy = require('../models/LeavePolicy');
+    const prefix = 'LP-';
+    const key = 'LEAVE_POLICY_ID';
+
+    const last = await LeavePolicy.findOne({ policyId: /^LP-\d+$/ })
+      .sort({ policyId: -1 })
+      .select('policyId')
+      .lean();
+
+    let baseSeq = 1001;
+    if (last && last.policyId) {
+      const num = parseInt(last.policyId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Leave Balance ID (e.g. BAL-10001)
+   */
+  static async generateLeaveBalanceId() {
+    const LeaveBalance = require('../models/LeaveBalance');
+    const prefix = 'BAL-';
+    const key = 'LEAVE_BALANCE_ID';
+
+    const last = await LeaveBalance.findOne({ balanceId: /^BAL-\d+$/ })
+      .sort({ balanceId: -1 })
+      .select('balanceId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (last && last.balanceId) {
+      const num = parseInt(last.balanceId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Leave Balance Transaction ID (e.g. TXN-10001)
+   */
+  static async generateLeaveTransactionId() {
+    const LeaveBalanceTransaction = require('../models/LeaveBalanceTransaction');
+    const prefix = 'TXN-';
+    const key = 'LEAVE_TXN_ID';
+
+    const last = await LeaveBalanceTransaction.findOne({ transactionId: /^TXN-\d+$/ })
+      .sort({ transactionId: -1 })
+      .select('transactionId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (last && last.transactionId) {
+      const num = parseInt(last.transactionId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Leave Cancellation Request ID (e.g. LCR-2026-00001)
+   */
+  static async generateLeaveCancellationId() {
+    const LeaveCancellationRequest = require('../models/LeaveCancellationRequest');
+    const currentYear = new Date().getFullYear();
+    const prefix = `LCR-${currentYear}-`;
+    const key = `LEAVE_CANCELLATION_ID_${currentYear}`;
+
+    const last = await LeaveCancellationRequest.findOne({ cancellationId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ cancellationId: -1 })
+      .select('cancellationId')
+      .lean();
+
+    let baseSeq = 1;
+    if (last && last.cancellationId) {
+      const numPart = last.cancellationId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Holiday ID (e.g. HOL-2026-0001)
+   */
+  static async generateHolidayId() {
+    const HolidayCalendar = require('../models/HolidayCalendar');
+    const currentYear = new Date().getFullYear();
+    const prefix = `HOL-${currentYear}-`;
+    const key = `HOLIDAY_ID_${currentYear}`;
+
+    const last = await HolidayCalendar.findOne({ holidayId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ holidayId: -1 })
+      .select('holidayId')
+      .lean();
+
+    let baseSeq = 1;
+    if (last && last.holidayId) {
+      const numPart = last.holidayId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    const padded = String(counter.sequenceValue).padStart(4, '0');
+    return `${prefix}${padded}`;
+  }
 }
 
 module.exports = IdGeneratorService;
