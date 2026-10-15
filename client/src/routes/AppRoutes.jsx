@@ -127,6 +127,18 @@ import { MyPayrollPage } from '../pages/payroll/MyPayrollPage';
 import { PayslipsPage } from '../pages/payroll/PayslipsPage';
 import { PayrollQueriesPage } from '../pages/payroll/PayrollQueriesPage';
 
+// Module 17: Pharmacy Management Pages
+import { PharmacyDashboardPage } from '../pages/operations/pharmacy/PharmacyDashboardPage';
+import { MedicineCatalogPage } from '../pages/operations/pharmacy/MedicineCatalogPage';
+import { PrescriptionQueuePage } from '../pages/operations/pharmacy/PrescriptionQueuePage';
+import { PharmacyOrderQueuePage } from '../pages/operations/pharmacy/PharmacyOrderQueuePage';
+import { DispensingConsolePage } from '../pages/operations/pharmacy/DispensingConsolePage';
+import { DispensingHistoryPage } from '../pages/operations/pharmacy/DispensingHistoryPage';
+import { PharmacyReturnsPage } from '../pages/operations/pharmacy/PharmacyReturnsPage';
+import { PharmacyAlertsPage } from '../pages/operations/pharmacy/PharmacyAlertsPage';
+import { PharmacyReportsPage } from '../pages/operations/pharmacy/PharmacyReportsPage';
+import { PatientPharmacyPage } from '../pages/patient/PatientPharmacyPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -1368,6 +1380,102 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <PayrollQueriesPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 17: Pharmacy Management Routes */}
+        <Route
+          path="operations/pharmacy"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'PHARMACY_TECHNICIAN', 'PHARMACY_ASSISTANT', 'DOCTOR', 'NURSE']}>
+              <PharmacyDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/pharmacy/medicines"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'PHARMACY_TECHNICIAN', 'PHARMACY_ASSISTANT']}>
+              <MedicineCatalogPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/pharmacy/prescriptions"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'DOCTOR', 'NURSE']}>
+              <PrescriptionQueuePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/pharmacy/orders"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'PHARMACY_TECHNICIAN', 'PHARMACY_ASSISTANT', 'NURSE']}>
+              <PharmacyOrderQueuePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/pharmacy/dispensing"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'PHARMACY_TECHNICIAN']}>
+              <DispensingConsolePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/pharmacy/dispensing-history"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'PHARMACY_TECHNICIAN', 'DOCTOR']}>
+              <DispensingHistoryPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/pharmacy/returns"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST']}>
+              <PharmacyReturnsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/pharmacy/alerts"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'PHARMACY_TECHNICIAN']}>
+              <PharmacyAlertsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/pharmacy/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'FINANCE_HEAD']}>
+              <PharmacyReportsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Pharmacy Route Aliases */}
+        <Route path="pharmacy" element={<Navigate to="/operations/pharmacy" replace />} />
+        <Route path="pharmacy/dashboard" element={<Navigate to="/operations/pharmacy" replace />} />
+        <Route path="pharmacy/medicines" element={<Navigate to="/operations/pharmacy/medicines" replace />} />
+        <Route path="pharmacy/prescriptions" element={<Navigate to="/operations/pharmacy/prescriptions" replace />} />
+        <Route path="pharmacy/orders" element={<Navigate to="/operations/pharmacy/orders" replace />} />
+        <Route path="pharmacy/dispensing" element={<Navigate to="/operations/pharmacy/dispensing" replace />} />
+        <Route path="pharmacy/dispensing-history" element={<Navigate to="/operations/pharmacy/dispensing-history" replace />} />
+        <Route path="pharmacy/returns" element={<Navigate to="/operations/pharmacy/returns" replace />} />
+        <Route path="pharmacy/alerts" element={<Navigate to="/operations/pharmacy/alerts" replace />} />
+        <Route path="pharmacy/reports" element={<Navigate to="/operations/pharmacy/reports" replace />} />
+
+        {/* Patient Pharmacy Portal */}
+        <Route
+          path="patient/pharmacy"
+          element={
+            <ProtectedRoute>
+              <PatientPharmacyPage />
             </ProtectedRoute>
           }
         />

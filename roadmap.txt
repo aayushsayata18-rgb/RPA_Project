@@ -54,7 +54,7 @@ Phase 5: Clinical Ancillary, Supply Chain & Facility Operations
 - Step 17: 20_VENDOR_MANAGEMENT.md (Vendor Master, Onboarding, Compliance, Contracts)
 - Step 18: 18_MEDICAL_INVENTORY.md (Medicine/Consumables, Batch/Lot, Expiry, Reorder Alerts)
 - Step 19: 19_PROCUREMENT.md (Purchase Requests, Quotations, Purchase Orders, Goods Receipt Note)
-- Step 20: 17_PHARMACY_MANAGEMENT.md (Prescriptions, Stock Reservation, Dispensing, Auto-Billing)
+- Step 20: 17_PHARMACY_MANAGEMENT.md (Prescriptions, Stock Reservation, Dispensing, Auto-Billing) [COMPLETED]
 - Step 21: 21_LABORATORY_ADMINISTRATION.md (Test Catalog, Lab Orders, Accessioning, Sample Flow, Reports)
 - Step 22: 22_RADIOLOGY_ADMINISTRATION.md (Modalities, Scans, Procedure Status, DICOM/Report Workflow)
 - Step 23: 24_HOUSEKEEPING.md (Cleaning Tasks, Discharge Turnover Checklists, Bed Availability Release)

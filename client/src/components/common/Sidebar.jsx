@@ -35,7 +35,8 @@ import {
   CalendarCheck,
   Banknote,
   Receipt,
-  DollarSign
+  DollarSign,
+  Pill
 } from 'lucide-react';
 
 export const Sidebar = () => {
@@ -55,7 +56,8 @@ export const Sidebar = () => {
         { to: '/patient/insurance', label: 'My Insurance Coverage', icon: ShieldCheck },
         { to: '/patient/claims', label: 'My Insurance Claims', icon: FileText },
         { to: '/patient/discharges', label: 'Discharge Summaries', icon: LogOut },
-        { to: '/patient/records', label: 'Medical Documents', icon: FileText }
+        { to: '/patient/records', label: 'Medical Documents', icon: FileText },
+        { to: '/patient/pharmacy', label: 'My Prescriptions & Medicines', icon: Pill }
       ];
     }
 
@@ -98,6 +100,26 @@ export const Sidebar = () => {
         { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
         { to: '/clinical/lab-orders', label: 'Lab Orders', icon: FlaskConical },
         { to: '/clinical/radiology', label: 'Radiology Orders', icon: Radio },
+        { to: '/operations/pharmacy/prescriptions', label: 'Doctor Prescriptions', icon: Pill },
+        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays },
+        { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
+        { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
+        { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }
+      ];
+    }
+
+    // Pharmacy Portal Nav
+    if (hasRole('PHARMACIST', 'SENIOR_PHARMACIST', 'PHARMACY_TECHNICIAN', 'PHARMACY_ASSISTANT')) {
+      return [
+        { to: '/operations/pharmacy', label: 'Pharmacy Dashboard', icon: LayoutDashboard },
+        { to: '/operations/pharmacy/orders', label: 'Pharmacy Orders Queue', icon: Layers },
+        { to: '/operations/pharmacy/prescriptions', label: 'Prescription Queue', icon: FileText },
+        { to: '/operations/pharmacy/dispensing', label: 'Dispensing Console', icon: Pill },
+        { to: '/operations/pharmacy/dispensing-history', label: 'Dispensing History', icon: History },
+        { to: '/operations/pharmacy/medicines', label: 'Medicine Catalog', icon: Layers },
+        { to: '/operations/pharmacy/alerts', label: 'Stock & Expiry Alerts', icon: AlertTriangle },
+        { to: '/operations/pharmacy/returns', label: 'Pharmacy Returns', icon: Repeat },
+        { to: '/operations/pharmacy/reports', label: 'Pharmacy Reports', icon: FileText },
         { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays },
         { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
         { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
@@ -179,6 +201,15 @@ export const Sidebar = () => {
       { to: '/payroll/salary-config', label: 'Salary Structures & Grades', icon: Sliders },
       { to: '/payroll/exceptions', label: 'Payroll Exceptions', icon: AlertTriangle },
       { to: '/payroll/reports', label: 'Payroll Reports & Register', icon: FileText },
+      { to: '/operations/pharmacy', label: 'Pharmacy Management Hub', icon: Pill },
+      { to: '/operations/pharmacy/orders', label: 'Pharmacy Orders Queue', icon: Layers },
+      { to: '/operations/pharmacy/prescriptions', label: 'Prescription Queue', icon: FileText },
+      { to: '/operations/pharmacy/dispensing', label: 'Dispensing Console', icon: Pill },
+      { to: '/operations/pharmacy/dispensing-history', label: 'Dispensing History', icon: History },
+      { to: '/operations/pharmacy/medicines', label: 'Medicine Catalog', icon: Layers },
+      { to: '/operations/pharmacy/alerts', label: 'Stock & Expiry Alerts', icon: AlertTriangle },
+      { to: '/operations/pharmacy/returns', label: 'Pharmacy Returns', icon: Repeat },
+      { to: '/operations/pharmacy/reports', label: 'Pharmacy Reports', icon: FileText },
       { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
       { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
       { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }

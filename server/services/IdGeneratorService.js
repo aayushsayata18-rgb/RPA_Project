@@ -1998,6 +1998,157 @@ class IdGeneratorService {
     const padded = String(counter.sequenceValue).padStart(5, '0');
     return `${prefix}${padded}`;
   }
+
+  /**
+   * Generate unique Medicine ID (e.g. MED-000101)
+   */
+  static async generateMedicineId() {
+    const key = 'MEDICINE_ID';
+    const prefix = 'MED-';
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    let seq = counter.sequenceValue;
+    if (seq < 101) {
+      counter.sequenceValue = 101;
+      await counter.save();
+      seq = 101;
+    }
+
+    const padded = String(seq).padStart(6, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Prescription ID (e.g. RX-20261016-00101)
+   */
+  static async generatePrescriptionId() {
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const prefix = `RX-${ymd}-`;
+    const key = `PRESCRIPTION_ID_${ymd}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    let seq = counter.sequenceValue;
+    if (seq < 101) {
+      counter.sequenceValue = 101;
+      await counter.save();
+      seq = 101;
+    }
+
+    const padded = String(seq).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Pharmacy Order ID (e.g. PO-20261016-00101)
+   */
+  static async generatePharmacyOrderId() {
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const prefix = `PO-${ymd}-`;
+    const key = `PHARMACY_ORDER_ID_${ymd}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    let seq = counter.sequenceValue;
+    if (seq < 101) {
+      counter.sequenceValue = 101;
+      await counter.save();
+      seq = 101;
+    }
+
+    const padded = String(seq).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Dispensing Record ID (e.g. DISP-20261016-00101)
+   */
+  static async generateDispensingRecordId() {
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const prefix = `DISP-${ymd}-`;
+    const key = `DISPENSING_RECORD_ID_${ymd}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    let seq = counter.sequenceValue;
+    if (seq < 101) {
+      counter.sequenceValue = 101;
+      await counter.save();
+      seq = 101;
+    }
+
+    const padded = String(seq).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Pharmacy Return ID (e.g. RET-20261016-00101)
+   */
+  static async generateReturnId() {
+    const now = new Date();
+    const ymd = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const prefix = `RET-${ymd}-`;
+    const key = `PHARMACY_RETURN_ID_${ymd}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    let seq = counter.sequenceValue;
+    if (seq < 101) {
+      counter.sequenceValue = 101;
+      await counter.save();
+      seq = 101;
+    }
+
+    const padded = String(seq).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Inventory Batch ID (e.g. BAT-10001)
+   */
+  static async generateBatchId() {
+    const key = 'INVENTORY_BATCH_ID';
+    const prefix = 'BAT-';
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    let seq = counter.sequenceValue;
+    if (seq < 10001) {
+      counter.sequenceValue = 10001;
+      await counter.save();
+      seq = 10001;
+    }
+
+    return `${prefix}${seq}`;
+  }
 }
 
 module.exports = IdGeneratorService;

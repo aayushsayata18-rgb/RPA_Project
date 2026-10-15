@@ -1,590 +1,1361 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.5 (Python 3.11.7 on win32)" generated="2026-10-11T16:33:26.109595" rpa="false" schemaversion="5">
-<suite id="s1" name="Charge Import" source="D:\RPA_Project\robot\tests\charge_import.robot">
-<kw name="Setup Hospital Session" type="SETUP">
+<robot generator="Robot 7.5 (Python 3.11.7 on win32)" generated="2026-10-16T02:02:20.528306" rpa="false" schemaversion="5">
+<suite id="s1" name="Pharmacy Order" source="D:\RPA_Project\robot\tests\pharmacy_order.robot">
+<kw name="Setup Pharmacy Test Suite" type="SETUP">
 <kw name="Login Hospital User" owner="authentication">
 <kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.311220" level="INFO">${payload} = {'email': 'admin@hospital.com', 'password': 'Password@123'}</msg>
+<msg time="2026-10-16T02:02:20.767293" level="INFO">${payload} = {'email': 'admin@hospital.com', 'password': 'Password@123'}</msg>
 <var>${payload}</var>
 <arg>email=${email}</arg>
 <arg>password=${password}</arg>
 <doc>Creates and returns a dictionary based on the given `items`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.310699" elapsed="0.000521"/>
+<status status="PASS" start="2026-10-16T02:02:20.766770" elapsed="0.000523"/>
 </kw>
 <kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.311736" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<msg time="2026-10-16T02:02:20.767828" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
 <var>${headers}</var>
 <arg>Content-Type=application/json</arg>
 <doc>Creates and returns a dictionary based on the given `items`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.311220" elapsed="0.000516"/>
+<status status="PASS" start="2026-10-16T02:02:20.767828" elapsed="0.000000"/>
 </kw>
 <kw name="POST" owner="RequestsLibrary">
-<msg time="2026-10-11T16:33:26.388287" level="INFO">POST Request : url=http://localhost:5000/api/auth/login 
+<msg time="2026-10-16T02:02:20.852400" level="INFO">POST Request : url=http://localhost:5000/api/auth/login 
  path_url=/api/auth/login 
  headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '59'} 
  body=b'{"email": "admin@hospital.com", "password": "Password@123"}' 
  </msg>
-<msg time="2026-10-11T16:33:26.388287" level="INFO">POST Response : url=http://localhost:5000/api/auth/login 
+<msg time="2026-10-16T02:02:20.852400" level="INFO">POST Response : url=http://localhost:5000/api/auth/login 
  status=200, reason=OK 
- headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '2477', 'ETag': 'W/"9ad-APekkCdHzfjHq0Ni7k9n/Zdzc8M"', 'Date': 'Sun, 11 Oct 2026 11:03:26 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"success":true,"message":"Login successful.","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUqerqBoSr4wn0e4V_eLhRUU","user":{"userId":"USR-SYSADMIN-001","email":"admin@hospital.com","firstName":"System","lastName":"Administrator","role":"SYSTEM_ADMIN","permissions":["PATIENT_REGISTER","PATIENT_VIEW","PATIENT_UPDATE","PATIENT_LINK","PATIENT_RECORDS_VIEW","PATIENT_RECORDS_SEARCH","PATIENT_RECORDS_DOCUMENTS_VIEW","PATIENT_RECORDS_DOCUMENTS_DOWNLOAD","PATIENT_RECORDS_BILLING_VIEW","PATIENT_RECORDS_INSURANCE_VIEW","PATIENT_RECORDS_LAB_VIEW","PATIENT_RECORDS_RADIOLOGY_VIEW","PATIENT_RECORDS_PHARMACY_VIEW","PATIENT_RECORDS_PROFILE_EDIT","PATIENT_RECORDS_ACCESS_HISTORY_VIEW","PATIENT_RECORDS_SYNC_MANAGE","APPOINTMENT_CREATE","APPOINTMENT_VIEW","APPOINTMENT_CANCEL","APPOINTMENT_RESCHEDULE","APPOINTMENT_MANAGE","OPD_CHECKIN","OPD_QUEUE_VIEW","OPD_QUEUE_MANAGE","OPD_CONSULTATION_START","OPD_CONSULTATION_COMPLETE","ADMISSION_CREATE","ADMISSION_APPROVE","ADMISSION_VIEW","BED_VIEW","BED_ASSIGN","BED_TRANSFER","BED_STATUS_UPDATE","DISCHARGE_REQUEST","DISCHARGE_APPROVE","DISCHARGE_FINALIZE","DISCHARGE_VIEW","INVOICE_CREATE","INVOICE_VIEW","INVOICE_UPDATE","PAYMENT_CREATE","PAYMENT_VIEW","PAYMENT_RECONCILE","FINANCIAL_ADJUSTMENT","INSURANCE_VERIFY","INSURANCE_VIEW","CLAIM_CREATE","CLAIM_SUBMIT","CLAIM_TRACK","CLAIM_MANAGE","DOCTOR_MANAGE","DOCTOR_SCHEDULE_MANAGE","DOCTOR_VIEW","EMPLOYEE_MANAGE","EMPLOYEE_VIEW","ATTENDANCE_VIEW","ATTENDANCE_RECORD","ATTENDANCE_CORRECT","SHIFT_MANAGE","SHIFT_ASSIGN","LEAVE_REQUEST","LEAVE_APPROVE","PAYROLL_VIEW","PAYROLL_PROCESS","PHARMACY_VIEW","PHARMACY_DISPENSE","INVENTORY_VIEW","INVENTORY_MANAGE","PROCUREMENT_VIEW","PROCUREMENT_MANAGE","VENDOR_VIEW","VENDOR_MANAGE","LAB_ORDER_CREATE","LAB_ORDER_VIEW","LAB_SAMPLE_PROCESS","LAB_RESULT_VERIFY","RADIOLOGY_ORDER_CREATE","RADIOLOGY_ORDER_VIEW","RADIOLOGY_SCHEDULE","RADIOLOGY_REPORT_VERIFY","MAINTENANCE_TICKET_CREATE","MAINTENANCE_TICKET_MANAGE","HOUSEKEEPING_TASK_CREATE","HOUSEKEEPING_TASK_MANAGE","FEEDBACK_SUBMIT","FEEDBACK_VIEW","FEEDBACK_RESOLVE","NOTIFICATION_VIEW","NOTIFICATION_SEND","NOTIFICATION_TEMPLATE_MANAGE","DOCUMENT_VIEW","DOCUMENT_GENERATE","DOCUMENT_TEMPLATE_MANAGE","REPORT_VIEW","REPORT_EXPORT","AUDIT_VIEW","EXCEPTION_VIEW","EXCEPTION_RESOLVE","RPA_VIEW","RPA_RUN","RPA_RETRY","RPA_CANCEL","SYSTEM_CONFIG_MANAGE"]}}} 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '2849', 'ETag': 'W/"b21-94FEZYT1ew7+PKwkFG9PVFIkMhQ"', 'Date': 'Thu, 15 Oct 2026 20:32:20 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Login successful.","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ","user":{"userId":"USR-SYSADMIN-001","email":"admin@hospital.com","firstName":"System","lastName":"Administrator","role":"SYSTEM_ADMIN","permissions":["PATIENT_REGISTER","PATIENT_VIEW","PATIENT_UPDATE","PATIENT_LINK","PATIENT_RECORDS_VIEW","PATIENT_RECORDS_SEARCH","PATIENT_RECORDS_DOCUMENTS_VIEW","PATIENT_RECORDS_DOCUMENTS_DOWNLOAD","PATIENT_RECORDS_BILLING_VIEW","PATIENT_RECORDS_INSURANCE_VIEW","PATIENT_RECORDS_LAB_VIEW","PATIENT_RECORDS_RADIOLOGY_VIEW","PATIENT_RECORDS_PHARMACY_VIEW","PATIENT_RECORDS_PROFILE_EDIT","PATIENT_RECORDS_ACCESS_HISTORY_VIEW","PATIENT_RECORDS_SYNC_MANAGE","APPOINTMENT_CREATE","APPOINTMENT_VIEW","APPOINTMENT_CANCEL","APPOINTMENT_RESCHEDULE","APPOINTMENT_MANAGE","OPD_CHECKIN","OPD_QUEUE_VIEW","OPD_QUEUE_MANAGE","OPD_CONSULTATION_START","OPD_CONSULTATION_COMPLETE","ADMISSION_CREATE","ADMISSION_APPROVE","ADMISSION_VIEW","BED_VIEW","BED_ASSIGN","BED_TRANSFER","BED_STATUS_UPDATE","DISCHARGE_REQUEST","DISCHARGE_APPROVE","DISCHARGE_FINALIZE","DISCHARGE_VIEW","INVOICE_CREATE","INVOICE_VIEW","INVOICE_UPDATE","PAYMENT_CREATE","PAYMENT_VIEW","PAYMENT_RECONCILE","FINANCIAL_ADJUSTMENT","INSURANCE_VERIFY","INSURANCE_VIEW","CLAIM_CREATE","CLAIM_SUBMIT","CLAIM_TRACK","CLAIM_MANAGE","DOCTOR_MANAGE","DOCTOR_SCHEDULE_MANAGE","DOCTOR_VIEW","EMPLOYEE_MANAGE","EMPLOYEE_VIEW","ATTENDANCE_VIEW","ATTENDANCE_RECORD","ATTENDANCE_CORRECT","SHIFT_MANAGE","SHIFT_ASSIGN","LEAVE_REQUEST","LEAVE_APPROVE","PAYROLL_VIEW","PAYROLL_PROCESS","PHARMACY_VIEW","PHARMACY_DISPENSE","PHARMACY_DASHBOARD_VIEW","PRESCRIPTION_VIEW","PRESCRIPTION_CREATE","PRESCRIPTION_VALIDATE","PHARMACY_ORDER_VIEW","PHARMACY_ORDER_PROCESS","PHARMACY_STOCK_VIEW","PHARMACY_DISPENSE_CREATE","PHARMACY_DISPENSE_COMPLETE","PHARMACY_RETURN_CREATE","PHARMACY_RETURN_PROCESS","PHARMACY_RETURN_APPROVE","PHARMACY_EXCEPTION_VIEW","PHARMACY_REPORT_VIEW","PHARMACY_CONTROLLED_REVIEW","INVENTORY_VIEW","INVENTORY_MANAGE","PROCUREMENT_VIEW","PROCUREMENT_MANAGE","VENDOR_VIEW","VENDOR_MANAGE","LAB_ORDER_CREATE","LAB_ORDER_VIEW","LAB_SAMPLE_PROCESS","LAB_RESULT_VERIFY","RADIOLOGY_ORDER_CREATE","RADIOLOGY_ORDER_VIEW","RADIOLOGY_SCHEDULE","RADIOLOGY_REPORT_VERIFY","MAINTENANCE_TICKET_CREATE","MAINTENANCE_TICKET_MANAGE","HOUSEKEEPING_TASK_CREATE","HOUSEKEEPING_TASK_MANAGE","FEEDBACK_SUBMIT","FEEDBACK_VIEW","FEEDBACK_RESOLVE","NOTIFICATION_VIEW","NOTIFICATION_SEND","NOTIFICATION_TEMPLATE_MANAGE","DOCUMENT_VIEW","DOCUMENT_GENERATE","DOCUMENT_TEMPLATE_MANAGE","REPORT_VIEW","REPORT_EXPORT","AUDIT_VIEW","EXCEPTION_VIEW","EXCEPTION_RESOLVE","RPA_VIEW","RPA_RUN","RPA_RETRY","RPA_CANCEL","SYSTEM_CONFIG_MANAGE"]}}} 
  </msg>
-<msg time="2026-10-11T16:33:26.388287" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<msg time="2026-10-16T02:02:20.852400" level="INFO">${response} = &lt;Response [200]&gt;</msg>
 <var>${response}</var>
 <arg>${BASE_URL}/auth/login</arg>
 <arg>json=${payload}</arg>
 <arg>headers=${headers}</arg>
 <arg>expected_status=200</arg>
 <doc>Sends a POST request.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.311736" elapsed="0.076551"/>
+<status status="PASS" start="2026-10-16T02:02:20.767828" elapsed="0.084572"/>
 </kw>
 <kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.389344" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUqerqBoSr4wn0e4V_eLhRUU</msg>
+<msg time="2026-10-16T02:02:20.852939" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ</msg>
 <var>${token}</var>
 <arg>${response.json()}[data][token]</arg>
 <doc>Returns the given values which can then be assigned to a variable.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.388817" elapsed="0.000527"/>
+<status status="PASS" start="2026-10-16T02:02:20.852939" elapsed="0.000000"/>
 </kw>
 <return>
 <value>${token}</value>
-<status status="PASS" start="2026-10-11T16:33:26.389344" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:20.853460" elapsed="0.000000"/>
 </return>
-<msg time="2026-10-11T16:33:26.389344" level="INFO">${adminTok} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUqerqBoSr4wn0e4V_eLhRUU</msg>
-<var>${adminTok}</var>
+<msg time="2026-10-16T02:02:20.853460" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ</msg>
+<var>${token}</var>
 <arg>${ADMIN_EMAIL}</arg>
 <arg>${DEFAULT_PASSWORD}</arg>
-<status status="PASS" start="2026-10-11T16:33:26.310171" elapsed="0.079173"/>
+<status status="PASS" start="2026-10-16T02:02:20.766245" elapsed="0.087215"/>
 </kw>
 <kw name="Set Suite Variable" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.389870" level="INFO">${AUTH_TOKEN} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUqerqBoSr4wn0e4V_eLhRUU</msg>
+<msg time="2026-10-16T02:02:20.853980" level="INFO">${AUTH_TOKEN} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ</msg>
 <arg>${AUTH_TOKEN}</arg>
-<arg>${adminTok}</arg>
+<arg>${token}</arg>
 <doc>Makes the variable available everywhere within the scope of the current suite.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.389870" elapsed="0.000519"/>
+<status status="PASS" start="2026-10-16T02:02:20.853460" elapsed="0.000520"/>
 </kw>
 <kw name="Generate Random String" owner="String">
-<msg time="2026-10-11T16:33:26.390389" level="INFO">${rand} = 649382</msg>
+<msg time="2026-10-16T02:02:20.853980" level="INFO">${rand} = 741380</msg>
 <var>${rand}</var>
 <arg>6</arg>
 <arg>[NUMBERS]</arg>
 <doc>Generates a string with a desired `length` from the given `chars`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.390389" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:20.853980" elapsed="0.000000"/>
 </kw>
 <kw name="Set Suite Variable" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.390930" level="INFO">${RUN_ID} = 649382</msg>
+<msg time="2026-10-16T02:02:20.854503" level="INFO">${RUN_ID} = 741380</msg>
 <arg>${RUN_ID}</arg>
 <arg>${rand}</arg>
 <doc>Makes the variable available everywhere within the scope of the current suite.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.390930" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:20.854503" elapsed="0.000000"/>
 </kw>
-<status status="PASS" start="2026-10-11T16:33:26.309483" elapsed="0.081447"/>
+<status status="PASS" start="2026-10-16T02:02:20.765741" elapsed="0.088762"/>
 </kw>
-<test id="s1-t1" name="TC-BIL-001 Ingest and Validate Laboratory Billable Charge" line="23">
-<kw name="Create Billable Item" owner="billing_keywords">
+<test id="s1-t1" name="TC-PHARM-001 Catalog Management And Stock Availability Query" line="30">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.855552" level="INFO">${bCode} = BC-ROBOT-741380</msg>
+<var>${bCode}</var>
+<arg>BC-ROBOT-${RUN_ID}</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.855025" elapsed="0.000527"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.855552" level="INFO">${BARCODE} = BC-ROBOT-741380</msg>
+<arg>${BARCODE}</arg>
+<arg>${bCode}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.855552" elapsed="0.000000"/>
+</kw>
+<kw name="Create Medicine Via API" owner="pharmacy_keywords">
 <kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.392553" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUq...</msg>
+<msg time="2026-10-16T02:02:20.856594" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
 <var>${headers}</var>
 <arg>Authorization=Bearer ${token}</arg>
 <arg>Content-Type=application/json</arg>
 <doc>Creates and returns a dictionary based on the given `items`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.392553" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:20.856594" elapsed="0.000000"/>
 </kw>
 <kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.393125" level="INFO">${payload} = {'patientId': 'P10001', 'sourceModule': 'LABORATORY', 'serviceCode': 'LAB-CBC', 'description': 'Complete Blood Count', 'quantity': '1'}</msg>
+<msg time="2026-10-16T02:02:20.857114" level="INFO">${payload} = {'brandName': 'Paracetamol Robot 741380', 'genericName': 'Paracetamol-RPA-741380', 'dosageForm': 'TABLET', 'strength': '500mg', 'unitPrice': '12.50', 'isControlledMedicine': False}</msg>
 <var>${payload}</var>
-<arg>patientId=${patientId}</arg>
-<arg>sourceModule=${sourceModule}</arg>
-<arg>serviceCode=${serviceCode}</arg>
-<arg>description=${description}</arg>
-<arg>quantity=${quantity}</arg>
-<doc>Creates and returns a dictionary based on the given `items`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.393125" elapsed="0.000532"/>
-</kw>
-<if>
-<branch type="IF" condition="'${unitPrice}' != '${EMPTY}'">
-<kw name="Set To Dictionary" owner="Collections">
-<arg>${payload}</arg>
+<arg>brandName=${brandName}</arg>
+<arg>genericName=${genericName}</arg>
+<arg>dosageForm=${dosageForm}</arg>
+<arg>strength=${strength}</arg>
 <arg>unitPrice=${unitPrice}</arg>
-<doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="NOT RUN" start="2026-10-11T16:33:26.393657" elapsed="0.000000"/>
+<arg>isControlledMedicine=${isControlled}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.856594" elapsed="0.000520"/>
 </kw>
-<status status="NOT RUN" start="2026-10-11T16:33:26.393657" elapsed="0.000000"/>
-</branch>
-<status status="PASS" start="2026-10-11T16:33:26.393657" elapsed="0.000000"/>
-</if>
 <if>
-<branch type="IF" condition="'${admissionId}' != '${EMPTY}'">
+<branch type="IF" condition="'${barcode}' != '${EMPTY}'">
 <kw name="Set To Dictionary" owner="Collections">
 <arg>${payload}</arg>
-<arg>admissionId=${admissionId}</arg>
+<arg>barcode=${barcode}</arg>
 <doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="NOT RUN" start="2026-10-11T16:33:26.394179" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:20.857631" elapsed="0.000000"/>
 </kw>
-<status status="NOT RUN" start="2026-10-11T16:33:26.393657" elapsed="0.000522"/>
+<status status="PASS" start="2026-10-16T02:02:20.857114" elapsed="0.000517"/>
 </branch>
-<status status="PASS" start="2026-10-11T16:33:26.393657" elapsed="0.000522"/>
-</if>
-<if>
-<branch type="IF" condition="'${sourceId}' != '${EMPTY}'">
-<kw name="Set To Dictionary" owner="Collections">
-<arg>${payload}</arg>
-<arg>sourceId=${sourceId}</arg>
-<doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.394179" elapsed="0.000525"/>
-</kw>
-<status status="PASS" start="2026-10-11T16:33:26.394179" elapsed="0.000525"/>
-</branch>
-<status status="PASS" start="2026-10-11T16:33:26.394179" elapsed="0.000525"/>
+<status status="PASS" start="2026-10-16T02:02:20.857114" elapsed="0.000517"/>
 </if>
 <kw name="POST" owner="RequestsLibrary">
-<msg time="2026-10-11T16:33:26.407067" level="INFO">POST Request : url=http://localhost:5000/api/billing/billable-items 
- path_url=/api/billing/billable-items 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUqerqBoSr4wn0e4V_eLhRUU', 'Content-Type': 'application/json', 'Content-Length': '165'} 
- body=b'{"patientId": "P10001", "sourceModule": "LABORATORY", "serviceCode": "LAB-CBC", "description": "Complete Blood Count", "quantity": "1", "sourceId": "LAB_ORD_649382"}' 
+<msg time="2026-10-16T02:02:20.868966" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/medicines 
+ path_url=/api/pharmacy/medicines 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '210'} 
+ body=b'{"brandName": "Paracetamol Robot 741380", "genericName": "Paracetamol-RPA-741380", "dosageForm": "TABLET", "strength": "500mg", "unitPrice": "12.50", "isControlledMedicine": false, "barcode": "BC-ROBOT-741380"}' 
  </msg>
-<msg time="2026-10-11T16:33:26.407067" level="INFO">POST Response : url=http://localhost:5000/api/billing/billable-items 
+<msg time="2026-10-16T02:02:20.868966" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/medicines 
  status=201, reason=Created 
- headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '734', 'ETag': 'W/"2de-UnJIqlHF53L6N7ys3B6gBK8LhW4"', 'Date': 'Sun, 11 Oct 2026 11:03:26 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"success":true,"message":"Billable item recorded successfully.","data":{"chargeId":"CHG-20261011-00112","patientId":"P10001","patientName":"Aarav Patel","sourceModule":"LABORATORY","sourceType":"MANUAL_ENTRY","sourceId":"LAB_ORD_649382","serviceCode":"LAB-CBC","description":"Complete Blood Count","quantity":1,"unitPrice":500,"grossAmount":500,"discountAmount":0,"insuranceAmount":0,"taxAmount":25,"netAmount":525,"status":"VALIDATED","serviceDate":"2026-10-11T11:03:26.399Z","notes":"","correlationId":"CORR-20261011-A2EAB7","_id":"6acb6cfe4ecf4368faaeabd0","createdAt":"2026-10-11T11:03:26.404Z","updatedAt":"2026-10-11T11:03:26.404Z","__v":0,"serviceName":"Complete Blood Count","totalPrice":525,"id":"6acb6cfe4ecf4368faaeabd0"}} 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '673', 'ETag': 'W/"2a1-/L4hIQn88LiESOg7J3jGCqG9QWE"', 'Date': 'Thu, 15 Oct 2026 20:32:20 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Medicine 'Paracetamol-RPA-741380' created successfully.","medicine":{"medicineId":"MED-000111","genericName":"Paracetamol-RPA-741380","brandName":"Paracetamol Robot 741380","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-741380","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","_id":"6ad13854fff42835158ddf47","createdAt":"2026-10-15T20:32:20.869Z","updatedAt":"2026-10-15T20:32:20.869Z","__v":0}} 
  </msg>
-<msg time="2026-10-11T16:33:26.407593" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<msg time="2026-10-16T02:02:20.869690" level="INFO">${response} = &lt;Response [201]&gt;</msg>
 <var>${response}</var>
-<arg>${BASE_URL}/billing/billable-items</arg>
+<arg>${BASE_URL}/pharmacy/medicines</arg>
 <arg>json=${payload}</arg>
 <arg>headers=${headers}</arg>
 <arg>expected_status=any</arg>
 <doc>Sends a POST request.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.394704" elapsed="0.012889"/>
+<status status="PASS" start="2026-10-16T02:02:20.857631" elapsed="0.012059"/>
 </kw>
 <return>
 <value>${response}</value>
-<status status="PASS" start="2026-10-11T16:33:26.407593" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:20.869690" elapsed="0.000000"/>
 </return>
-<msg time="2026-10-11T16:33:26.407593" level="INFO">${res} = &lt;Response [201]&gt;</msg>
-<var>${res}</var>
+<msg time="2026-10-16T02:02:20.869690" level="INFO">${resMed} = &lt;Response [201]&gt;</msg>
+<var>${resMed}</var>
 <arg>${AUTH_TOKEN}</arg>
-<arg>${PATIENT_ID}</arg>
-<arg>LABORATORY</arg>
-<arg>LAB-CBC</arg>
-<arg>Complete Blood Count</arg>
-<arg>1</arg>
-<arg>sourceId=LAB_ORD_${RUN_ID}</arg>
-<status status="PASS" start="2026-10-11T16:33:26.392013" elapsed="0.015580"/>
-</kw>
-<kw name="Should Be Equal As Integers" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.408117" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${res.status_code}</arg>
-<arg>201</arg>
-<doc>Fails if objects are unequal after converting them to integers.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.407593" elapsed="0.000524"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.408668" level="INFO">${body} = {'success': True, 'message': 'Billable item recorded successfully.', 'data': {'chargeId': 'CHG-20261011-00112', 'patientId': 'P10001', 'patientName': 'Aarav Patel', 'sourceModule': 'LABORATORY', 'sour...</msg>
-<var>${body}</var>
-<arg>${res.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variable.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.408668" elapsed="0.000000"/>
+<arg>Paracetamol Robot ${RUN_ID}</arg>
+<arg>Paracetamol-RPA-${RUN_ID}</arg>
+<arg>TABLET</arg>
+<arg>500mg</arg>
+<arg>12.50</arg>
+<arg>barcode=${bCode}</arg>
+<status status="PASS" start="2026-10-16T02:02:20.856072" elapsed="0.013618"/>
 </kw>
 <kw name="Should Be True" owner="BuiltIn">
-<arg>${body}[success]</arg>
+<arg>${resMed.status_code} == 200 or ${resMed.status_code} == 201</arg>
 <doc>Fails if the given condition is not true.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.408668" elapsed="0.000526"/>
+<status status="PASS" start="2026-10-16T02:02:20.869690" elapsed="0.000526"/>
 </kw>
 <kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.409713" level="INFO">${charge} = {'chargeId': 'CHG-20261011-00112', 'patientId': 'P10001', 'patientName': 'Aarav Patel', 'sourceModule': 'LABORATORY', 'sourceType': 'MANUAL_ENTRY', 'sourceId': 'LAB_ORD_649382', 'serviceCode': 'LAB-CB...</msg>
-<var>${charge}</var>
-<arg>${body}[data]</arg>
+<msg time="2026-10-16T02:02:20.870740" level="INFO">${mId} = MED-000111</msg>
+<var>${mId}</var>
+<arg>${resMed.json()}[medicine][medicineId]</arg>
 <doc>Returns the given values which can then be assigned to a variable.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.409194" elapsed="0.000519"/>
+<status status="PASS" start="2026-10-16T02:02:20.870740" elapsed="0.000000"/>
 </kw>
-<kw name="Dictionary Should Contain Key" owner="Collections">
-<arg>${charge}</arg>
-<arg>chargeId</arg>
-<doc>Fails if `key` is not found from `dictionary`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.409713" elapsed="0.000000"/>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.871259" level="INFO">${MEDICINE_ID} = MED-000111</msg>
+<arg>${MEDICINE_ID}</arg>
+<arg>${mId}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.871259" elapsed="0.000000"/>
 </kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${charge}[status]</arg>
+<kw name="Get Medicines Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.872302" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.871784" elapsed="0.000518"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.872302" level="INFO">${params} = {}</msg>
+<var>${params}</var>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.872302" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'${search}' != '${EMPTY}'">
+<kw name="Set To Dictionary" owner="Collections">
+<arg>${params}</arg>
+<arg>search=${search}</arg>
+<doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.872822" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-16T02:02:20.872822" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2026-10-16T02:02:20.872822" elapsed="0.000000"/>
+</if>
+<if>
+<branch type="IF" condition="'${status}' != '${EMPTY}'">
+<kw name="Set To Dictionary" owner="Collections">
+<arg>${params}</arg>
+<arg>status=${status}</arg>
+<doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.873347" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-16T02:02:20.872822" elapsed="0.000525"/>
+</branch>
+<status status="PASS" start="2026-10-16T02:02:20.872822" elapsed="0.000525"/>
+</if>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:20.882032" level="INFO">GET Request : url=http://localhost:5000/api/pharmacy/medicines?search=Paracetamol&amp;status=ACTIVE 
+ path_url=/api/pharmacy/medicines?search=Paracetamol&amp;status=ACTIVE 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg time="2026-10-16T02:02:20.882541" level="INFO">GET Response : url=http://localhost:5000/api/pharmacy/medicines?search=Paracetamol&amp;status=ACTIVE 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '7028', 'ETag': 'W/"1b74-L3oirycqb50dupIdyiZJWG6JE/g"', 'Date': 'Thu, 15 Oct 2026 20:32:20 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"medicines":[{"_id":"6ad12f846257e3acc408a3be","medicineId":"MED-000001","__v":0,"barcode":"890100000001","brandName":"Crocin Advance","category":"Analgesic","controlledMedicine":false,"createdAt":"2026-10-15T19:54:44.683Z","createdBy":"SYSTEM","description":"Relief of mild to moderate pain and fever.","dosageForm":"Tablet","genericName":"Paracetamol","manufacturer":"GSK Pharmaceuticals","prescriptionRequired":false,"reorderLevel":500,"sku":"PCM500TAB","status":"ACTIVE","storageRequirements":"Room Temperature","strength":"500 mg","unit":"Tablet","unitPrice":2.5,"updatedAt":"2026-10-15T19:54:44.683Z","updatedBy":"SYSTEM"},{"_id":"6ad1342303bc429d1496db27","medicineId":"MED-000101","genericName":"Paracetamol","brandName":"Paracetamol Robot 751741","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-751741","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","createdAt":"2026-10-15T20:14:27.020Z","updatedAt":"2026-10-15T20:14:27.020Z","__v":0},{"_id":"6ad1358e8a5e6b4193ba6ea8","medicineId":"MED-000104","genericName":"Paracetamol-RPA-100005","brandName":"Paracetamol Robot 100005","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-100005","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","createdAt":"2026-10-15T20:20:30.567Z","updatedAt":"2026-10-15T20:20:30.567Z","__v":0},{"_id":"6ad137f7fff42835158dde4c","medicineId":"MED-000110","genericName":"Paracetamol-RPA-121883","brandName":"Paracetamol Robot 121883","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-121883","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","createdAt":"2026-10-15T20:30:47.229Z","updatedAt":"2026-10-15T20:30:47.229Z","__v":0},{"_id":"6ad134f58a5e6b4193ba6db0","medicineId":"MED-000102","genericName":"Paracetamol-RPA-188927","brandName":"Paracetamol Robot 188927","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-188927","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","createdAt":"2026-10-15T20:17:57.759Z","updatedAt":"2026-10-15T20:17:57.759Z","__v":0},{"_id":"6ad13655dc49febe1fa1e3b8","medicineId":"MED-000106","genericName":"Paracetamol-RPA-277148","brandName":"Paracetamol Robot 277148","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-277148","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","createdAt":"2026-10-15T20:23:49.702Z","updatedAt":"2026-10-15T20:23:49.702Z","__v":0},{"_id":"6ad135528a5e6b4193ba6e1f","medicineId":"MED-000103","genericName":"Paracetamol-RPA-309140","brandName":"Paracetamol Robot 309140","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-309140","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","createdAt":"2026-10-15T20:19:30.922Z","updatedAt":"2026-10-15T20:19:30.922Z","__v":0},{"_id":"6ad1371d809ebd7bb41e70d2","medicineId":"MED-000107","genericName":"Paracetamol-RPA-431616","brandName":"Paracetamol Robot 431616","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-431616","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","createdAt":"2026-10-15T20:27:09.475Z","updatedAt":"2026-10-15T20:27:09.475Z","__v":0},{"_id":"6ad135b48a5e6b4193ba6f42","medicineId":"MED-000105","genericName":"Paracetamol-RPA-643871","brandName":"Paracetamol Robot 643871","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-643871","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","createdAt":"2026-10-15T20:21:08.060Z","updatedAt":"2026-10-15T20:21:08.060Z","__v":0},{"_id":"6ad13854fff42835158ddf47","medicineId":"MED-000111","genericName":"Paracetamol-RPA-741380","brandName":"Paracetamol Robot 741380","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-741380","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","createdAt":"2026-10-15T20:32:20.869Z","updatedAt":"2026-10-15T20:32:20.869Z","__v":0},{"_id":"6ad137c304ed30dcb3619154","medicineId":"MED-000109","genericName":"Paracetamol-RPA-803071","brandName":"Paracetamol Robot 803071","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-803071","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","createdAt":"2026-10-15T20:29:55.598Z","updatedAt":"2026-10-15T20:29:55.598Z","__v":0},{"_id":"6ad1378172e386faaf9a7169","medicineId":"MED-000108","genericName":"Paracetamol-RPA-853454","brandName":"Paracetamol Robot 853454","strength":"500mg","dosageForm":"TABLET","unit":"Tablet","unitPrice":12.5,"manufacturer":"","category":"General","barcode":"BC-ROBOT-853454","prescriptionRequired":true,"controlledMedicine":false,"storageRequirements":"Room Temperature","status":"ACTIVE","description":"","reorderLevel":100,"createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","createdAt":"2026-10-15T20:28:49.215Z","updatedAt":"2026-10-15T20:28:49.215Z","__v":0}],"total":12,"page":1,"totalPages":1} 
+ </msg>
+<msg time="2026-10-16T02:02:20.882541" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/medicines</arg>
+<arg>params=${params}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.873347" elapsed="0.009724"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:20.883071" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:20.883071" level="INFO">${resList} = &lt;Response [200]&gt;</msg>
+<var>${resList}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>search=Paracetamol</arg>
+<status status="PASS" start="2026-10-16T02:02:20.871259" elapsed="0.011812"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.883592" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resList.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.883071" elapsed="0.000521"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>len(${resList.json()}[medicines]) &gt;= 1</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.884116" elapsed="0.001568"/>
+</kw>
+<kw name="Check Medicine Availability Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.886737" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.886210" elapsed="0.000527"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:20.895583" level="INFO">GET Request : url=http://localhost:5000/api/pharmacy/availability/MED-000001 
+ path_url=/api/pharmacy/availability/MED-000001 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg time="2026-10-16T02:02:20.896089" level="INFO">GET Response : url=http://localhost:5000/api/pharmacy/availability/MED-000001 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '428', 'ETag': 'W/"1ac-z/wvuAkYiWBKpruYCnRp6adW/Ds"', 'Date': 'Thu, 15 Oct 2026 20:32:20 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"availability":{"medicineId":"MED-000001","medicineName":"Paracetamol","strength":"500 mg","dosageForm":"Tablet","availableQuantity":775,"reservedQuantity":95,"expiredQuantity":100,"hasNearExpiry":false,"nearExpiryCount":0,"batches":[{"batchId":"BAT-10001","lotNumber":"LOT-PCM-2026-A","availableQuantity":775,"reservedQuantity":95,"expiryDate":"2028-07-29T18:30:00.000Z","isNearExpiry":false,"unitPrice":2.5}]}} 
+ </msg>
+<msg time="2026-10-16T02:02:20.896089" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/availability/${medicineId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.886737" elapsed="0.009352"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:20.896089" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:20.896089" level="INFO">${resAvail} = &lt;Response [200]&gt;</msg>
+<var>${resAvail}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>MED-000001</arg>
+<status status="PASS" start="2026-10-16T02:02:20.885684" elapsed="0.010933"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.897142" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resAvail.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.896617" elapsed="0.000525"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${resAvail.json()}[availability][availableQuantity] &gt;= 0</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.897142" elapsed="0.001044"/>
+</kw>
+<doc>Verifies medicine registration and stock availability check</doc>
+<status status="PASS" start="2026-10-16T02:02:20.854503" elapsed="0.043683"/>
+</test>
+<test id="s1-t2" name="TC-PHARM-002 Complete Prescription Lifecycle And Order Creation" line="49">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.899744" level="INFO">${item} = {'medicineId': 'MED-000001', 'medicineName': 'Paracetamol', 'dosage': '1 tablet', 'frequency': 'TID', 'durationDays': '5', 'quantity': '15', 'instructions': 'After meals'}</msg>
+<var>${item}</var>
+<arg>medicineId=MED-000001</arg>
+<arg>medicineName=Paracetamol</arg>
+<arg>dosage=1 tablet</arg>
+<arg>frequency=TID</arg>
+<arg>durationDays=5</arg>
+<arg>quantity=15</arg>
+<arg>instructions=After meals</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.899222" elapsed="0.000522"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.899744" level="INFO">${items} = [{'medicineId': 'MED-000001', 'medicineName': 'Paracetamol', 'dosage': '1 tablet', 'frequency': 'TID', 'durationDays': '5', 'quantity': '15', 'instructions': 'After meals'}]</msg>
+<var>${items}</var>
+<arg>${item}</arg>
+<doc>Creates and returns a list containing the given items.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.899744" elapsed="0.000000"/>
+</kw>
+<kw name="Create Prescription Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.900794" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.900266" elapsed="0.000528"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.901324" level="INFO">${payload} = {'patientId': 'P10045', 'doctorId': 'DOC-10001', 'encounterType': 'OUTPATIENT', 'diagnosis': 'Acute Tension Headache'}</msg>
+<var>${payload}</var>
+<arg>patientId=${patientId}</arg>
+<arg>doctorId=${doctorId}</arg>
+<arg>encounterType=${encounterType}</arg>
+<arg>diagnosis=${diagnosis}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.900794" elapsed="0.000530"/>
+</kw>
+<if>
+<branch type="IF" condition="${items} != ${None}">
+<kw name="Set To Dictionary" owner="Collections">
+<arg>${payload}</arg>
+<arg>items=${items}</arg>
+<doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.901849" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-10-16T02:02:20.901324" elapsed="0.000525"/>
+</branch>
+<status status="PASS" start="2026-10-16T02:02:20.901324" elapsed="0.000525"/>
+</if>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:20.914326" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/prescriptions 
+ path_url=/api/pharmacy/prescriptions 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '302'} 
+ body=b'{"patientId": "P10045", "doctorId": "DOC-10001", "encounterType": "OUTPATIENT", "diagnosis": "Acute Tension Headache", "items": [{"medicineId": "MED-000001", "medicineName": "Paracetamol", "dosage": "1 tablet", "frequency": "TID", "durationDays": "5", "quantity": "15", "instructions": "After meals"}]}' 
+ </msg>
+<msg time="2026-10-16T02:02:20.914833" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/prescriptions 
+ status=201, reason=Created 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1181', 'ETag': 'W/"49d-jz111NiFo52OgkEUPqcnGl8+4P4"', 'Date': 'Thu, 15 Oct 2026 20:32:20 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Prescription 'RX-20261015-00129' created successfully.","prescription":{"prescriptionId":"RX-20261015-00129","patientId":"P10045","patientName":"Rahul Shah","visitId":null,"admissionId":null,"doctorId":"DOC-10001","doctorName":"Attending Doctor","departmentId":"","departmentName":"","diagnosis":"Acute Tension Headache","clinicalNotes":"","prescriptionDate":"2026-10-15T20:32:20.913Z","validUntil":"2026-11-14T20:32:20.913Z","items":[{"prescriptionItemId":"RXI-1792096340911-1","medicineId":"MED-000001","medicineNameSnapshot":"Paracetamol (Crocin Advance)","strengthSnapshot":"500 mg","dosageFormSnapshot":"Tablet","unitPriceSnapshot":2.5,"dose":"As Directed","route":"ORAL","frequency":"TID","duration":"5 DAYS","quantity":15,"dispensedQuantity":0,"unit":"Tablet","instructions":"After meals","refillAllowed":false,"status":"PENDING"}],"instructions":"","status":"ISSUED","holdReason":"","rejectionReason":"","cancellationReason":"","createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","correlationId":"RX-20261015-00129","_id":"6ad13854fff42835158ddf56","createdAt":"2026-10-15T20:32:20.914Z","updatedAt":"2026-10-15T20:32:20.914Z","__v":0}} 
+ </msg>
+<msg time="2026-10-16T02:02:20.914833" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/prescriptions</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.901849" elapsed="0.012984"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:20.914833" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:20.914833" level="INFO">${resRx} = &lt;Response [201]&gt;</msg>
+<var>${resRx}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${PATIENT_ID}</arg>
+<arg>${DOCTOR_ID}</arg>
+<arg>OUTPATIENT</arg>
+<arg>Acute Tension Headache</arg>
+<arg>${items}</arg>
+<status status="PASS" start="2026-10-16T02:02:20.900266" elapsed="0.014567"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${resRx.status_code} == 200 or ${resRx.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.915364" elapsed="0.000534"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.915898" level="INFO">${rxId} = RX-20261015-00129</msg>
+<var>${rxId}</var>
+<arg>${resRx.json()}[prescription][prescriptionId]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.915898" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.916420" level="INFO">${PRESCRIPTION_ID} = RX-20261015-00129</msg>
+<arg>${PRESCRIPTION_ID}</arg>
+<arg>${rxId}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.916420" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resRx.json()}[prescription][status]</arg>
+<arg>ISSUED</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.916420" elapsed="0.000528"/>
+</kw>
+<kw name="Send Prescription To Pharmacy Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.917479" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.917479" elapsed="0.000000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.918003" level="INFO">${payload} = {'orderType': 'OUTPATIENT', 'priority': 'NORMAL'}</msg>
+<var>${payload}</var>
+<arg>orderType=${orderType}</arg>
+<arg>priority=${priority}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.917479" elapsed="0.000524"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:20.935890" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/prescriptions/RX-20261015-00129/send 
+ path_url=/api/pharmacy/prescriptions/RX-20261015-00129/send 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '49'} 
+ body=b'{"orderType": "OUTPATIENT", "priority": "NORMAL"}' 
+ </msg>
+<msg time="2026-10-16T02:02:20.935890" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/prescriptions/RX-20261015-00129/send 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '2088', 'ETag': 'W/"828-MEHqbz/Pf4PSyrSxsGBRz6+qxi0"', 'Date': 'Thu, 15 Oct 2026 20:32:20 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Prescription 'RX-20261015-00129' sent to Pharmacy.","prescription":{"_id":"6ad13854fff42835158ddf56","prescriptionId":"RX-20261015-00129","patientId":"P10045","patientName":"Rahul Shah","visitId":null,"admissionId":null,"doctorId":"DOC-10001","doctorName":"Attending Doctor","departmentId":"","departmentName":"","diagnosis":"Acute Tension Headache","clinicalNotes":"","prescriptionDate":"2026-10-15T20:32:20.913Z","validUntil":"2026-11-14T20:32:20.913Z","items":[{"prescriptionItemId":"RXI-1792096340911-1","medicineId":"MED-000001","medicineNameSnapshot":"Paracetamol (Crocin Advance)","strengthSnapshot":"500 mg","dosageFormSnapshot":"Tablet","unitPriceSnapshot":2.5,"dose":"As Directed","route":"ORAL","frequency":"TID","duration":"5 DAYS","quantity":15,"dispensedQuantity":0,"unit":"Tablet","instructions":"After meals","refillAllowed":false,"status":"PENDING"}],"instructions":"","status":"SENT_TO_PHARMACY","holdReason":"","rejectionReason":"","cancellationReason":"","createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","correlationId":"RX-20261015-00129","createdAt":"2026-10-15T20:32:20.914Z","updatedAt":"2026-10-15T20:32:20.936Z","__v":0},"order":{"pharmacyOrderId":"PO-20261015-00129","prescriptionId":"RX-20261015-00129","patientId":"P10045","patientName":"Rahul Shah","visitId":null,"admissionId":null,"doctorId":"DOC-10001","doctorName":"Attending Doctor","orderType":"OUTPATIENT","priority":"NORMAL","status":"NEW","items":[{"prescriptionItemId":"RXI-1792096340911-1","medicineId":"MED-000001","medicineName":"Paracetamol (Crocin Advance)","dosageForm":"Tablet","strength":"500 mg","prescribedQuantity":15,"reservedQuantity":0,"dispensedQuantity":0,"unit":"Tablet","unitPrice":2.5,"batchReservations":[],"status":"PENDING"}],"requestedAt":"2026-10-15T20:32:20.930Z","notes":"","holdReason":"","cancellationReason":"","createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","correlationId":"RX-20261015-00129","_id":"6ad13854fff42835158ddf5f","createdAt":"2026-10-15T20:32:20.931Z","updatedAt":"2026-10-15T20:32:20.931Z","__v":0}} 
+ </msg>
+<msg time="2026-10-16T02:02:20.935890" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/prescriptions/${prescriptionId}/send</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.918003" elapsed="0.017887"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:20.936419" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:20.936419" level="INFO">${resSend} = &lt;Response [200]&gt;</msg>
+<var>${resSend}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${PRESCRIPTION_ID}</arg>
+<arg>OUTPATIENT</arg>
+<arg>NORMAL</arg>
+<status status="PASS" start="2026-10-16T02:02:20.916948" elapsed="0.019471"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.936959" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resSend.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.936419" elapsed="0.000540"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.937499" level="INFO">${ordId} = PO-20261015-00129</msg>
+<var>${ordId}</var>
+<arg>${resSend.json()}[order][pharmacyOrderId]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.936959" elapsed="0.000540"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.937499" level="INFO">${ORDER_ID} = PO-20261015-00129</msg>
+<arg>${ORDER_ID}</arg>
+<arg>${ordId}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.937499" elapsed="0.000000"/>
+</kw>
+<kw name="Validate Prescription Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.938562" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.938031" elapsed="0.000531"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:20.952705" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/prescriptions/RX-20261015-00129/validate 
+ path_url=/api/pharmacy/prescriptions/RX-20261015-00129/validate 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg time="2026-10-16T02:02:20.952705" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/prescriptions/RX-20261015-00129/validate 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1189', 'ETag': 'W/"4a5-224CJ9XWU0thZkyqR1ny6EcrtLg"', 'Date': 'Thu, 15 Oct 2026 20:32:20 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Prescription 'RX-20261015-00129' validated by pharmacist.","prescription":{"_id":"6ad13854fff42835158ddf56","prescriptionId":"RX-20261015-00129","patientId":"P10045","patientName":"Rahul Shah","visitId":null,"admissionId":null,"doctorId":"DOC-10001","doctorName":"Attending Doctor","departmentId":"","departmentName":"","diagnosis":"Acute Tension Headache","clinicalNotes":"","prescriptionDate":"2026-10-15T20:32:20.913Z","validUntil":"2026-11-14T20:32:20.913Z","items":[{"prescriptionItemId":"RXI-1792096340911-1","medicineId":"MED-000001","medicineNameSnapshot":"Paracetamol (Crocin Advance)","strengthSnapshot":"500 mg","dosageFormSnapshot":"Tablet","unitPriceSnapshot":2.5,"dose":"As Directed","route":"ORAL","frequency":"TID","duration":"5 DAYS","quantity":15,"dispensedQuantity":0,"unit":"Tablet","instructions":"After meals","refillAllowed":false,"status":"VALIDATED"}],"instructions":"","status":"VALIDATED","holdReason":"","rejectionReason":"","cancellationReason":"","createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","correlationId":"RX-20261015-00129","createdAt":"2026-10-15T20:32:20.914Z","updatedAt":"2026-10-15T20:32:20.948Z","__v":0}} 
+ </msg>
+<msg time="2026-10-16T02:02:20.953210" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/prescriptions/${prescriptionId}/validate</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.938562" elapsed="0.014648"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:20.953210" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:20.953210" level="INFO">${resVal} = &lt;Response [200]&gt;</msg>
+<var>${resVal}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${PRESCRIPTION_ID}</arg>
+<status status="PASS" start="2026-10-16T02:02:20.938031" elapsed="0.015179"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.953725" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resVal.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.953725" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resVal.json()}[prescription][status]</arg>
 <arg>VALIDATED</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.409713" elapsed="0.000525"/>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.953725" elapsed="0.000564"/>
 </kw>
-<kw name="Should Be True" owner="BuiltIn">
-<arg>${charge}[grossAmount] &gt;= 500</arg>
-<doc>Fails if the given condition is not true.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.410238" elapsed="0.000519"/>
-</kw>
-<doc>Records a clinical laboratory charge and verifies rate calculation</doc>
-<status status="PASS" start="2026-10-11T16:33:26.390930" elapsed="0.019827"/>
+<doc>Exercises doctor prescription creation, send-to-pharmacy, pharmacist validation, and order generation</doc>
+<status status="PASS" start="2026-10-16T02:02:20.898186" elapsed="0.056103"/>
 </test>
-<test id="s1-t2" name="TC-BIL-002 Ingest Radiology and Pharmacy Charges with Rate Card Lookup" line="34">
-<kw name="Create Billable Item" owner="billing_keywords">
+<test id="s1-t3" name="TC-PHARM-003 Stock Reservation And Dispensing Workflow" line="79">
+<kw name="Reserve Stock For Order Via API" owner="pharmacy_keywords">
 <kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.412314" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUq...</msg>
+<msg time="2026-10-16T02:02:20.955335" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
 <var>${headers}</var>
 <arg>Authorization=Bearer ${token}</arg>
 <arg>Content-Type=application/json</arg>
 <doc>Creates and returns a dictionary based on the given `items`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.411793" elapsed="0.000521"/>
+<status status="PASS" start="2026-10-16T02:02:20.955335" elapsed="0.000000"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:20.968022" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/orders/PO-20261015-00129/reserve 
+ path_url=/api/pharmacy/orders/PO-20261015-00129/reserve 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg time="2026-10-16T02:02:20.968527" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/orders/PO-20261015-00129/reserve 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '337', 'ETag': 'W/"151-UJDMX5fY6ql4q3OJBJpHIy/pNP4"', 'Date': 'Thu, 15 Oct 2026 20:32:20 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Stock reserved for order 'PO-20261015-00129'.","pharmacyOrderId":"PO-20261015-00129","medicineId":"MED-000001","reservedQuantity":15,"batchReservations":[{"batchId":"BAT-10001","quantity":15,"expiryDate":"2028-07-29T18:30:00.000Z","reservedAt":"2026-10-15T20:32:20.967Z"}],"orderStatus":"READY_FOR_DISPENSING"} 
+ </msg>
+<msg time="2026-10-16T02:02:20.968527" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/orders/${orderId}/reserve</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.955854" elapsed="0.012673"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:20.968527" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:20.968527" level="INFO">${resRes} = &lt;Response [200]&gt;</msg>
+<var>${resRes}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${ORDER_ID}</arg>
+<status status="PASS" start="2026-10-16T02:02:20.954815" elapsed="0.014234"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.969049" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resRes.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.969049" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>'${resRes.json()}[orderStatus]' in ['NEW', 'RECEIVED', 'READY_FOR_DISPENSING', 'PARTIALLY_FULFILLED']</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.969640" elapsed="0.000000"/>
 </kw>
 <kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.412314" level="INFO">${payload} = {'patientId': 'P10001', 'sourceModule': 'RADIOLOGY', 'serviceCode': 'RAD-XRAY', 'description': 'Chest X-Ray PA View', 'quantity': '1'}</msg>
-<var>${payload}</var>
-<arg>patientId=${patientId}</arg>
-<arg>sourceModule=${sourceModule}</arg>
-<arg>serviceCode=${serviceCode}</arg>
-<arg>description=${description}</arg>
-<arg>quantity=${quantity}</arg>
+<msg time="2026-10-16T02:02:20.970165" level="INFO">${dispItem} = {'medicineId': 'MED-000001', 'batchId': 'BAT-10001', 'quantityDispensed': '15', 'unitPrice': '2.50', 'scannedBarcode': '890100000001'}</msg>
+<var>${dispItem}</var>
+<arg>medicineId=MED-000001</arg>
+<arg>batchId=BAT-10001</arg>
+<arg>quantityDispensed=15</arg>
+<arg>unitPrice=2.50</arg>
+<arg>scannedBarcode=890100000001</arg>
 <doc>Creates and returns a dictionary based on the given `items`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.412314" elapsed="0.000519"/>
+<status status="PASS" start="2026-10-16T02:02:20.970165" elapsed="0.000000"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.970690" level="INFO">${dispList} = [{'medicineId': 'MED-000001', 'batchId': 'BAT-10001', 'quantityDispensed': '15', 'unitPrice': '2.50', 'scannedBarcode': '890100000001'}]</msg>
+<var>${dispList}</var>
+<arg>${dispItem}</arg>
+<doc>Creates and returns a list containing the given items.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.970165" elapsed="0.000525"/>
+</kw>
+<kw name="Dispense Pharmacy Order Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.971727" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.971210" elapsed="0.000517"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:20.971727" level="INFO">${payload} = {'pharmacyOrderId': 'PO-20261015-00129', 'dispensedItems': [{'medicineId': 'MED-000001', 'batchId': 'BAT-10001', 'quantityDispensed': '15', 'unitPrice': '2.50', 'scannedBarcode': '890100000001'}]}</msg>
+<var>${payload}</var>
+<arg>pharmacyOrderId=${orderId}</arg>
+<arg>dispensedItems=${dispensedItems}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:20.971727" elapsed="0.000000"/>
 </kw>
 <if>
-<branch type="IF" condition="'${unitPrice}' != '${EMPTY}'">
+<branch type="IF" condition="'${correlationId}' != '${EMPTY}'">
 <kw name="Set To Dictionary" owner="Collections">
 <arg>${payload}</arg>
-<arg>unitPrice=${unitPrice}</arg>
+<arg>correlationId=${correlationId}</arg>
 <doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="NOT RUN" start="2026-10-11T16:33:26.412833" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:20.972250" elapsed="0.000000"/>
 </kw>
-<status status="NOT RUN" start="2026-10-11T16:33:26.412833" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:20.972250" elapsed="0.000000"/>
 </branch>
-<status status="PASS" start="2026-10-11T16:33:26.412833" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:20.972250" elapsed="0.000000"/>
 </if>
 <if>
-<branch type="IF" condition="'${admissionId}' != '${EMPTY}'">
+<branch type="IF" condition="'${idempotencyKey}' != '${EMPTY}'">
 <kw name="Set To Dictionary" owner="Collections">
 <arg>${payload}</arg>
-<arg>admissionId=${admissionId}</arg>
+<arg>idempotencyKey=${idempotencyKey}</arg>
 <doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="NOT RUN" start="2026-10-11T16:33:26.413356" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:20.972783" elapsed="0.000000"/>
 </kw>
-<status status="NOT RUN" start="2026-10-11T16:33:26.412833" elapsed="0.000523"/>
+<status status="PASS" start="2026-10-16T02:02:20.972250" elapsed="0.000533"/>
 </branch>
-<status status="PASS" start="2026-10-11T16:33:26.412833" elapsed="0.000523"/>
-</if>
-<if>
-<branch type="IF" condition="'${sourceId}' != '${EMPTY}'">
-<kw name="Set To Dictionary" owner="Collections">
-<arg>${payload}</arg>
-<arg>sourceId=${sourceId}</arg>
-<doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.413356" elapsed="0.000000"/>
-</kw>
-<status status="PASS" start="2026-10-11T16:33:26.413356" elapsed="0.000000"/>
-</branch>
-<status status="PASS" start="2026-10-11T16:33:26.413356" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:20.972250" elapsed="0.000533"/>
 </if>
 <kw name="POST" owner="RequestsLibrary">
-<msg time="2026-10-11T16:33:26.425675" level="INFO">POST Request : url=http://localhost:5000/api/billing/billable-items 
- path_url=/api/billing/billable-items 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUqerqBoSr4wn0e4V_eLhRUU', 'Content-Type': 'application/json', 'Content-Length': '164'} 
- body=b'{"patientId": "P10001", "sourceModule": "RADIOLOGY", "serviceCode": "RAD-XRAY", "description": "Chest X-Ray PA View", "quantity": "1", "sourceId": "RAD_ORD_649382"}' 
+<msg time="2026-10-16T02:02:21.005606" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/dispensing 
+ path_url=/api/pharmacy/dispensing 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '269'} 
+ body=b'{"pharmacyOrderId": "PO-20261015-00129", "dispensedItems": [{"medicineId": "MED-000001", "batchId": "BAT-10001", "quantityDispensed": "15", "unitPrice": "2.50", "scannedBarcode": "890100000001"}], "correlationId": "RPA-DISP-741380", "idempotencyKey": "IK-ROBOT-741380"}' 
  </msg>
-<msg time="2026-10-11T16:33:26.426181" level="INFO">POST Response : url=http://localhost:5000/api/billing/billable-items 
+<msg time="2026-10-16T02:02:21.006132" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/dispensing 
  status=201, reason=Created 
- headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '736', 'ETag': 'W/"2e0-H/r3CdxOZRtfQB2PMO7+NZTohCk"', 'Date': 'Sun, 11 Oct 2026 11:03:26 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"success":true,"message":"Billable item recorded successfully.","data":{"chargeId":"CHG-20261011-00113","patientId":"P10001","patientName":"Aarav Patel","sourceModule":"RADIOLOGY","sourceType":"MANUAL_ENTRY","sourceId":"RAD_ORD_649382","serviceCode":"RAD-XRAY","description":"Chest X-Ray PA View","quantity":1,"unitPrice":1000,"grossAmount":1000,"discountAmount":0,"insuranceAmount":0,"taxAmount":50,"netAmount":1050,"status":"VALIDATED","serviceDate":"2026-10-11T11:03:26.418Z","notes":"","correlationId":"CORR-20261011-732D3E","_id":"6acb6cfe4ecf4368faaeabda","createdAt":"2026-10-11T11:03:26.423Z","updatedAt":"2026-10-11T11:03:26.423Z","__v":0,"serviceName":"Chest X-Ray PA View","totalPrice":1050,"id":"6acb6cfe4ecf4368faaeabda"}} 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '2051', 'ETag': 'W/"803-yVE0diXJhJ/UIZQ45s8PgP34g/M"', 'Date': 'Thu, 15 Oct 2026 20:32:21 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Dispensing completed successfully. Record ID: DISP-20261015-00115.","record":{"dispensingRecordId":"DISP-20261015-00115","pharmacyOrderId":"PO-20261015-00129","prescriptionId":"RX-20261015-00129","patientId":"P10045","patientName":"Rahul Shah","visitId":null,"admissionId":null,"pharmacistId":"USR-SYSADMIN-001","pharmacistName":"Attending Pharmacist","dispensedAt":"2026-10-15T20:32:20.991Z","status":"COMPLETED","items":[{"prescriptionItemId":"RXI-1792096340911-1","medicineId":"MED-000001","medicineName":"Paracetamol","inventoryBatchId":"BAT-10001","batchExpiryDate":"2028-07-29T18:30:00.000Z","prescribedQuantity":15,"dispensedQuantity":15,"unit":"Tablet","unitPrice":2.5,"totalPrice":37.5,"dispensingStatus":"DISPENSED","substitution":false,"instructions":"After meals"}],"totalAmount":37.5,"idempotencyKey":"IK-ROBOT-741380","notes":"","correlationId":"RX-20261015-00129","_id":"6ad13854fff42835158ddf84","createdAt":"2026-10-15T20:32:20.992Z","updatedAt":"2026-10-15T20:32:21.001Z","__v":0,"billingReferenceId":"CHG-20261015-00145"},"dispensingRecord":{"dispensingRecordId":"DISP-20261015-00115","pharmacyOrderId":"PO-20261015-00129","prescriptionId":"RX-20261015-00129","patientId":"P10045","patientName":"Rahul Shah","visitId":null,"admissionId":null,"pharmacistId":"USR-SYSADMIN-001","pharmacistName":"Attending Pharmacist","dispensedAt":"2026-10-15T20:32:20.991Z","status":"COMPLETED","items":[{"prescriptionItemId":"RXI-1792096340911-1","medicineId":"MED-000001","medicineName":"Paracetamol","inventoryBatchId":"BAT-10001","batchExpiryDate":"2028-07-29T18:30:00.000Z","prescribedQuantity":15,"dispensedQuantity":15,"unit":"Tablet","unitPrice":2.5,"totalPrice":37.5,"dispensingStatus":"DISPENSED","substitution":false,"instructions":"After meals"}],"totalAmount":37.5,"idempotencyKey":"IK-ROBOT-741380","notes":"","correlationId":"RX-20261015-00129","_id":"6ad13854fff42835158ddf84","createdAt":"2026-10-15T20:32:20.992Z","updatedAt":"2026-10-15T20:32:21.001Z","__v":0,"billingReferenceId":"CHG-20261015-00145"}} 
  </msg>
-<msg time="2026-10-11T16:33:26.426181" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<msg time="2026-10-16T02:02:21.006132" level="INFO">${response} = &lt;Response [201]&gt;</msg>
 <var>${response}</var>
-<arg>${BASE_URL}/billing/billable-items</arg>
+<arg>${BASE_URL}/pharmacy/dispensing</arg>
 <arg>json=${payload}</arg>
 <arg>headers=${headers}</arg>
 <arg>expected_status=any</arg>
 <doc>Sends a POST request.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.413877" elapsed="0.012304"/>
+<status status="PASS" start="2026-10-16T02:02:20.972783" elapsed="0.033349"/>
 </kw>
 <return>
 <value>${response}</value>
-<status status="PASS" start="2026-10-11T16:33:26.426181" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:21.006132" elapsed="0.000000"/>
 </return>
-<msg time="2026-10-11T16:33:26.426181" level="INFO">${resRad} = &lt;Response [201]&gt;</msg>
-<var>${resRad}</var>
+<msg time="2026-10-16T02:02:21.006655" level="INFO">${resDisp} = &lt;Response [201]&gt;</msg>
+<var>${resDisp}</var>
 <arg>${AUTH_TOKEN}</arg>
-<arg>${PATIENT_ID}</arg>
-<arg>RADIOLOGY</arg>
-<arg>RAD-XRAY</arg>
-<arg>Chest X-Ray PA View</arg>
-<arg>1</arg>
-<arg>sourceId=RAD_ORD_${RUN_ID}</arg>
-<status status="PASS" start="2026-10-11T16:33:26.411270" elapsed="0.014911"/>
+<arg>${ORDER_ID}</arg>
+<arg>${dispList}</arg>
+<arg>correlationId=RPA-DISP-${RUN_ID}</arg>
+<arg>idempotencyKey=IK-ROBOT-${RUN_ID}</arg>
+<status status="PASS" start="2026-10-16T02:02:20.970690" elapsed="0.035965"/>
 </kw>
-<kw name="Should Be Equal As Integers" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.426699" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${resRad.status_code}</arg>
-<arg>201</arg>
-<doc>Fails if objects are unequal after converting them to integers.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.426699" elapsed="0.000532"/>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${resDisp.status_code} == 200 or ${resDisp.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.007182" elapsed="0.000529"/>
 </kw>
 <kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.427231" level="INFO">${chargeRad} = {'chargeId': 'CHG-20261011-00113', 'patientId': 'P10001', 'patientName': 'Aarav Patel', 'sourceModule': 'RADIOLOGY', 'sourceType': 'MANUAL_ENTRY', 'sourceId': 'RAD_ORD_649382', 'serviceCode': 'RAD-XRA...</msg>
-<var>${chargeRad}</var>
-<arg>${resRad.json()}[data]</arg>
+<msg time="2026-10-16T02:02:21.008241" level="INFO">${dispRecId} = DISP-20261015-00115</msg>
+<var>${dispRecId}</var>
+<arg>${resDisp.json()}[dispensingRecord][dispensingRecordId]</arg>
 <doc>Returns the given values which can then be assigned to a variable.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.427231" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:21.007711" elapsed="0.000530"/>
 </kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.427760" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${chargeRad}[unitPrice]</arg>
-<arg>1000</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.427231" elapsed="0.000529"/>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.008241" level="INFO">${DISPENSING_ID} = DISP-20261015-00115</msg>
+<arg>${DISPENSING_ID}</arg>
+<arg>${dispRecId}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.008241" elapsed="0.000000"/>
 </kw>
-<kw name="Create Billable Item" owner="billing_keywords">
+<doc>Verifies automated stock reservation and dispensing with verification</doc>
+<status status="PASS" start="2026-10-16T02:02:20.954815" elapsed="0.053948"/>
+</test>
+<test id="s1-t4" name="TC-PHARM-004 Barcode Mismatch Interlock Protection" line="100">
 <kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.428801" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUq...</msg>
+<msg time="2026-10-16T02:02:21.009286" level="INFO">${item} = {'medicineId': 'MED-000001', 'medicineName': 'Paracetamol', 'dosage': '1 tablet', 'frequency': 'TID', 'durationDays': '3', 'quantity': '9'}</msg>
+<var>${item}</var>
+<arg>medicineId=MED-000001</arg>
+<arg>medicineName=Paracetamol</arg>
+<arg>dosage=1 tablet</arg>
+<arg>frequency=TID</arg>
+<arg>durationDays=3</arg>
+<arg>quantity=9</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.009286" elapsed="0.000000"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.009815" level="INFO">${items} = [{'medicineId': 'MED-000001', 'medicineName': 'Paracetamol', 'dosage': '1 tablet', 'frequency': 'TID', 'durationDays': '3', 'quantity': '9'}]</msg>
+<var>${items}</var>
+<arg>${item}</arg>
+<doc>Creates and returns a list containing the given items.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.009286" elapsed="0.000529"/>
+</kw>
+<kw name="Create Prescription Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.010331" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
 <var>${headers}</var>
 <arg>Authorization=Bearer ${token}</arg>
 <arg>Content-Type=application/json</arg>
 <doc>Creates and returns a dictionary based on the given `items`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.428801" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:21.010331" elapsed="0.000000"/>
 </kw>
 <kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.429318" level="INFO">${payload} = {'patientId': 'P10001', 'sourceModule': 'PHARMACY', 'serviceCode': 'PHARM-PARACET', 'description': 'Paracetamol Tabs', 'quantity': '2'}</msg>
+<msg time="2026-10-16T02:02:21.010846" level="INFO">${payload} = {'patientId': 'P10045', 'doctorId': 'DOC-10001', 'encounterType': 'OUTPATIENT', 'diagnosis': 'Fever'}</msg>
 <var>${payload}</var>
 <arg>patientId=${patientId}</arg>
-<arg>sourceModule=${sourceModule}</arg>
-<arg>serviceCode=${serviceCode}</arg>
-<arg>description=${description}</arg>
-<arg>quantity=${quantity}</arg>
+<arg>doctorId=${doctorId}</arg>
+<arg>encounterType=${encounterType}</arg>
+<arg>diagnosis=${diagnosis}</arg>
 <doc>Creates and returns a dictionary based on the given `items`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.428801" elapsed="0.000517"/>
+<status status="PASS" start="2026-10-16T02:02:21.010846" elapsed="0.000000"/>
 </kw>
 <if>
-<branch type="IF" condition="'${unitPrice}' != '${EMPTY}'">
+<branch type="IF" condition="${items} != ${None}">
 <kw name="Set To Dictionary" owner="Collections">
 <arg>${payload}</arg>
-<arg>unitPrice=${unitPrice}</arg>
+<arg>items=${items}</arg>
 <doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="NOT RUN" start="2026-10-11T16:33:26.429318" elapsed="0.000526"/>
+<status status="PASS" start="2026-10-16T02:02:21.011374" elapsed="0.000000"/>
 </kw>
-<status status="NOT RUN" start="2026-10-11T16:33:26.429318" elapsed="0.000526"/>
+<status status="PASS" start="2026-10-16T02:02:21.010846" elapsed="0.000528"/>
 </branch>
-<status status="PASS" start="2026-10-11T16:33:26.429318" elapsed="0.000526"/>
-</if>
-<if>
-<branch type="IF" condition="'${admissionId}' != '${EMPTY}'">
-<kw name="Set To Dictionary" owner="Collections">
-<arg>${payload}</arg>
-<arg>admissionId=${admissionId}</arg>
-<doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="NOT RUN" start="2026-10-11T16:33:26.429844" elapsed="0.000000"/>
-</kw>
-<status status="NOT RUN" start="2026-10-11T16:33:26.429844" elapsed="0.000000"/>
-</branch>
-<status status="PASS" start="2026-10-11T16:33:26.429844" elapsed="0.000000"/>
-</if>
-<if>
-<branch type="IF" condition="'${sourceId}' != '${EMPTY}'">
-<kw name="Set To Dictionary" owner="Collections">
-<arg>${payload}</arg>
-<arg>sourceId=${sourceId}</arg>
-<doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.429844" elapsed="0.000522"/>
-</kw>
-<status status="PASS" start="2026-10-11T16:33:26.429844" elapsed="0.000522"/>
-</branch>
-<status status="PASS" start="2026-10-11T16:33:26.429844" elapsed="0.000522"/>
+<status status="PASS" start="2026-10-16T02:02:21.010846" elapsed="0.000528"/>
 </if>
 <kw name="POST" owner="RequestsLibrary">
-<msg time="2026-10-11T16:33:26.442576" level="INFO">POST Request : url=http://localhost:5000/api/billing/billable-items 
- path_url=/api/billing/billable-items 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUqerqBoSr4wn0e4V_eLhRUU', 'Content-Type': 'application/json', 'Content-Length': '168'} 
- body=b'{"patientId": "P10001", "sourceModule": "PHARMACY", "serviceCode": "PHARM-PARACET", "description": "Paracetamol Tabs", "quantity": "2", "sourceId": "PHARM_DISP_649382"}' 
+<msg time="2026-10-16T02:02:21.023727" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/prescriptions 
+ path_url=/api/pharmacy/prescriptions 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '253'} 
+ body=b'{"patientId": "P10045", "doctorId": "DOC-10001", "encounterType": "OUTPATIENT", "diagnosis": "Fever", "items": [{"medicineId": "MED-000001", "medicineName": "Paracetamol", "dosage": "1 tablet", "frequency": "TID", "durationDays": "3", "quantity": "9"}]}' 
  </msg>
-<msg time="2026-10-11T16:33:26.443080" level="INFO">POST Response : url=http://localhost:5000/api/billing/billable-items 
+<msg time="2026-10-16T02:02:21.024233" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/prescriptions 
  status=201, reason=Created 
- headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '737', 'ETag': 'W/"2e1-yyUEPFlb3Gs1SoLgCoraVrLRBTM"', 'Date': 'Sun, 11 Oct 2026 11:03:26 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"success":true,"message":"Billable item recorded successfully.","data":{"chargeId":"CHG-20261011-00114","patientId":"P10001","patientName":"Aarav Patel","sourceModule":"PHARMACY","sourceType":"MANUAL_ENTRY","sourceId":"PHARM_DISP_649382","serviceCode":"PHARM-PARACET","description":"Paracetamol Tabs","quantity":2,"unitPrice":45,"grossAmount":90,"discountAmount":0,"insuranceAmount":0,"taxAmount":10.8,"netAmount":100.8,"status":"VALIDATED","serviceDate":"2026-10-11T11:03:26.435Z","notes":"","correlationId":"CORR-20261011-FF9E96","_id":"6acb6cfe4ecf4368faaeabe4","createdAt":"2026-10-11T11:03:26.439Z","updatedAt":"2026-10-11T11:03:26.439Z","__v":0,"serviceName":"Paracetamol Tabs","totalPrice":100.8,"id":"6acb6cfe4ecf4368faaeabe4"}} 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1152', 'ETag': 'W/"480-Q2Ydbup4H9xMsqOBbKmHmDgh/Ho"', 'Date': 'Thu, 15 Oct 2026 20:32:21 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Prescription 'RX-20261015-00130' created successfully.","prescription":{"prescriptionId":"RX-20261015-00130","patientId":"P10045","patientName":"Rahul Shah","visitId":null,"admissionId":null,"doctorId":"DOC-10001","doctorName":"Attending Doctor","departmentId":"","departmentName":"","diagnosis":"Fever","clinicalNotes":"","prescriptionDate":"2026-10-15T20:32:21.022Z","validUntil":"2026-11-14T20:32:21.022Z","items":[{"prescriptionItemId":"RXI-1792096341021-1","medicineId":"MED-000001","medicineNameSnapshot":"Paracetamol (Crocin Advance)","strengthSnapshot":"500 mg","dosageFormSnapshot":"Tablet","unitPriceSnapshot":2.5,"dose":"As Directed","route":"ORAL","frequency":"TID","duration":"5 DAYS","quantity":9,"dispensedQuantity":0,"unit":"Tablet","instructions":"","refillAllowed":false,"status":"PENDING"}],"instructions":"","status":"ISSUED","holdReason":"","rejectionReason":"","cancellationReason":"","createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","correlationId":"RX-20261015-00130","_id":"6ad13855fff42835158ddf9e","createdAt":"2026-10-15T20:32:21.023Z","updatedAt":"2026-10-15T20:32:21.023Z","__v":0}} 
  </msg>
-<msg time="2026-10-11T16:33:26.443080" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<msg time="2026-10-16T02:02:21.024233" level="INFO">${response} = &lt;Response [201]&gt;</msg>
 <var>${response}</var>
-<arg>${BASE_URL}/billing/billable-items</arg>
+<arg>${BASE_URL}/pharmacy/prescriptions</arg>
 <arg>json=${payload}</arg>
 <arg>headers=${headers}</arg>
 <arg>expected_status=any</arg>
 <doc>Sends a POST request.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.430366" elapsed="0.012714"/>
+<status status="PASS" start="2026-10-16T02:02:21.011374" elapsed="0.012859"/>
 </kw>
 <return>
 <value>${response}</value>
-<status status="PASS" start="2026-10-11T16:33:26.443080" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:21.024233" elapsed="0.000000"/>
 </return>
-<msg time="2026-10-11T16:33:26.443080" level="INFO">${resPharm} = &lt;Response [201]&gt;</msg>
-<var>${resPharm}</var>
+<msg time="2026-10-16T02:02:21.024233" level="INFO">${resRx} = &lt;Response [201]&gt;</msg>
+<var>${resRx}</var>
 <arg>${AUTH_TOKEN}</arg>
 <arg>${PATIENT_ID}</arg>
-<arg>PHARMACY</arg>
-<arg>PHARM-PARACET</arg>
-<arg>Paracetamol Tabs</arg>
-<arg>2</arg>
-<arg>sourceId=PHARM_DISP_${RUN_ID}</arg>
-<status status="PASS" start="2026-10-11T16:33:26.428279" elapsed="0.014801"/>
-</kw>
-<kw name="Should Be Equal As Integers" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.443611" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${resPharm.status_code}</arg>
-<arg>201</arg>
-<doc>Fails if objects are unequal after converting them to integers.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.443611" elapsed="0.000000"/>
+<arg>${DOCTOR_ID}</arg>
+<arg>OUTPATIENT</arg>
+<arg>Fever</arg>
+<arg>${items}</arg>
+<status status="PASS" start="2026-10-16T02:02:21.009815" elapsed="0.014418"/>
 </kw>
 <kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.444146" level="INFO">${chargePharm} = {'chargeId': 'CHG-20261011-00114', 'patientId': 'P10001', 'patientName': 'Aarav Patel', 'sourceModule': 'PHARMACY', 'sourceType': 'MANUAL_ENTRY', 'sourceId': 'PHARM_DISP_649382', 'serviceCode': 'PHARM...</msg>
-<var>${chargePharm}</var>
-<arg>${resPharm.json()}[data]</arg>
+<msg time="2026-10-16T02:02:21.025290" level="INFO">${rxId} = RX-20261015-00130</msg>
+<var>${rxId}</var>
+<arg>${resRx.json()}[prescription][prescriptionId]</arg>
 <doc>Returns the given values which can then be assigned to a variable.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.444146" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:21.024759" elapsed="0.000531"/>
 </kw>
-<kw name="Should Be True" owner="BuiltIn">
-<arg>${chargePharm}[grossAmount] &gt; 0</arg>
-<doc>Fails if the given condition is not true.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.444146" elapsed="0.000521"/>
-</kw>
-<doc>Ingests radiology and pharmacy items resolving base prices from rate card</doc>
-<status status="PASS" start="2026-10-11T16:33:26.410757" elapsed="0.033910"/>
-</test>
-<test id="s1-t3" name="TC-BIL-003 Prevent Duplicate Charge Ingestion with Idempotency Check" line="46">
-<kw name="Create Billable Item" owner="billing_keywords">
+<kw name="Send Prescription To Pharmacy Via API" owner="pharmacy_keywords">
 <kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.446250" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUq...</msg>
+<msg time="2026-10-16T02:02:21.026334" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
 <var>${headers}</var>
 <arg>Authorization=Bearer ${token}</arg>
 <arg>Content-Type=application/json</arg>
 <doc>Creates and returns a dictionary based on the given `items`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.445725" elapsed="0.000525"/>
+<status status="PASS" start="2026-10-16T02:02:21.025811" elapsed="0.000523"/>
 </kw>
 <kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.446250" level="INFO">${payload} = {'patientId': 'P10001', 'sourceModule': 'LABORATORY', 'serviceCode': 'LAB-CBC', 'description': 'Complete Blood Count', 'quantity': '1'}</msg>
+<msg time="2026-10-16T02:02:21.026334" level="INFO">${payload} = {'orderType': 'OUTPATIENT', 'priority': 'NORMAL'}</msg>
 <var>${payload}</var>
-<arg>patientId=${patientId}</arg>
-<arg>sourceModule=${sourceModule}</arg>
-<arg>serviceCode=${serviceCode}</arg>
-<arg>description=${description}</arg>
-<arg>quantity=${quantity}</arg>
+<arg>orderType=${orderType}</arg>
+<arg>priority=${priority}</arg>
 <doc>Creates and returns a dictionary based on the given `items`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.446250" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:21.026334" elapsed="0.000000"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:21.041819" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/prescriptions/RX-20261015-00130/send 
+ path_url=/api/pharmacy/prescriptions/RX-20261015-00130/send 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '49'} 
+ body=b'{"orderType": "OUTPATIENT", "priority": "NORMAL"}' 
+ </msg>
+<msg time="2026-10-16T02:02:21.041819" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/prescriptions/RX-20261015-00130/send 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '2058', 'ETag': 'W/"80a-Rq2pj9AXQX0NBVd0W6CZYNagQ0s"', 'Date': 'Thu, 15 Oct 2026 20:32:21 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Prescription 'RX-20261015-00130' sent to Pharmacy.","prescription":{"_id":"6ad13855fff42835158ddf9e","prescriptionId":"RX-20261015-00130","patientId":"P10045","patientName":"Rahul Shah","visitId":null,"admissionId":null,"doctorId":"DOC-10001","doctorName":"Attending Doctor","departmentId":"","departmentName":"","diagnosis":"Fever","clinicalNotes":"","prescriptionDate":"2026-10-15T20:32:21.022Z","validUntil":"2026-11-14T20:32:21.022Z","items":[{"prescriptionItemId":"RXI-1792096341021-1","medicineId":"MED-000001","medicineNameSnapshot":"Paracetamol (Crocin Advance)","strengthSnapshot":"500 mg","dosageFormSnapshot":"Tablet","unitPriceSnapshot":2.5,"dose":"As Directed","route":"ORAL","frequency":"TID","duration":"5 DAYS","quantity":9,"dispensedQuantity":0,"unit":"Tablet","instructions":"","refillAllowed":false,"status":"PENDING"}],"instructions":"","status":"SENT_TO_PHARMACY","holdReason":"","rejectionReason":"","cancellationReason":"","createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","correlationId":"RX-20261015-00130","createdAt":"2026-10-15T20:32:21.023Z","updatedAt":"2026-10-15T20:32:21.042Z","__v":0},"order":{"pharmacyOrderId":"PO-20261015-00130","prescriptionId":"RX-20261015-00130","patientId":"P10045","patientName":"Rahul Shah","visitId":null,"admissionId":null,"doctorId":"DOC-10001","doctorName":"Attending Doctor","orderType":"OUTPATIENT","priority":"NORMAL","status":"NEW","items":[{"prescriptionItemId":"RXI-1792096341021-1","medicineId":"MED-000001","medicineName":"Paracetamol (Crocin Advance)","dosageForm":"Tablet","strength":"500 mg","prescribedQuantity":9,"reservedQuantity":0,"dispensedQuantity":0,"unit":"Tablet","unitPrice":2.5,"batchReservations":[],"status":"PENDING"}],"requestedAt":"2026-10-15T20:32:21.038Z","notes":"","holdReason":"","cancellationReason":"","createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","correlationId":"RX-20261015-00130","_id":"6ad13855fff42835158ddfa7","createdAt":"2026-10-15T20:32:21.039Z","updatedAt":"2026-10-15T20:32:21.039Z","__v":0}} 
+ </msg>
+<msg time="2026-10-16T02:02:21.042325" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/prescriptions/${prescriptionId}/send</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.026853" elapsed="0.015472"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:21.042325" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:21.042325" level="INFO">${resSend} = &lt;Response [200]&gt;</msg>
+<var>${resSend}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${rxId}</arg>
+<arg>OUTPATIENT</arg>
+<arg>NORMAL</arg>
+<status status="PASS" start="2026-10-16T02:02:21.025290" elapsed="0.017035"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.042853" level="INFO">${ordId} = PO-20261015-00130</msg>
+<var>${ordId}</var>
+<arg>${resSend.json()}[order][pharmacyOrderId]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.042853" elapsed="0.000000"/>
+</kw>
+<kw name="Validate Prescription Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.043892" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.043369" elapsed="0.000523"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:21.059194" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/prescriptions/RX-20261015-00130/validate 
+ path_url=/api/pharmacy/prescriptions/RX-20261015-00130/validate 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg time="2026-10-16T02:02:21.059701" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/prescriptions/RX-20261015-00130/validate 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1160', 'ETag': 'W/"488-cuBKmGjayxI+nU0J5civx5MrBZk"', 'Date': 'Thu, 15 Oct 2026 20:32:21 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Prescription 'RX-20261015-00130' validated by pharmacist.","prescription":{"_id":"6ad13855fff42835158ddf9e","prescriptionId":"RX-20261015-00130","patientId":"P10045","patientName":"Rahul Shah","visitId":null,"admissionId":null,"doctorId":"DOC-10001","doctorName":"Attending Doctor","departmentId":"","departmentName":"","diagnosis":"Fever","clinicalNotes":"","prescriptionDate":"2026-10-15T20:32:21.022Z","validUntil":"2026-11-14T20:32:21.022Z","items":[{"prescriptionItemId":"RXI-1792096341021-1","medicineId":"MED-000001","medicineNameSnapshot":"Paracetamol (Crocin Advance)","strengthSnapshot":"500 mg","dosageFormSnapshot":"Tablet","unitPriceSnapshot":2.5,"dose":"As Directed","route":"ORAL","frequency":"TID","duration":"5 DAYS","quantity":9,"dispensedQuantity":0,"unit":"Tablet","instructions":"","refillAllowed":false,"status":"VALIDATED"}],"instructions":"","status":"VALIDATED","holdReason":"","rejectionReason":"","cancellationReason":"","createdBy":"USR-SYSADMIN-001","updatedBy":"USR-SYSADMIN-001","correlationId":"RX-20261015-00130","createdAt":"2026-10-15T20:32:21.023Z","updatedAt":"2026-10-15T20:32:21.053Z","__v":0}} 
+ </msg>
+<msg time="2026-10-16T02:02:21.059701" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/prescriptions/${prescriptionId}/validate</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.043892" elapsed="0.015809"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:21.059701" elapsed="0.000000"/>
+</return>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${rxId}</arg>
+<status status="PASS" start="2026-10-16T02:02:21.043369" elapsed="0.016332"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.060233" level="INFO">${badItem} = {'medicineId': 'MED-000001', 'batchId': 'BAT-10001', 'quantityDispensed': '9', 'unitPrice': '2.50', 'scannedBarcode': 'WRONG-BARCODE-999'}</msg>
+<var>${badItem}</var>
+<arg>medicineId=MED-000001</arg>
+<arg>batchId=BAT-10001</arg>
+<arg>quantityDispensed=9</arg>
+<arg>unitPrice=2.50</arg>
+<arg>scannedBarcode=WRONG-BARCODE-999</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.060233" elapsed="0.000520"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.060753" level="INFO">${badList} = [{'medicineId': 'MED-000001', 'batchId': 'BAT-10001', 'quantityDispensed': '9', 'unitPrice': '2.50', 'scannedBarcode': 'WRONG-BARCODE-999'}]</msg>
+<var>${badList}</var>
+<arg>${badItem}</arg>
+<doc>Creates and returns a list containing the given items.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.060753" elapsed="0.000000"/>
+</kw>
+<kw name="Dispense Pharmacy Order Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.061798" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.061272" elapsed="0.000526"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.061798" level="INFO">${payload} = {'pharmacyOrderId': 'PO-20261015-00130', 'dispensedItems': [{'medicineId': 'MED-000001', 'batchId': 'BAT-10001', 'quantityDispensed': '9', 'unitPrice': '2.50', 'scannedBarcode': 'WRONG-BARCODE-999'}]}</msg>
+<var>${payload}</var>
+<arg>pharmacyOrderId=${orderId}</arg>
+<arg>dispensedItems=${dispensedItems}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.061798" elapsed="0.000525"/>
 </kw>
 <if>
-<branch type="IF" condition="'${unitPrice}' != '${EMPTY}'">
+<branch type="IF" condition="'${correlationId}' != '${EMPTY}'">
 <kw name="Set To Dictionary" owner="Collections">
 <arg>${payload}</arg>
-<arg>unitPrice=${unitPrice}</arg>
+<arg>correlationId=${correlationId}</arg>
 <doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="NOT RUN" start="2026-10-11T16:33:26.446765" elapsed="0.000000"/>
+<status status="NOT RUN" start="2026-10-16T02:02:21.062323" elapsed="0.000000"/>
 </kw>
-<status status="NOT RUN" start="2026-10-11T16:33:26.446765" elapsed="0.000000"/>
+<status status="NOT RUN" start="2026-10-16T02:02:21.062323" elapsed="0.000000"/>
 </branch>
-<status status="PASS" start="2026-10-11T16:33:26.446765" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:21.062323" elapsed="0.000000"/>
 </if>
 <if>
-<branch type="IF" condition="'${admissionId}' != '${EMPTY}'">
+<branch type="IF" condition="'${idempotencyKey}' != '${EMPTY}'">
 <kw name="Set To Dictionary" owner="Collections">
 <arg>${payload}</arg>
-<arg>admissionId=${admissionId}</arg>
+<arg>idempotencyKey=${idempotencyKey}</arg>
 <doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="NOT RUN" start="2026-10-11T16:33:26.446765" elapsed="0.000000"/>
+<status status="NOT RUN" start="2026-10-16T02:02:21.062888" elapsed="0.000000"/>
 </kw>
-<status status="NOT RUN" start="2026-10-11T16:33:26.446765" elapsed="0.000000"/>
+<status status="NOT RUN" start="2026-10-16T02:02:21.062888" elapsed="0.000000"/>
 </branch>
-<status status="PASS" start="2026-10-11T16:33:26.446765" elapsed="0.000000"/>
-</if>
-<if>
-<branch type="IF" condition="'${sourceId}' != '${EMPTY}'">
-<kw name="Set To Dictionary" owner="Collections">
-<arg>${payload}</arg>
-<arg>sourceId=${sourceId}</arg>
-<doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.447290" elapsed="0.000000"/>
-</kw>
-<status status="PASS" start="2026-10-11T16:33:26.446765" elapsed="0.000525"/>
-</branch>
-<status status="PASS" start="2026-10-11T16:33:26.446765" elapsed="0.000525"/>
+<status status="PASS" start="2026-10-16T02:02:21.062323" elapsed="0.000565"/>
 </if>
 <kw name="POST" owner="RequestsLibrary">
-<msg time="2026-10-11T16:33:26.453618" level="INFO">POST Request : url=http://localhost:5000/api/billing/billable-items 
- path_url=/api/billing/billable-items 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MTcxNjYwNiwiZXhwIjoxNzkyMzIxNDA2fQ.kKnUvwr5kkKoBdLSsTkwUqerqBoSr4wn0e4V_eLhRUU', 'Content-Type': 'application/json', 'Content-Length': '165'} 
- body=b'{"patientId": "P10001", "sourceModule": "LABORATORY", "serviceCode": "LAB-CBC", "description": "Complete Blood Count", "quantity": "1", "sourceId": "LAB_ORD_649382"}' 
+<msg time="2026-10-16T02:02:21.073280" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/dispensing 
+ path_url=/api/pharmacy/dispensing 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '200'} 
+ body=b'{"pharmacyOrderId": "PO-20261015-00130", "dispensedItems": [{"medicineId": "MED-000001", "batchId": "BAT-10001", "quantityDispensed": "9", "unitPrice": "2.50", "scannedBarcode": "WRONG-BARCODE-999"}]}' 
  </msg>
-<msg time="2026-10-11T16:33:26.453618" level="INFO">POST Response : url=http://localhost:5000/api/billing/billable-items 
+<msg time="2026-10-16T02:02:21.073280" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/dispensing 
  status=400, reason=Bad Request 
- headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '188', 'ETag': 'W/"bc-0CINj7nYYBeoy2yN7UAkZZloleI"', 'Date': 'Sun, 11 Oct 2026 11:03:26 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"success":false,"error":{"code":"BILLABLE_ITEM_CREATE_FAILED","message":"Duplicate charge: item for source LABORATORY:MANUAL_ENTRY:LAB_ORD_649382 already recorded (CHG-20261011-00112)."}} 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '179', 'ETag': 'W/"b3-7sFHRDrXI1IZu/xneE6tJIVBBGM"', 'Date': 'Thu, 15 Oct 2026 20:32:21 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":false,"message":"MEDICINE_MISMATCH: Scanned barcode 'WRONG-BARCODE-999' does not match prescribed medicine 'Paracetamol' (MED-000001).","errorCode":"MEDICINE_MISMATCH"} 
  </msg>
-<msg time="2026-10-11T16:33:26.453618" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<msg time="2026-10-16T02:02:21.074045" level="INFO">${response} = &lt;Response [400]&gt;</msg>
 <var>${response}</var>
-<arg>${BASE_URL}/billing/billable-items</arg>
+<arg>${BASE_URL}/pharmacy/dispensing</arg>
 <arg>json=${payload}</arg>
 <arg>headers=${headers}</arg>
 <arg>expected_status=any</arg>
 <doc>Sends a POST request.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.447290" elapsed="0.006328"/>
+<status status="PASS" start="2026-10-16T02:02:21.062888" elapsed="0.011157"/>
 </kw>
 <return>
 <value>${response}</value>
-<status status="PASS" start="2026-10-11T16:33:26.453618" elapsed="0.000000"/>
+<status status="PASS" start="2026-10-16T02:02:21.074045" elapsed="0.000000"/>
 </return>
-<msg time="2026-10-11T16:33:26.454138" level="INFO">${dupRes} = &lt;Response [400]&gt;</msg>
-<var>${dupRes}</var>
+<msg time="2026-10-16T02:02:21.074569" level="INFO">${resFail} = &lt;Response [400]&gt;</msg>
+<var>${resFail}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${ordId}</arg>
+<arg>${badList}</arg>
+<status status="PASS" start="2026-10-16T02:02:21.061272" elapsed="0.013297"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${resFail.status_code} == 400 or ${resFail.status_code} == 422</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.074569" elapsed="0.000523"/>
+</kw>
+<doc>Verifies that scanning an incorrect barcode rejects dispensing immediately</doc>
+<status status="PASS" start="2026-10-16T02:02:21.008763" elapsed="0.066329"/>
+</test>
+<test id="s1-t5" name="TC-PHARM-005 Pharmacy Return And Non-Saleable Quarantine" line="129">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.076136" level="INFO">${retItem} = {'medicineId': 'MED-000001', 'batchId': 'BAT-10001', 'quantity': '5', 'quantityReturned': '5', 'reason': 'PATIENT_RETURN', 'condition': 'UNOPENED'}</msg>
+<var>${retItem}</var>
+<arg>medicineId=MED-000001</arg>
+<arg>batchId=BAT-10001</arg>
+<arg>quantity=5</arg>
+<arg>quantityReturned=5</arg>
+<arg>reason=PATIENT_RETURN</arg>
+<arg>condition=UNOPENED</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.075614" elapsed="0.000522"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.076136" level="INFO">${retList} = [{'medicineId': 'MED-000001', 'batchId': 'BAT-10001', 'quantity': '5', 'quantityReturned': '5', 'reason': 'PATIENT_RETURN', 'condition': 'UNOPENED'}]</msg>
+<var>${retList}</var>
+<arg>${retItem}</arg>
+<doc>Creates and returns a list containing the given items.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.076136" elapsed="0.000000"/>
+</kw>
+<kw name="Create Pharmacy Return Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.077190" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.076664" elapsed="0.000526"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.077709" level="INFO">${payload} = {'patientId': 'P10045', 'dispensingRecordId': 'DISP-20261015-00115', 'reason': 'PATIENT_RETURN', 'notes': 'Returned undamaged'}</msg>
+<var>${payload}</var>
+<arg>patientId=${patientId}</arg>
+<arg>dispensingRecordId=${dispensingRecordId}</arg>
+<arg>reason=${reason}</arg>
+<arg>notes=${notes}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.077190" elapsed="0.000519"/>
+</kw>
+<if>
+<branch type="IF" condition="${items} != ${None}">
+<kw name="Set To Dictionary" owner="Collections">
+<arg>${payload}</arg>
+<arg>items=${items}</arg>
+<doc>Adds the given `key_value_pairs` and/or `items` to the `dictionary`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.077709" elapsed="0.000597"/>
+</kw>
+<status status="PASS" start="2026-10-16T02:02:21.077709" elapsed="0.000597"/>
+</branch>
+<status status="PASS" start="2026-10-16T02:02:21.077709" elapsed="0.000597"/>
+</if>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:21.090881" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/returns 
+ path_url=/api/pharmacy/returns 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '287'} 
+ body=b'{"patientId": "P10045", "dispensingRecordId": "DISP-20261015-00115", "reason": "PATIENT_RETURN", "notes": "Returned undamaged", "items": [{"medicineId": "MED-000001", "batchId": "BAT-10001", "quantity": "5", "quantityReturned": "5", "reason": "PATIENT_RETURN", "condition": "UNOPENED"}]}' 
+ </msg>
+<msg time="2026-10-16T02:02:21.091388" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/returns 
+ status=201, reason=Created 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '800', 'ETag': 'W/"320-k2R03DtfF6fVolWIRZI1dGTaA50"', 'Date': 'Thu, 15 Oct 2026 20:32:21 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Pharmacy return 'RET-20261015-00106' requested successfully.","pharmacyReturn":{"returnId":"RET-20261015-00106","patientId":"P10045","patientName":"Rahul Shah","pharmacyOrderId":"PO-20261015-00129","dispensingRecordId":"DISP-20261015-00115","reason":"PATIENT_RETURN","reasonDetails":"","status":"REQUESTED","items":[{"medicineId":"MED-000001","medicineName":"Paracetamol","inventoryBatchId":"BAT-10001","quantity":5,"unit":"Tablet","unitPrice":2.5,"refundAmount":12.5,"condition":"UNOPENED","disposition":"QUARANTINE","dispositionNotes":""}],"totalRefundAmount":12.5,"requestedBy":"USR-SYSADMIN-001","reviewNotes":"","correlationId":"RX-20261015-00129","_id":"6ad13855fff42835158ddfc5","createdAt":"2026-10-15T20:32:21.091Z","updatedAt":"2026-10-15T20:32:21.091Z","__v":0}} 
+ </msg>
+<msg time="2026-10-16T02:02:21.091388" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/returns</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.078306" elapsed="0.013082"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:21.091388" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:21.091388" level="INFO">${resRet} = &lt;Response [201]&gt;</msg>
+<var>${resRet}</var>
 <arg>${AUTH_TOKEN}</arg>
 <arg>${PATIENT_ID}</arg>
-<arg>LABORATORY</arg>
-<arg>LAB-CBC</arg>
-<arg>Complete Blood Count</arg>
-<arg>1</arg>
-<arg>sourceId=LAB_ORD_${RUN_ID}</arg>
-<status status="PASS" start="2026-10-11T16:33:26.445192" elapsed="0.008946"/>
+<arg>${DISPENSING_ID}</arg>
+<arg>reason=PATIENT_RETURN</arg>
+<arg>items=${retList}</arg>
+<status status="PASS" start="2026-10-16T02:02:21.076664" elapsed="0.014724"/>
 </kw>
-<kw name="Should Be Equal As Integers" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.454138" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${dupRes.status_code}</arg>
-<arg>400</arg>
-<doc>Fails if objects are unequal after converting them to integers.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.454138" elapsed="0.000000"/>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${resRet.status_code} == 200 or ${resRet.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.091388" elapsed="0.001016"/>
 </kw>
 <kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-10-11T16:33:26.455146" level="INFO">${body} = {'success': False, 'error': {'code': 'BILLABLE_ITEM_CREATE_FAILED', 'message': 'Duplicate charge: item for source LABORATORY:MANUAL_ENTRY:LAB_ORD_649382 already recorded (CHG-20261011-00112).'}}</msg>
-<var>${body}</var>
-<arg>${dupRes.json()}</arg>
+<msg time="2026-10-16T02:02:21.092404" level="INFO">${retId} = RET-20261015-00106</msg>
+<var>${retId}</var>
+<arg>${resRet.json()}[pharmacyReturn][returnId]</arg>
 <doc>Returns the given values which can then be assigned to a variable.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.454138" elapsed="0.001008"/>
+<status status="PASS" start="2026-10-16T02:02:21.092404" elapsed="0.000000"/>
 </kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${body}[success]</arg>
-<arg>${FALSE}</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.455146" elapsed="0.000473"/>
+<kw name="Approve Pharmacy Return Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.093553" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.092939" elapsed="0.000614"/>
 </kw>
-<kw name="Should Contain" owner="BuiltIn">
-<arg>${body}[error][message]</arg>
-<arg>Duplicate charge</arg>
-<doc>Fails if the `container` does not contain the `item` one or more times.</doc>
-<status status="PASS" start="2026-10-11T16:33:26.456125" elapsed="0.000000"/>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.093553" level="INFO">${payload} = {'action': 'APPROVE', 'quarantineDisposition': 'QUARANTINE_NON_SALEABLE'}</msg>
+<var>${payload}</var>
+<arg>action=APPROVE</arg>
+<arg>quarantineDisposition=${disposition}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.093553" elapsed="0.000000"/>
 </kw>
-<doc>Ensures same originating source cannot submit duplicate charges</doc>
-<status status="PASS" start="2026-10-11T16:33:26.444667" elapsed="0.011980"/>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:21.102983" level="INFO">POST Request : url=http://localhost:5000/api/pharmacy/returns/RET-20261015-00106/approve 
+ path_url=/api/pharmacy/returns/RET-20261015-00106/approve 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json', 'Content-Length': '73'} 
+ body=b'{"action": "APPROVE", "quarantineDisposition": "QUARANTINE_NON_SALEABLE"}' 
+ </msg>
+<msg time="2026-10-16T02:02:21.103554" level="INFO">POST Response : url=http://localhost:5000/api/pharmacy/returns/RET-20261015-00106/approve 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '861', 'ETag': 'W/"35d-uNEXQZL7RFu5zb/LZ63qTydQ+Fc"', 'Date': 'Thu, 15 Oct 2026 20:32:21 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Return 'RET-20261015-00106' APPROVED successfully.","pharmacyReturn":{"_id":"6ad13855fff42835158ddfc5","returnId":"RET-20261015-00106","patientId":"P10045","patientName":"Rahul Shah","pharmacyOrderId":"PO-20261015-00129","dispensingRecordId":"DISP-20261015-00115","reason":"PATIENT_RETURN","reasonDetails":"","status":"APPROVED","items":[{"medicineId":"MED-000001","medicineName":"Paracetamol","inventoryBatchId":"BAT-10001","quantity":5,"unit":"Tablet","unitPrice":2.5,"refundAmount":12.5,"condition":"UNOPENED","disposition":"QUARANTINE","dispositionNotes":""}],"totalRefundAmount":12.5,"requestedBy":"USR-SYSADMIN-001","reviewNotes":"","correlationId":"RX-20261015-00129","createdAt":"2026-10-15T20:32:21.091Z","updatedAt":"2026-10-15T20:32:21.103Z","__v":0,"approvedBy":"USR-SYSADMIN-001","approvedAt":"2026-10-15T20:32:21.103Z"}} 
+ </msg>
+<msg time="2026-10-16T02:02:21.103554" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/returns/${returnId}/approve</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.094081" elapsed="0.009473"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:21.103554" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:21.103554" level="INFO">${resApp} = &lt;Response [200]&gt;</msg>
+<var>${resApp}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${retId}</arg>
+<arg>disposition=QUARANTINE_NON_SALEABLE</arg>
+<status status="PASS" start="2026-10-16T02:02:21.092939" elapsed="0.011143"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.104608" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resApp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.104082" elapsed="0.000526"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resApp.json()}[pharmacyReturn][status]</arg>
+<arg>APPROVED</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.104608" elapsed="0.000525"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resApp.json()}[pharmacyReturn][items][0][disposition]</arg>
+<arg>QUARANTINE</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.105133" elapsed="0.000000"/>
+</kw>
+<doc>Exercises return request creation and approval into non-saleable quarantine</doc>
+<status status="PASS" start="2026-10-16T02:02:21.075092" elapsed="0.030565"/>
 </test>
-<doc>Module 08: Billable Item Ingestion, Rate Card Lookup &amp; Duplicate Prevention</doc>
-<status status="PASS" start="2026-10-11T16:33:26.111795" elapsed="0.344852"/>
+<test id="s1-t6" name="TC-PHARM-006 Stock And Expiry Alerts Monitoring" line="150">
+<kw name="Get Near Expiry Alerts Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.107239" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.106706" elapsed="0.000533"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.107239" level="INFO">${params} = {'days': '90'}</msg>
+<var>${params}</var>
+<arg>days=${days}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.107239" elapsed="0.000000"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:21.114091" level="INFO">GET Request : url=http://localhost:5000/api/pharmacy/reports/near-expiry?days=90 
+ path_url=/api/pharmacy/reports/near-expiry?days=90 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg time="2026-10-16T02:02:21.114091" level="INFO">GET Response : url=http://localhost:5000/api/pharmacy/reports/near-expiry?days=90 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '945', 'ETag': 'W/"3b1-MyjUxk5vcW+HR8sq3HAJrWzuyA0"', 'Date': 'Thu, 15 Oct 2026 20:32:21 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"count":2,"batches":[{"_id":"6ad12f846257e3acc408a3d5","batchId":"BAT-10003","__v":0,"availableQuantity":65,"createdAt":"2026-10-15T19:54:44.857Z","expiryDate":"2026-10-30T19:54:44.852Z","initialQuantity":300,"lotNumber":"LOT-OMP-2026-N","medicineId":"MED-000003","medicineName":"Omeprazole","reservedQuantity":0,"status":"ACTIVE","storageLocation":"Main Pharmacy Store - Rack A1","supplier":"Dr. Reddy Supply","unitCost":2.8,"unitPrice":5.5,"updatedAt":"2026-10-15T19:54:44.857Z"},{"_id":"6ad130d68b0ea3b03b5178ea","batchId":"BAT-TEST-01-EARLY","medicineId":"MED-TEST-001","medicineName":"Cefixime","lotNumber":"LOT-CEF-01","initialQuantity":100,"availableQuantity":20,"reservedQuantity":0,"expiryDate":"2026-12-14T20:00:22.259Z","unitCost":0,"unitPrice":15,"supplier":"","storageLocation":"Main Pharmacy Store - Rack A1","status":"ACTIVE","createdAt":"2026-10-15T20:00:22.260Z","updatedAt":"2026-10-15T20:00:22.376Z","__v":0}]} 
+ </msg>
+<msg time="2026-10-16T02:02:21.114619" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/reports/near-expiry</arg>
+<arg>params=${params}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.107762" elapsed="0.006857"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:21.114619" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:21.114619" level="INFO">${resAlerts} = &lt;Response [200]&gt;</msg>
+<var>${resAlerts}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>days=90</arg>
+<status status="PASS" start="2026-10-16T02:02:21.106183" elapsed="0.008436"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.115149" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resAlerts.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.114619" elapsed="0.000530"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${resAlerts.json()}[success]</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.115149" elapsed="0.000524"/>
+</kw>
+<kw name="Get Out Of Stock Alerts Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.116194" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.116194" elapsed="0.000000"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:21.161701" level="INFO">GET Request : url=http://localhost:5000/api/pharmacy/reports/out-of-stock 
+ path_url=/api/pharmacy/reports/out-of-stock 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg time="2026-10-16T02:02:21.161701" level="INFO">GET Response : url=http://localhost:5000/api/pharmacy/reports/out-of-stock 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '4117', 'ETag': 'W/"1015-DttXZU7N5ptDrUZvsSBi/y7g59s"', 'Date': 'Thu, 15 Oct 2026 20:32:21 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"count":23,"items":[{"medicineId":"MED-000006","genericName":"Metformin Hydrochloride","brandName":"Glyciphage 500","strength":"500 mg","dosageForm":"Tablet","reorderLevel":600,"availableQuantity":0},{"medicineId":"MED-000007","genericName":"Atorvastatin","brandName":"Atorva 10","strength":"10 mg","dosageForm":"Tablet","reorderLevel":300,"availableQuantity":0},{"medicineId":"MED-000008","genericName":"Pantoprazole","brandName":"Pan 40","strength":"40 mg","dosageForm":"Tablet","reorderLevel":450,"availableQuantity":0},{"medicineId":"MED-000009","genericName":"Ibuprofen","brandName":"Brufen 400","strength":"400 mg","dosageForm":"Tablet","reorderLevel":500,"availableQuantity":0},{"medicineId":"MED-000010","genericName":"Ciprofloxacin","brandName":"Ciplox 500","strength":"500 mg","dosageForm":"Tablet","reorderLevel":250,"availableQuantity":0},{"medicineId":"MED-000011","genericName":"Losartan Potassium","brandName":"Losacar 50","strength":"50 mg","dosageForm":"Tablet","reorderLevel":300,"availableQuantity":0},{"medicineId":"MED-000014","genericName":"Insulin Glargine","brandName":"Lantus SoloStar","strength":"100 IU/ml","dosageForm":"Injection","reorderLevel":80,"availableQuantity":0},{"medicineId":"MED-000015","genericName":"Salbutamol Inhaler","brandName":"Asthalin Inhaler","strength":"100 mcg/puff","dosageForm":"Inhaler","reorderLevel":150,"availableQuantity":0},{"medicineId":"MED-000016","genericName":"Ondansetron","brandName":"Emeset 4","strength":"4 mg","dosageForm":"Tablet","reorderLevel":300,"availableQuantity":0},{"medicineId":"MED-000017","genericName":"Levothyroxine Sodium","brandName":"Thyronorm 50","strength":"50 mcg","dosageForm":"Tablet","reorderLevel":400,"availableQuantity":0},{"medicineId":"MED-000018","genericName":"Clopidogrel","brandName":"Deplatt 75","strength":"75 mg","dosageForm":"Tablet","reorderLevel":250,"availableQuantity":0},{"medicineId":"MED-000021","genericName":"Rifampicin","brandName":"R-Cinex","strength":"450 mg","dosageForm":"Capsule","reorderLevel":150,"availableQuantity":0},{"medicineId":"MED-000101","genericName":"Paracetamol","brandName":"Paracetamol Robot 751741","strength":"500mg","dosageForm":"TABLET","reorderLevel":100,"availableQuantity":0},{"medicineId":"MED-000102","genericName":"Paracetamol-RPA-188927","brandName":"Paracetamol Robot 188927","strength":"500mg","dosageForm":"TABLET","reorderLevel":100,"availableQuantity":0},{"medicineId":"MED-000103","genericName":"Paracetamol-RPA-309140","brandName":"Paracetamol Robot 309140","strength":"500mg","dosageForm":"TABLET","reorderLevel":100,"availableQuantity":0},{"medicineId":"MED-000104","genericName":"Paracetamol-RPA-100005","brandName":"Paracetamol Robot 100005","strength":"500mg","dosageForm":"TABLET","reorderLevel":100,"availableQuantity":0},{"medicineId":"MED-000105","genericName":"Paracetamol-RPA-643871","brandName":"Paracetamol Robot 643871","strength":"500mg","dosageForm":"TABLET","reorderLevel":100,"availableQuantity":0},{"medicineId":"MED-000106","genericName":"Paracetamol-RPA-277148","brandName":"Paracetamol Robot 277148","strength":"500mg","dosageForm":"TABLET","reorderLevel":100,"availableQuantity":0},{"medicineId":"MED-000107","genericName":"Paracetamol-RPA-431616","brandName":"Paracetamol Robot 431616","strength":"500mg","dosageForm":"TABLET","reorderLevel":100,"availableQuantity":0},{"medicineId":"MED-000108","genericName":"Paracetamol-RPA-853454","brandName":"Paracetamol Robot 853454","strength":"500mg","dosageForm":"TABLET","reorderLevel":100,"availableQuantity":0},{"medicineId":"MED-000109","genericName":"Paracetamol-RPA-803071","brandName":"Paracetamol Robot 803071","strength":"500mg","dosageForm":"TABLET","reorderLevel":100,"availableQuantity":0},{"medicineId":"MED-000110","genericName":"Paracetamol-RPA-121883","brandName":"Paracetamol Robot 121883","strength":"500mg","dosageForm":"TABLET","reorderLevel":100,"availableQuantity":0},{"medicineId":"MED-000111","genericName":"Paracetamol-RPA-741380","brandName":"Paracetamol Robot 741380","strength":"500mg","dosageForm":"TABLET","reorderLevel":100,"availableQuantity":0}]} 
+ </msg>
+<msg time="2026-10-16T02:02:21.162205" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/reports/out-of-stock</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.116194" elapsed="0.046011"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:21.162205" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:21.162205" level="INFO">${resStock} = &lt;Response [200]&gt;</msg>
+<var>${resStock}</var>
+<arg>${AUTH_TOKEN}</arg>
+<status status="PASS" start="2026-10-16T02:02:21.115673" elapsed="0.046532"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.162749" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resStock.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.162749" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${resStock.json()}[success]</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.163273" elapsed="0.000000"/>
+</kw>
+<doc>Verifies automated alerts query for near-expiry and out-of-stock batches</doc>
+<status status="PASS" start="2026-10-16T02:02:21.105657" elapsed="0.057616"/>
+</test>
+<test id="s1-t7" name="TC-PHARM-007 Pharmacy Executive Reports And KPIs" line="160">
+<kw name="Get Pharmacy KPIs Via API" owner="pharmacy_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.164333" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTj...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.164333" elapsed="0.000000"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2026-10-16T02:02:21.203512" level="INFO">GET Request : url=http://localhost:5000/api/pharmacy/reports/kpis 
+ path_url=/api/pharmacy/reports/kpis 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjA5NjM0MCwiZXhwIjoxNzkyNzAxMTQwfQ.HT0LmQPtH5bwPMXG0oRaTjJOYldeeYkVBACwhCWGHJQ', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg time="2026-10-16T02:02:21.203512" level="INFO">GET Response : url=http://localhost:5000/api/pharmacy/reports/kpis 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '238', 'ETag': 'W/"ee-0m22OVoWXrzwA010p4p+tC1SJVw"', 'Date': 'Thu, 15 Oct 2026 20:32:21 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"kpis":{"todayOrders":27,"pendingOrders":31,"readyOrders":10,"partialOrders":8,"dispensedToday":7,"pendingPrescriptions":27,"outOfStockItems":23,"nearExpiryItems":1,"pendingReturns":1,"activeRpaJobs":0,"openExceptions":0}} 
+ </msg>
+<msg time="2026-10-16T02:02:21.204033" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/pharmacy/reports/kpis</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.164853" elapsed="0.039180"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-16T02:02:21.204033" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-16T02:02:21.204033" level="INFO">${resKPI} = &lt;Response [200]&gt;</msg>
+<var>${resKPI}</var>
+<arg>${AUTH_TOKEN}</arg>
+<status status="PASS" start="2026-10-16T02:02:21.163794" elapsed="0.040239"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-16T02:02:21.204559" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resKPI.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.204033" elapsed="0.000526"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${resKPI.json()}[success]</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-16T02:02:21.204559" elapsed="0.000524"/>
+</kw>
+<doc>Verifies pharmacy executive summary statistics and KPI aggregation</doc>
+<status status="PASS" start="2026-10-16T02:02:21.163794" elapsed="0.041289"/>
+</test>
+<doc>Module 17: Pharmacy Management RPA Automation Test Suite</doc>
+<status status="PASS" start="2026-10-16T02:02:20.530304" elapsed="0.675298"/>
 </suite>
 <statistics>
 <total>
-<stat pass="3" fail="0" skip="0">All Tests</stat>
+<stat pass="7" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat name="Charge Import" id="s1" pass="3" fail="0" skip="0">Charge Import</stat>
+<stat name="Pharmacy Order" id="s1" pass="7" fail="0" skip="0">Pharmacy Order</stat>
 </suite>
 </statistics>
 <errors>
