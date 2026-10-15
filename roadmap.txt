@@ -40,13 +40,13 @@ Phase 3: Financial, Billing & Insurance Engine
 
 ---
 
-Phase 4: Workforce, Clinical Rostering & HR Support
-- Step 11: 11_DOCTOR_MANAGEMENT.md (Doctor Master, Specializations, Recurring Schedules, Leaves)
-- Step 12: 12_STAFF_MANAGEMENT.md (Employee Master, Onboarding, Offboarding, Welcome Alerts)
-- Step 13: 14_SHIFT_MANAGEMENT.md (Shift Rules, Rosters, Rota Assignments, Swap Requests)
+Phase 4: Workforce, Clinical Rostering & HR Support [COMPLETED]
+- Step 11: 11_DOCTOR_MANAGEMENT.md (Doctor Master, Specializations, Recurring Schedules, Leaves) [COMPLETED]
+- Step 12: 12_STAFF_MANAGEMENT.md (Employee Master, Onboarding, Offboarding, Welcome Alerts) [COMPLETED]
+- Step 13: 14_SHIFT_MANAGEMENT.md (Shift Rules, Rosters, Rota Assignments, Swap Requests) [COMPLETED]
 - Step 14: 13_ATTENDANCE_MANAGEMENT.md (Biometric/Log Ingestion, Shift Reconciliation, Exceptions) [COMPLETED]
-- Step 15: 15_LEAVE_MANAGEMENT.md (Leave Policies, Accruals, Approval Chain, Schedule Sync)
-- Step 16: 16_PAYROLL_SUPPORT.md (Reconciliation, Overtime/Deductions, Payroll System Exports)
+- Step 15: 15_LEAVE_MANAGEMENT.md (Leave Policies, Accruals, Approval Chain, Schedule Sync) [COMPLETED]
+- Step 16: 16_PAYROLL_SUPPORT.md (Reconciliation, Overtime/Deductions, Payroll System Exports) [COMPLETED]
 
 ---
 

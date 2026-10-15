@@ -115,6 +115,18 @@ import { LeaveCalendarPage } from '../pages/leave/LeaveCalendarPage';
 import { LeavePoliciesPage } from '../pages/leave/LeavePoliciesPage';
 import { LeaveReportsPage } from '../pages/leave/LeaveReportsPage';
 
+// Module 16: Payroll Support Pages
+import { PayrollDashboard } from '../pages/payroll/PayrollDashboard';
+import { PayrollPeriodsPage } from '../pages/payroll/PayrollPeriodsPage';
+import { PayrollReviewPage } from '../pages/payroll/PayrollReviewPage';
+import { PayrollResultsPage } from '../pages/payroll/PayrollResultsPage';
+import { PayrollSalaryConfigPage } from '../pages/payroll/PayrollSalaryConfigPage';
+import { PayrollExceptionsPage } from '../pages/payroll/PayrollExceptionsPage';
+import { PayrollReportsPage } from '../pages/payroll/PayrollReportsPage';
+import { MyPayrollPage } from '../pages/payroll/MyPayrollPage';
+import { PayslipsPage } from '../pages/payroll/PayslipsPage';
+import { PayrollQueriesPage } from '../pages/payroll/PayrollQueriesPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -1272,6 +1284,90 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <LeaveRequestPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 16: Payroll Support Routes */}
+        <Route
+          path="payroll"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'FINANCE_HEAD', 'PAYROLL_STAFF']}>
+              <PayrollDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="payroll/periods"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'FINANCE_HEAD', 'PAYROLL_STAFF']}>
+              <PayrollPeriodsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="payroll/review"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'FINANCE_HEAD', 'PAYROLL_STAFF']}>
+              <PayrollReviewPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="payroll/results"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'FINANCE_HEAD', 'PAYROLL_STAFF']}>
+              <PayrollResultsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="payroll/salary-config"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'FINANCE_HEAD']}>
+              <PayrollSalaryConfigPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="payroll/exceptions"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'FINANCE_HEAD', 'PAYROLL_STAFF']}>
+              <PayrollExceptionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="payroll/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'FINANCE_HEAD', 'PAYROLL_STAFF']}>
+              <PayrollReportsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Employee Self-Service Payroll Routes & Aliases */}
+        <Route
+          path="my-payroll"
+          element={
+            <ProtectedRoute>
+              <MyPayrollPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="my-payslips"
+          element={
+            <ProtectedRoute>
+              <PayslipsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="my-payroll/queries"
+          element={
+            <ProtectedRoute>
+              <PayrollQueriesPage />
             </ProtectedRoute>
           }
         />

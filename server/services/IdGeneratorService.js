@@ -1853,6 +1853,151 @@ class IdGeneratorService {
     const padded = String(counter.sequenceValue).padStart(4, '0');
     return `${prefix}${padded}`;
   }
+
+  /**
+   * Generate unique Payroll Period Code (e.g. PAY-2026-10)
+   */
+  static generatePayrollPeriodCode(year, month) {
+    const y = year || new Date().getFullYear();
+    const m = String(month || (new Date().getMonth() + 1)).padStart(2, '0');
+    return `PAY-${y}-${m}`;
+  }
+
+  /**
+   * Generate unique Payroll Input ID (e.g. PINP-2026-00001)
+   */
+  static async generatePayrollInputId() {
+    const currentYear = new Date().getFullYear();
+    const prefix = `PINP-${currentYear}-`;
+    const key = `PAYROLL_INPUT_ID_${currentYear}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Salary Assignment ID (e.g. SA-2026-00001)
+   */
+  static async generateSalaryAssignmentId() {
+    const currentYear = new Date().getFullYear();
+    const prefix = `SA-${currentYear}-`;
+    const key = `SALARY_ASSIGNMENT_ID_${currentYear}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Overtime Record ID (e.g. OT-2026-00001)
+   */
+  static async generateOvertimeId() {
+    const currentYear = new Date().getFullYear();
+    const prefix = `OT-${currentYear}-`;
+    const key = `OVERTIME_ID_${currentYear}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Payroll Run ID (e.g. PRUN-2026-00001)
+   */
+  static async generatePayrollRunId() {
+    const currentYear = new Date().getFullYear();
+    const prefix = `PRUN-${currentYear}-`;
+    const key = `PAYROLL_RUN_ID_${currentYear}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Payroll Result ID (e.g. PRES-2026-00001)
+   */
+  static async generatePayrollResultId() {
+    const currentYear = new Date().getFullYear();
+    const prefix = `PRES-${currentYear}-`;
+    const key = `PAYROLL_RESULT_ID_${currentYear}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Payslip Number (e.g. PSL-202610-00001)
+   */
+  static async generatePayslipNumber(periodCode) {
+    const cleanedPeriod = (periodCode || '2026-10').replace(/[^0-9]/g, '');
+    const prefix = `PSL-${cleanedPeriod}-`;
+    const key = `PAYSLIP_NUM_${cleanedPeriod}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Payroll Query ID (e.g. PQ-2026-00001)
+   */
+  static async generatePayrollQueryId() {
+    const currentYear = new Date().getFullYear();
+    const prefix = `PQ-${currentYear}-`;
+    const key = `PAYROLL_QUERY_ID_${currentYear}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
+
+  /**
+   * Generate unique Payroll Adjustment ID (e.g. PADJ-2026-00001)
+   */
+  static async generatePayrollAdjustmentId() {
+    const currentYear = new Date().getFullYear();
+    const prefix = `PADJ-${currentYear}-`;
+    const key = `PAYROLL_ADJUSTMENT_ID_${currentYear}`;
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    const padded = String(counter.sequenceValue).padStart(5, '0');
+    return `${prefix}${padded}`;
+  }
 }
 
 module.exports = IdGeneratorService;

@@ -209,6 +209,7 @@ const runModule11Tests = async () => {
     // 11. Slot Generation (Section 28)
     // Find next Monday date string
     const nextMonday = new Date();
+    nextMonday.setHours(12, 0, 0, 0);
     nextMonday.setDate(nextMonday.getDate() + ((1 + 7 - nextMonday.getDay()) % 7 || 7));
     const nextMondayStr = nextMonday.toISOString().split('T')[0];
 

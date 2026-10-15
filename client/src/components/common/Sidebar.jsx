@@ -32,7 +32,10 @@ import {
   RefreshCw,
   CalendarDays,
   Repeat,
-  CalendarCheck
+  CalendarCheck,
+  Banknote,
+  Receipt,
+  DollarSign
 } from 'lucide-react';
 
 export const Sidebar = () => {
@@ -43,7 +46,7 @@ export const Sidebar = () => {
     if (hasRole('PATIENT')) {
       return [
         { to: '/patient/dashboard', label: 'My Dashboard', icon: LayoutDashboard },
-        { to: '/patient/profile', label: 'My Identity Profile', icon: User },
+        { to: '/patient/profile', label: 'My Identity Profile', icon: UserCheck },
         { to: '/patient/visits', label: 'My Visit Encounters', icon: Clock },
         { to: '/patient/appointments', label: 'My Appointments', icon: Calendar },
         { to: '/patient/checkin', label: 'Online Check-In', icon: Layers },
@@ -73,7 +76,10 @@ export const Sidebar = () => {
         { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
         { to: '/operations/opd-desk', label: 'Front-Desk Queue', icon: Layers },
         { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck },
-        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays }
+        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays },
+        { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
+        { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
+        { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }
       ];
     }
 
@@ -92,7 +98,10 @@ export const Sidebar = () => {
         { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
         { to: '/clinical/lab-orders', label: 'Lab Orders', icon: FlaskConical },
         { to: '/clinical/radiology', label: 'Radiology Orders', icon: Radio },
-        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays }
+        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays },
+        { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
+        { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
+        { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }
       ];
     }
 
@@ -108,7 +117,13 @@ export const Sidebar = () => {
         { to: '/front-desk/patients/search', label: 'Patient Master Search', icon: Search },
         { to: '/finance/insurance', label: 'Policy Verification', icon: ShieldCheck },
         { to: '/finance/claims', label: 'Insurance Claims', icon: FileText },
-        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays }
+        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays },
+        { to: '/payroll', label: 'Payroll Dashboard', icon: DollarSign },
+        { to: '/payroll/results', label: 'Payroll Results & Calc', icon: Banknote },
+        { to: '/payroll/reports', label: 'Payroll Reports', icon: FileText },
+        { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
+        { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
+        { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }
       ];
     }
 
@@ -156,7 +171,17 @@ export const Sidebar = () => {
       { to: '/leave/approvals', label: 'Leave Approvals Queue', icon: FileCheck },
       { to: '/leave/calendar', label: 'Leave Calendar & Holidays', icon: Calendar },
       { to: '/leave/policies', label: 'Leave Policies & Types', icon: Sliders },
-      { to: '/leave/reports', label: 'Leave Analytics & Reports', icon: FileText }
+      { to: '/leave/reports', label: 'Leave Analytics & Reports', icon: FileText },
+      { to: '/payroll', label: 'Payroll Management Hub', icon: Banknote },
+      { to: '/payroll/periods', label: 'Payroll Periods & Cycle', icon: CalendarDays },
+      { to: '/payroll/review', label: 'Payroll Input Audit', icon: FileCheck },
+      { to: '/payroll/results', label: 'Payroll Results & Calc', icon: DollarSign },
+      { to: '/payroll/salary-config', label: 'Salary Structures & Grades', icon: Sliders },
+      { to: '/payroll/exceptions', label: 'Payroll Exceptions', icon: AlertTriangle },
+      { to: '/payroll/reports', label: 'Payroll Reports & Register', icon: FileText },
+      { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
+      { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
+      { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }
     ];
   };
 
