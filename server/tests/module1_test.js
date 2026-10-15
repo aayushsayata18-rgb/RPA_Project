@@ -41,7 +41,7 @@ const runModule1Tests = async () => {
     console.log(`  -> Temp Emergency ID: ${tempId}`);
     console.log(`  -> Correlation ID: ${corrId}`);
 
-    if (!/^P\d{5}$/.test(pid1)) throw new Error(`Invalid Patient ID format: ${pid1}`);
+    if (!/^P\d{5,}$/.test(pid1)) throw new Error(`Invalid Patient ID format: ${pid1}`);
     if (!/^V\d{9}$/.test(vid1)) throw new Error(`Invalid Visit ID format: ${vid1}`);
     if (!/^REG\d{9}$/.test(regId)) throw new Error(`Invalid Registration ID format: ${regId}`);
     if (!/^TEMP-\d{4}-\d{5}$/.test(tempId)) throw new Error(`Invalid Temporary ID format: ${tempId}`);

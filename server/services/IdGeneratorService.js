@@ -931,20 +931,38 @@ class IdGeneratorService {
    * Generate unique Verification ID (e.g. IV-2026-000123)
    */
   static async generateVerificationId() {
+    const InsuranceVerification = require('../models/InsuranceVerification');
     const year = new Date().getFullYear();
+    const prefix = `IV-${year}-`;
     const key = `INSURANCE_VERIFICATION_ID_${year}`;
+
+    const lastVer = await InsuranceVerification.findOne({ verificationId: new RegExp(`^${prefix}\\d+$`) })
+      .sort({ verificationId: -1 })
+      .select('verificationId')
+      .lean();
+
+    let baseSeq = 101;
+    if (lastVer && lastVer.verificationId) {
+      const numPart = lastVer.verificationId.substring(prefix.length);
+      const num = parseInt(numPart, 10);
+      if (!isNaN(num)) {
+        baseSeq = Math.max(baseSeq, num + 1);
+      }
+    }
+
     const counter = await SequenceCounter.findOneAndUpdate(
       { key },
       { $inc: { sequenceValue: 1 } },
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
-    let baseSeq = 101;
+
     if (counter.sequenceValue < baseSeq) {
       counter.sequenceValue = baseSeq;
       await counter.save();
     }
+
     const padded = String(counter.sequenceValue).padStart(6, '0');
-    return `IV-${year}-${padded}`;
+    return `${prefix}${padded}`;
   }
   /**
    * Generate unique Insurance Claim ID (e.g. CLM-2026-00098)
@@ -1298,7 +1316,305 @@ class IdGeneratorService {
 
     return `${prefix}${counter.sequenceValue}`;
   }
+
+  /**
+   * Generate unique Shift Definition ID (e.g. SHF10001)
+   */
+  static async generateShiftId() {
+    const Shift = require('../models/Shift');
+    const prefix = 'SHF';
+    const key = 'SHIFT_ID';
+
+    const last = await Shift.findOne({ shiftId: /^SHF\d+$/ })
+      .sort({ shiftId: -1 })
+      .select('shiftId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (last && last.shiftId) {
+      const num = parseInt(last.shiftId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Roster ID (e.g. RST10001)
+   */
+  static async generateRosterId() {
+    const Roster = require('../models/Roster');
+    const prefix = 'RST';
+    const key = 'ROSTER_ID';
+
+    const last = await Roster.findOne({ rosterId: /^RST\d+$/ })
+      .sort({ rosterId: -1 })
+      .select('rosterId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (last && last.rosterId) {
+      const num = parseInt(last.rosterId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Roster Version ID (e.g. RV10001)
+   */
+  static async generateRosterVersionId() {
+    const RosterVersion = require('../models/RosterVersion');
+    const prefix = 'RV';
+    const key = 'ROSTER_VERSION_ID';
+
+    const last = await RosterVersion.findOne({ versionId: /^RV\d+$/ })
+      .sort({ versionId: -1 })
+      .select('versionId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (last && last.versionId) {
+      const num = parseInt(last.versionId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Shift Assignment ID (e.g. ASN10001)
+   */
+  static async generateShiftAssignmentId() {
+    const ShiftAssignment = require('../models/ShiftAssignment');
+    const prefix = 'ASN';
+    const key = 'SHIFT_ASSIGNMENT_ID';
+
+    const last = await ShiftAssignment.findOne({ assignmentId: /^ASN\d+$/ })
+      .sort({ assignmentId: -1 })
+      .select('assignmentId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (last && last.assignmentId) {
+      const num = parseInt(last.assignmentId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Shift Change Request ID (e.g. SCR10001)
+   */
+  static async generateShiftChangeRequestId() {
+    const ShiftChangeRequest = require('../models/ShiftChangeRequest');
+    const prefix = 'SCR';
+    const key = 'SHIFT_CHANGE_REQUEST_ID';
+
+    const last = await ShiftChangeRequest.findOne({ requestId: /^SCR\d+$/ })
+      .sort({ requestId: -1 })
+      .select('requestId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (last && last.requestId) {
+      const num = parseInt(last.requestId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Shift Swap Request ID (e.g. SSR10001)
+   */
+  static async generateShiftSwapRequestId() {
+    const ShiftSwapRequest = require('../models/ShiftSwapRequest');
+    const prefix = 'SSR';
+    const key = 'SHIFT_SWAP_REQUEST_ID';
+
+    const last = await ShiftSwapRequest.findOne({ swapId: /^SSR\d+$/ })
+      .sort({ swapId: -1 })
+      .select('swapId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (last && last.swapId) {
+      const num = parseInt(last.swapId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Shift Conflict ID (e.g. CNF10001)
+   */
+  static async generateShiftConflictId() {
+    const ShiftConflict = require('../models/ShiftConflict');
+    const prefix = 'CNF';
+    const key = 'SHIFT_CONFLICT_ID';
+
+    const last = await ShiftConflict.findOne({ conflictId: /^CNF\d+$/ })
+      .sort({ conflictId: -1 })
+      .select('conflictId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (last && last.conflictId) {
+      const num = parseInt(last.conflictId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Employee Availability ID (e.g. AVL10001)
+   */
+  static async generateAvailabilityId() {
+    const EmployeeAvailability = require('../models/EmployeeAvailability');
+    const prefix = 'AVL';
+    const key = 'AVAILABILITY_ID';
+
+    const last = await EmployeeAvailability.findOne({ availabilityId: /^AVL\d+$/ })
+      .sort({ availabilityId: -1 })
+      .select('availabilityId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (last && last.availabilityId) {
+      const num = parseInt(last.availabilityId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
+
+  /**
+   * Generate unique Shift Coverage ID (e.g. COV10001)
+   */
+  static async generateCoverageId() {
+    const ShiftCoverage = require('../models/ShiftCoverage');
+    const prefix = 'COV';
+    const key = 'SHIFT_COVERAGE_ID';
+
+    const last = await ShiftCoverage.findOne({ coverageId: /^COV\d+$/ })
+      .sort({ coverageId: -1 })
+      .select('coverageId')
+      .lean();
+
+    let baseSeq = 10001;
+    if (last && last.coverageId) {
+      const num = parseInt(last.coverageId.replace(/\D/g, ''), 10);
+      if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+    }
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+
+    return `${prefix}${counter.sequenceValue}`;
+  }
 }
 
 module.exports = IdGeneratorService;
+
 

@@ -56,6 +56,28 @@ class AttendanceReconciliationService {
       let newReconStatus = 'MATCHED';
       let reconNote = 'Attendance matches scheduled expectations.';
 
+      // Reconcile with updated/published shift assignments (Module 14 Sec 37)
+      try {
+        const ShiftAssignment = require('../models/ShiftAssignment');
+        const assignment = await ShiftAssignment.findOne({
+          employeeId: employee._id,
+          assignmentDate: record.attendanceDate,
+          status: { $in: ['PUBLISHED', 'APPROVED'] }
+        }).populate('shiftId');
+
+        if (assignment && assignment.shiftId) {
+          if (!record.shiftAssignmentId || record.shiftAssignmentId.toString() !== assignment._id.toString()) {
+            record.shiftAssignmentId = assignment._id;
+            record.shiftDetails = {
+              shiftCode: assignment.shiftCode,
+              shiftName: assignment.shiftId.shiftName,
+              expectedStartTime: assignment.shiftId.startTime,
+              expectedEndTime: assignment.shiftId.endTime
+            };
+          }
+        }
+      } catch (e) {}
+
       // 1. Missing punch check (IN without OUT or vice versa)
       if (record.checkIn.timestamp && !record.checkOut.timestamp) {
         // If current time is after expected shift end (18:00), flag as missing punch

@@ -379,7 +379,7 @@ class AdmissionService {
     }
 
     // Reserve the bed concurrency-safely
-    const reservedBed = await BedManagementService.reserveBed({
+    const reserveResult = await BedManagementService.reserveBed({
       bedId,
       patientId: request.patientId,
       admissionRequestId,
@@ -387,6 +387,7 @@ class AdmissionService {
       actorUser,
       correlationId: request.correlationId
     });
+    const reservedBed = reserveResult?.bed || reserveResult;
 
     const prevStatus = request.status;
     request.assignedWardId = reservedBed.wardId;
@@ -421,7 +422,7 @@ class AdmissionService {
       correlationId: request.correlationId
     });
 
-    return { request, bed: reservedBed };
+    return { request, bed: reservedBed, reservation: reserveResult?.reservation };
   }
 
   /**

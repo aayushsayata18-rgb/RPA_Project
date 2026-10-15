@@ -136,6 +136,10 @@ const runModule4Tests = async () => {
 
     // TEST 5: Suitable Bed Search (No Auto-Downgrade Rule)
     console.log('\n[TEST 5] Bed Search & Accommodation Preference Separation');
+    await Bed.updateOne(
+      { bedType: 'SEMI_PRIVATE' },
+      { $set: { status: 'AVAILABLE', housekeepingStatus: 'CLEAN' } }
+    );
     const bedSearchResult = await BedManagementService.findSuitableBeds({
       clinicalRequirementCategory: 'SEMI_PRIVATE',
       accommodationPreference: 'SEMI_PRIVATE'

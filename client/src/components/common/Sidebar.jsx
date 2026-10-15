@@ -29,7 +29,9 @@ import {
   Briefcase,
   Shield,
   FileCheck,
-  RefreshCw
+  RefreshCw,
+  CalendarDays,
+  Repeat
 } from 'lucide-react';
 
 export const Sidebar = () => {
@@ -136,6 +138,13 @@ export const Sidebar = () => {
       { to: '/attendance/corrections', label: 'Attendance Corrections', icon: FileCheck },
       { to: '/attendance/reconciliation', label: 'Roster Reconciliation', icon: RefreshCw },
       { to: '/attendance/reports', label: 'Attendance Reports', icon: FileText },
+      { to: '/shifts', label: 'Shift Management Hub', icon: CalendarDays },
+      { to: '/shifts/definitions', label: 'Shift Definitions', icon: Clock },
+      { to: '/shifts/rosters', label: 'Roster Scheduling Grid', icon: Calendar },
+      { to: '/shifts/conflicts', label: 'Shift Conflict Queue', icon: AlertTriangle },
+      { to: '/shifts/requests', label: 'Shift Changes & Swaps', icon: Repeat },
+      { to: '/shifts/reports', label: 'Coverage & Shift Reports', icon: FileText },
+      { to: '/my-schedule', label: 'My Shift Schedule', icon: Calendar },
       { to: '/employee/attendance', label: 'My Timesheet & Punches', icon: UserCheck },
       { to: '/employee/profile', label: 'My Staff Profile', icon: UserCheck }
     ];

@@ -97,6 +97,15 @@ import { AttendanceReconciliationPage } from '../pages/attendance/AttendanceReco
 import { AttendanceReportsPage } from '../pages/attendance/AttendanceReportsPage';
 import { MyAttendancePage } from '../pages/attendance/MyAttendancePage';
 
+// Module 14: Shift Management Pages
+import { ShiftDashboardPage } from '../pages/shifts/ShiftDashboardPage';
+import { ShiftDefinitionsPage } from '../pages/shifts/ShiftDefinitionsPage';
+import { RosterCalendarPage } from '../pages/shifts/RosterCalendarPage';
+import { ShiftConflictsPage } from '../pages/shifts/ShiftConflictsPage';
+import { ShiftRequestsPage } from '../pages/shifts/ShiftRequestsPage';
+import { ShiftReportsPage } from '../pages/shifts/ShiftReportsPage';
+import { MySchedulePage } from '../pages/shifts/MySchedulePage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -1098,11 +1107,86 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        {/* Module 14: Shift Management Routes */}
         <Route
-          path="my-attendance"
+          path="shifts"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'SUPERVISOR', 'RECEPTIONIST']}>
+              <ShiftDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="shifts/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'SUPERVISOR']}>
+              <ShiftDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/shifts"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'SUPERVISOR']}>
+              <ShiftDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="shifts/definitions"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER']}>
+              <ShiftDefinitionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="shifts/rosters"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'SUPERVISOR', 'RECEPTIONIST']}>
+              <RosterCalendarPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="shifts/conflicts"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'SUPERVISOR']}>
+              <ShiftConflictsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="shifts/requests"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'SUPERVISOR']}>
+              <ShiftRequestsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="shifts/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HR_MANAGER', 'HOSPITAL_MANAGEMENT', 'SUPERVISOR']}>
+              <ShiftReportsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Employee Self-Service Schedule Routes */}
+        <Route
+          path="my-schedule"
           element={
             <ProtectedRoute>
-              <MyAttendancePage />
+              <MySchedulePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="employee/schedule"
+          element={
+            <ProtectedRoute>
+              <MySchedulePage />
             </ProtectedRoute>
           }
         />

@@ -335,8 +335,51 @@ class AttendanceService {
       attendanceDate
     });
 
-    const shiftStart = '09:00';
-    const shiftEnd = '18:00';
+    let shiftStart = '09:00';
+    let shiftEnd = '18:00';
+    let shiftCode = 'GENERAL';
+    let shiftName = 'General Hospital Shift';
+    let shiftAssignmentRef = null;
+
+    try {
+      const ShiftAssignment = require('../models/ShiftAssignment');
+      const publishedAssignment = await ShiftAssignment.findOne({
+        employeeId: employee._id,
+        assignmentDate: attendanceDate,
+        status: { $in: ['PUBLISHED', 'APPROVED'] }
+      }).populate('shiftId');
+
+      if (publishedAssignment && publishedAssignment.shiftId) {
+        shiftStart = publishedAssignment.shiftId.startTime || '09:00';
+        shiftEnd = publishedAssignment.shiftId.endTime || '18:00';
+        shiftCode = publishedAssignment.shiftCode || 'GENERAL';
+        shiftName = publishedAssignment.shiftId.shiftName || 'General Shift';
+        shiftAssignmentRef = publishedAssignment._id;
+      } else {
+        // Fallback: check if date range matches for the day
+        const dayStart = new Date(attendanceDate);
+        dayStart.setHours(0, 0, 0, 0);
+        const dayEnd = new Date(dayStart);
+        dayEnd.setDate(dayEnd.getDate() + 1);
+
+        const fallback = await ShiftAssignment.findOne({
+          employeeId: employee._id,
+          assignmentDate: { $gte: dayStart, $lt: dayEnd },
+          status: { $in: ['PUBLISHED', 'APPROVED'] }
+        }).populate('shiftId');
+
+        if (fallback && fallback.shiftId) {
+          shiftStart = fallback.shiftId.startTime || '09:00';
+          shiftEnd = fallback.shiftId.endTime || '18:00';
+          shiftCode = fallback.shiftCode || 'GENERAL';
+          shiftName = fallback.shiftId.shiftName || 'General Shift';
+          shiftAssignmentRef = fallback._id;
+        }
+      }
+    } catch (err) {
+      console.error('[AttendanceService] Error looking up shift assignment:', err.message);
+    }
+
 
     if (!attendance) {
       const attendanceId = await IdGeneratorService.generateAttendanceId();
@@ -346,15 +389,25 @@ class AttendanceService {
         employeeIdCode: employee.employeeId,
         attendanceDate,
         source,
+        shiftAssignmentId: shiftAssignmentRef,
         shiftDetails: {
-          shiftCode: 'GENERAL',
-          shiftName: 'General Hospital Shift',
+          shiftCode,
+          shiftName,
           expectedStartTime: shiftStart,
           expectedEndTime: shiftEnd
         },
         status: 'MISSED_PUNCH'
       });
+    } else if (shiftAssignmentRef && !attendance.shiftAssignmentId) {
+      attendance.shiftAssignmentId = shiftAssignmentRef;
+      attendance.shiftDetails = {
+        shiftCode,
+        shiftName,
+        expectedStartTime: shiftStart,
+        expectedEndTime: shiftEnd
+      };
     }
+
 
     // 5. Update punches based on direction
     const oldValues = {
