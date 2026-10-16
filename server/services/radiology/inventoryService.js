@@ -15,17 +15,18 @@ class RadiologyInventoryService {
     const recordedMovements = [];
 
     for (const item of consumables) {
-      const { inventoryItemId, batchId, quantity = 1, itemCode = 'RAD-SUPPLY' } = item;
+      const { inventoryItemId, itemId, batchId, quantity = 1, itemCode = 'RAD-SUPPLY', itemName = 'Radiology Supply' } = item;
+      const targetItemId = inventoryItemId || itemId;
 
       // 1. Idempotency Check: Don't deduct twice for same study and item
       const existingMovement = await InventoryMovement.findOne({
-        sourceModule: 'RADIOLOGY',
-        sourceEntityId: String(study._id),
-        ...(inventoryItemId ? { inventoryItemId } : {})
+        referenceType: 'RADIOLOGY_PROCEDURE',
+        referenceId: String(study._id)
       });
 
       if (existingMovement) {
         recordedMovements.push({
+          isDuplicate: true,
           isDuplicatePrevented: true,
           movement: existingMovement
         });
@@ -34,23 +35,29 @@ class RadiologyInventoryService {
 
       // 2. Perform Stock Movement
       let resolvedItem = null;
-      if (inventoryItemId) {
-        resolvedItem = await InventoryItem.findById(inventoryItemId);
+      if (targetItemId && String(targetItemId).match(/^[0-9a-fA-F]{24}$/)) {
+        resolvedItem = await InventoryItem.findById(targetItemId);
       } else if (itemCode) {
-        resolvedItem = await InventoryItem.findOne({ itemCode });
+        resolvedItem = await InventoryItem.findOne({ $or: [{ itemCode }, { inventoryItemId: targetItemId }] });
       }
 
+      const movementId = `MOV-RAD-${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random() * 900)}`;
+      const finalItemId = resolvedItem ? (resolvedItem.inventoryItemId || String(resolvedItem._id)) : String(targetItemId || `INV-RAD-${Date.now().toString().slice(-4)}`);
+      const finalItemName = resolvedItem ? resolvedItem.name : itemName;
+
       const movement = new InventoryMovement({
-        inventoryItemId: resolvedItem ? resolvedItem._id : null,
-        batchId: batchId || null,
+        movementId,
+        inventoryItemId: finalItemId,
+        itemName: finalItemName,
+        batchId: batchId ? String(batchId) : null,
         movementType: 'CONSUMPTION',
-        sourceModule: 'RADIOLOGY',
-        sourceEntityId: String(study._id),
+        referenceType: 'RADIOLOGY_PROCEDURE',
+        referenceId: String(study._id),
         quantity: Number(quantity) || 1,
         unit: resolvedItem?.unitOfMeasure || 'UNIT',
-        notes: `Radiology consumable usage for Accession ${study.accessionNumber}`,
-        performedBy: user?._id || null,
-        movementDate: new Date()
+        reason: `Radiology consumable usage for Accession ${study.accessionNumber}`,
+        performedBy: user ? (user.userId || user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim()) : 'SYSTEM',
+        timestamp: new Date()
       });
 
       await movement.save();
