@@ -2777,6 +2777,314 @@ class IdGeneratorService {
     }
     return `${prefix}${String(seq).padStart(5, '0')}`;
   }
+
+  static async generateVendorId() {
+    const year = new Date().getFullYear();
+    const key = `VENDOR_ID_${year}`;
+    const prefix = `VEN-${year}-`;
+    let baseSeq = 1;
+    try {
+      const Vendor = require('../models/Vendor');
+      const last = await Vendor.findOne({ vendorId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ vendorId: -1 })
+        .select('vendorId')
+        .lean();
+      if (last && last.vendorId) {
+        const num = parseInt(last.vendorId.split('-')[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateVendorContactId() {
+    const key = `VENDOR_CONTACT_ID`;
+    const prefix = `VCNT-`;
+    let baseSeq = 1;
+    try {
+      const VendorContact = require('../models/VendorContact');
+      const last = await VendorContact.findOne({ vendorContactId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ vendorContactId: -1 })
+        .select('vendorContactId')
+        .lean();
+      if (last && last.vendorContactId) {
+        const num = parseInt(last.vendorContactId.replace(prefix, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateVendorAddressId() {
+    const key = `VENDOR_ADDRESS_ID`;
+    const prefix = `VADR-`;
+    let baseSeq = 1;
+    try {
+      const VendorAddress = require('../models/VendorAddress');
+      const last = await VendorAddress.findOne({ addressId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ addressId: -1 })
+        .select('addressId')
+        .lean();
+      if (last && last.addressId) {
+        const num = parseInt(last.addressId.replace(prefix, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateVendorDocumentId() {
+    const year = new Date().getFullYear();
+    const key = `VENDOR_DOCUMENT_ID_${year}`;
+    const prefix = `VDOC-${year}-`;
+    let baseSeq = 1;
+    try {
+      const VendorDocument = require('../models/VendorDocument');
+      const last = await VendorDocument.findOne({ vendorDocumentId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ vendorDocumentId: -1 })
+        .select('vendorDocumentId')
+        .lean();
+      if (last && last.vendorDocumentId) {
+        const num = parseInt(last.vendorDocumentId.split('-')[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateVendorVerificationId() {
+    const year = new Date().getFullYear();
+    const key = `VENDOR_VERIFICATION_ID_${year}`;
+    const prefix = `VVRF-${year}-`;
+    let baseSeq = 1;
+    try {
+      const VendorVerification = require('../models/VendorVerification');
+      const last = await VendorVerification.findOne({ verificationId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ verificationId: -1 })
+        .select('verificationId')
+        .lean();
+      if (last && last.verificationId) {
+        const num = parseInt(last.verificationId.split('-')[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateVendorContractId() {
+    const year = new Date().getFullYear();
+    const key = `VENDOR_CONTRACT_ID_${year}`;
+    const prefix = `VCON-${year}-`;
+    let baseSeq = 1;
+    try {
+      const VendorContract = require('../models/VendorContract');
+      const last = await VendorContract.findOne({ contractId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ contractId: -1 })
+        .select('contractId')
+        .lean();
+      if (last && last.contractId) {
+        const num = parseInt(last.contractId.split('-')[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateVendorReviewId() {
+    const year = new Date().getFullYear();
+    const key = `VENDOR_REVIEW_ID_${year}`;
+    const prefix = `VREV-${year}-`;
+    let baseSeq = 1;
+    try {
+      const VendorPerformanceReview = require('../models/VendorPerformanceReview');
+      const last = await VendorPerformanceReview.findOne({ reviewId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ reviewId: -1 })
+        .select('reviewId')
+        .lean();
+      if (last && last.reviewId) {
+        const num = parseInt(last.reviewId.split('-')[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateVendorIssueId() {
+    const year = new Date().getFullYear();
+    const key = `VENDOR_ISSUE_ID_${year}`;
+    const prefix = `VISS-${year}-`;
+    let baseSeq = 1;
+    try {
+      const VendorIssue = require('../models/VendorIssue');
+      const last = await VendorIssue.findOne({ issueId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ issueId: -1 })
+        .select('issueId')
+        .lean();
+      if (last && last.issueId) {
+        const num = parseInt(last.issueId.split('-')[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateVendorCommunicationId() {
+    const year = new Date().getFullYear();
+    const key = `VENDOR_COMMUNICATION_ID_${year}`;
+    const prefix = `VCOM-${year}-`;
+    let baseSeq = 1;
+    try {
+      const VendorCommunication = require('../models/VendorCommunication');
+      const last = await VendorCommunication.findOne({ communicationId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ communicationId: -1 })
+        .select('communicationId')
+        .lean();
+      if (last && last.communicationId) {
+        const num = parseInt(last.communicationId.split('-')[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateVendorPaymentProfileId() {
+    const year = new Date().getFullYear();
+    const key = `VENDOR_PAYMENT_PROFILE_ID_${year}`;
+    const prefix = `VPRF-${year}-`;
+    let baseSeq = 1;
+    try {
+      const VendorPaymentProfile = require('../models/VendorPaymentProfile');
+      const last = await VendorPaymentProfile.findOne({ profileId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ profileId: -1 })
+        .select('profileId')
+        .lean();
+      if (last && last.profileId) {
+        const num = parseInt(last.profileId.split('-')[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
 }
 
 module.exports = IdGeneratorService;

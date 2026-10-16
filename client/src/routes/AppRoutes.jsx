@@ -168,6 +168,16 @@ import { InvoiceMatchingPage } from '../pages/operations/procurement/InvoiceMatc
 import { ProcurementExceptionsPage } from '../pages/operations/procurement/ProcurementExceptionsPage';
 import { ProcurementReportsPage } from '../pages/operations/procurement/ProcurementReportsPage';
 
+// Module 20: Vendor Management Pages
+import { VendorDashboard } from '../pages/operations/vendors/VendorDashboard';
+import { VendorList } from '../pages/operations/vendors/VendorList';
+import { VendorRegistration } from '../pages/operations/vendors/VendorRegistration';
+import { VendorDetails } from '../pages/operations/vendors/VendorDetails';
+import { VendorDocumentsPage } from '../pages/operations/vendors/VendorDocumentsPage';
+import { VendorContractsPage } from '../pages/operations/vendors/VendorContractsPage';
+import { VendorIssuesPage } from '../pages/operations/vendors/VendorIssuesPage';
+import { VendorPortalPage } from '../pages/vendor/VendorPortalPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -1761,6 +1771,92 @@ export const AppRoutes = () => {
         <Route path="procurement/invoices" element={<Navigate to="/operations/procurement/invoices" replace />} />
         <Route path="procurement/exceptions" element={<Navigate to="/operations/procurement/exceptions" replace />} />
         <Route path="procurement/reports" element={<Navigate to="/operations/procurement/reports" replace />} />
+
+        {/* Module 20: Vendor Management Routes */}
+        <Route
+          path="operations/vendors"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <VendorDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/vendors/list"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <VendorList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/vendors/new"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER']}>
+              <VendorRegistration />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/vendors/:id"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <VendorDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/vendors/documents"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <VendorDocumentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/vendors/contracts"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <VendorContractsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/vendors/issues"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <VendorIssuesPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Dedicated Vendor Self-Service Portal */}
+        <Route
+          path="vendor"
+          element={
+            <ProtectedRoute allowedRoles={['VENDOR', 'SYSTEM_ADMIN', 'PROCUREMENT_OFFICER']}>
+              <VendorPortalPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="vendor/portal"
+          element={
+            <ProtectedRoute allowedRoles={['VENDOR', 'SYSTEM_ADMIN', 'PROCUREMENT_OFFICER']}>
+              <VendorPortalPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Vendor Route Aliases */}
+        <Route path="vendors" element={<Navigate to="/operations/vendors" replace />} />
+        <Route path="vendors/dashboard" element={<Navigate to="/operations/vendors" replace />} />
+        <Route path="vendors/list" element={<Navigate to="/operations/vendors/list" replace />} />
+        <Route path="vendors/new" element={<Navigate to="/operations/vendors/new" replace />} />
+        <Route path="vendors/:id" element={<Navigate to="/operations/vendors/:id" replace />} />
+        <Route path="vendors/documents" element={<Navigate to="/operations/vendors/documents" replace />} />
+        <Route path="vendors/contracts" element={<Navigate to="/operations/vendors/contracts" replace />} />
+        <Route path="vendors/issues" element={<Navigate to="/operations/vendors/issues" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Dashboard />} />

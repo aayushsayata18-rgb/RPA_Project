@@ -68,6 +68,9 @@ const inventoryRoutes = require('./inventoryRoutes');
 // Module 19: Procurement Management Routes
 const procurementRoutes = require('./procurementRoutes');
 
+// Module 20: Vendor Management Routes
+const vendorRoutes = require('./vendorRoutes');
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/audit', auditRoutes);
@@ -179,6 +182,10 @@ router.use('/v1/inventory', inventoryRoutes);
 // Module 19 Endpoints (Procurement Management)
 router.use('/procurement', procurementRoutes);
 router.use('/v1/procurement', procurementRoutes);
+
+// Module 20 Endpoints (Vendor Management)
+router.use('/vendors', vendorRoutes);
+router.use('/v1/vendors', vendorRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

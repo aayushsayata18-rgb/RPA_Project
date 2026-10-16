@@ -8,9 +8,15 @@ const vendorChangeRequestSchema = new mongoose.Schema(
       unique: true,
       index: true
     },
+    changeType: {
+      type: String,
+      enum: ['PURCHASE_ORDER', 'PROFILE_UPDATE', 'BANK_DETAILS', 'CONTACT_UPDATE', 'ADDRESS_UPDATE', 'DOCUMENT_UPDATE', 'OTHER'],
+      default: 'PROFILE_UPDATE',
+      index: true
+    },
     purchaseOrderId: {
       type: String,
-      required: true,
+      default: null,
       index: true
     },
     vendorId: {
@@ -20,7 +26,11 @@ const vendorChangeRequestSchema = new mongoose.Schema(
     },
     vendorName: {
       type: String,
-      required: true
+      default: ''
+    },
+    requestedBy: {
+      type: String,
+      default: 'VENDOR_USER'
     },
     proposedChanges: [
       {
@@ -30,13 +40,26 @@ const vendorChangeRequestSchema = new mongoose.Schema(
         justification: { type: String, default: '' }
       }
     ],
+    before: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {}
+    },
+    after: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {}
+    },
     reason: {
       type: String,
       required: true
     },
+    documents: [
+      {
+        type: String
+      }
+    ],
     status: {
       type: String,
-      enum: ['PENDING', 'ACCEPTED', 'REJECTED'],
+      enum: ['PENDING', 'ACCEPTED', 'REJECTED', 'DRAFT', 'SUBMITTED', 'UNDER_REVIEW', 'APPROVED', 'CANCELLED'],
       default: 'PENDING',
       index: true
     },

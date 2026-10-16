@@ -32,6 +32,17 @@ class PurchaseOrderService {
       throw new Error('Purchase Order must contain at least one line item');
     }
 
+    // Verify vendor status from Vendor Master (Module 20 integration)
+    try {
+      const Vendor = require('../../models/Vendor');
+      const vendor = await Vendor.findOne({ vendorId: data.vendorId });
+      if (vendor && ['SUSPENDED', 'DEACTIVATED', 'REJECTED'].includes(vendor.status)) {
+        throw new Error(`Cannot issue Purchase Order to vendor ${data.vendorId}: Vendor status is currently ${vendor.status}`);
+      }
+    } catch (ve) {
+      if (ve.message.includes('Cannot issue Purchase Order')) throw ve;
+    }
+
     const purchaseOrderId = await IdGeneratorService.generatePurchaseOrderId();
     const itemIds = data.items.map((i) => i.inventoryItemId);
 

@@ -45,13 +45,22 @@ import {
   CheckSquare,
   FileSpreadsheet,
   Award,
-  BarChart3
+  BarChart3,
+  Building2
 } from 'lucide-react';
 
 export const Sidebar = () => {
   const { user, hasRole } = useAuth();
 
   const getNavLinks = () => {
+    // Vendor Portal Nav
+    if (hasRole('VENDOR')) {
+      return [
+        { to: '/vendor', label: 'Supplier Portal Home', icon: Building2 },
+        { to: '/vendor/portal', label: 'My Compliance & Orders', icon: FileText }
+      ];
+    }
+
     // Patient Portal Nav
     if (hasRole('PATIENT')) {
       return [
@@ -241,6 +250,12 @@ export const Sidebar = () => {
       { to: '/operations/procurement/invoices', label: 'Three-Way Invoice Matching', icon: FileCheck },
       { to: '/operations/procurement/exceptions', label: 'Procurement Exceptions Queue', icon: AlertTriangle },
       { to: '/operations/procurement/reports', label: 'Procurement Spend & Analytics', icon: BarChart3 },
+      { to: '/operations/vendors', label: 'Vendor Management Hub', icon: Building2 },
+      { to: '/operations/vendors/list', label: 'Vendor Master Directory', icon: Users },
+      { to: '/operations/vendors/new', label: 'Vendor Onboarding & Reg', icon: UserPlus },
+      { to: '/operations/vendors/documents', label: 'Vendor Compliance & Expiry', icon: FileCheck },
+      { to: '/operations/vendors/contracts', label: 'Vendor Contracts & Renewals', icon: FileSpreadsheet },
+      { to: '/operations/vendors/issues', label: 'Vendor Grievances & Issues', icon: AlertTriangle },
       { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
       { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
       { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }
