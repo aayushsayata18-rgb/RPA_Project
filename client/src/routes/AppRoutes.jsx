@@ -153,6 +153,21 @@ import { ReconciliationPage } from '../pages/operations/inventory/Reconciliation
 import { InventoryAlertsPage } from '../pages/operations/inventory/InventoryAlertsPage';
 import { InventoryReportsPage } from '../pages/operations/inventory/InventoryReportsPage';
 
+// Module 19: Procurement Management Pages
+import { ProcurementDashboard } from '../pages/operations/procurement/ProcurementDashboard';
+import { PurchaseRequestsPage } from '../pages/operations/procurement/PurchaseRequestsPage';
+import { PurchaseRequestDetailPage } from '../pages/operations/procurement/PurchaseRequestDetailPage';
+import { ApprovalQueuePage } from '../pages/operations/procurement/ApprovalQueuePage';
+import { RfqsPage } from '../pages/operations/procurement/RfqsPage';
+import { QuotationManagementPage } from '../pages/operations/procurement/QuotationManagementPage';
+import { QuotationComparisonPage } from '../pages/operations/procurement/QuotationComparisonPage';
+import { PurchaseOrdersPage } from '../pages/operations/procurement/PurchaseOrdersPage';
+import { PurchaseOrderDetailPage } from '../pages/operations/procurement/PurchaseOrderDetailPage';
+import { DeliveryTrackingPage } from '../pages/operations/procurement/DeliveryTrackingPage';
+import { InvoiceMatchingPage } from '../pages/operations/procurement/InvoiceMatchingPage';
+import { ProcurementExceptionsPage } from '../pages/operations/procurement/ProcurementExceptionsPage';
+import { ProcurementReportsPage } from '../pages/operations/procurement/ProcurementReportsPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -1616,6 +1631,136 @@ export const AppRoutes = () => {
         <Route path="inventory/reconciliations" element={<Navigate to="/operations/inventory/reconciliations" replace />} />
         <Route path="inventory/alerts" element={<Navigate to="/operations/inventory/alerts" replace />} />
         <Route path="inventory/reports" element={<Navigate to="/operations/inventory/reports" replace />} />
+
+        {/* Module 19: Procurement Management */}
+        <Route
+          path="operations/procurement"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'STORE_KEEPER', 'DOCTOR', 'NURSE', 'HEAD_OF_PHARMACY', 'PHARMACIST', 'AUDITOR']}>
+              <ProcurementDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'STORE_KEEPER', 'DOCTOR', 'NURSE', 'HEAD_OF_PHARMACY', 'PHARMACIST', 'AUDITOR']}>
+              <ProcurementDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/requests"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'STORE_KEEPER', 'DOCTOR', 'NURSE', 'HEAD_OF_PHARMACY', 'PHARMACIST', 'AUDITOR']}>
+              <PurchaseRequestsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/requests/:id"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'STORE_KEEPER', 'DOCTOR', 'NURSE', 'HEAD_OF_PHARMACY', 'PHARMACIST', 'AUDITOR']}>
+              <PurchaseRequestDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/approvals"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'FINANCE_HEAD', 'HEAD_OF_PHARMACY', 'AUDITOR']}>
+              <ApprovalQueuePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/rfqs"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'STORE_KEEPER', 'AUDITOR']}>
+              <RfqsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/quotations"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <QuotationManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/comparisons"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <QuotationComparisonPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/purchase-orders"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'STORE_KEEPER', 'AUDITOR']}>
+              <PurchaseOrdersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/purchase-orders/:id"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'STORE_KEEPER', 'AUDITOR']}>
+              <PurchaseOrderDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/deliveries"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'AUDITOR']}>
+              <DeliveryTrackingPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/invoices"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <InvoiceMatchingPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/exceptions"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <ProcurementExceptionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/procurement/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PROCUREMENT_OFFICER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <ProcurementReportsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Procurement Route Aliases */}
+        <Route path="procurement" element={<Navigate to="/operations/procurement" replace />} />
+        <Route path="procurement/dashboard" element={<Navigate to="/operations/procurement" replace />} />
+        <Route path="procurement/requests" element={<Navigate to="/operations/procurement/requests" replace />} />
+        <Route path="procurement/requests/:id" element={<Navigate to="/operations/procurement/requests/:id" replace />} />
+        <Route path="procurement/approvals" element={<Navigate to="/operations/procurement/approvals" replace />} />
+        <Route path="procurement/rfqs" element={<Navigate to="/operations/procurement/rfqs" replace />} />
+        <Route path="procurement/quotations" element={<Navigate to="/operations/procurement/quotations" replace />} />
+        <Route path="procurement/comparisons" element={<Navigate to="/operations/procurement/comparisons" replace />} />
+        <Route path="procurement/purchase-orders" element={<Navigate to="/operations/procurement/purchase-orders" replace />} />
+        <Route path="procurement/purchase-orders/:id" element={<Navigate to="/operations/procurement/purchase-orders/:id" replace />} />
+        <Route path="procurement/deliveries" element={<Navigate to="/operations/procurement/deliveries" replace />} />
+        <Route path="procurement/invoices" element={<Navigate to="/operations/procurement/invoices" replace />} />
+        <Route path="procurement/exceptions" element={<Navigate to="/operations/procurement/exceptions" replace />} />
+        <Route path="procurement/reports" element={<Navigate to="/operations/procurement/reports" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Dashboard />} />

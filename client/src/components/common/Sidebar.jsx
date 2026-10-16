@@ -40,7 +40,12 @@ import {
   Warehouse,
   Boxes,
   Truck,
-  CheckCircle
+  CheckCircle,
+  ShoppingBag,
+  CheckSquare,
+  FileSpreadsheet,
+  Award,
+  BarChart3
 } from 'lucide-react';
 
 export const Sidebar = () => {
@@ -225,6 +230,17 @@ export const Sidebar = () => {
       { to: '/operations/inventory/reconciliations', label: 'Stock Reconciliations', icon: CheckCircle },
       { to: '/operations/inventory/alerts', label: 'Inventory Stock Alerts', icon: AlertTriangle },
       { to: '/operations/inventory/reports', label: 'Stock Valuation & Ledger', icon: FileText },
+      { to: '/operations/procurement', label: 'Procurement Management Hub', icon: ShoppingBag },
+      { to: '/operations/procurement/requests', label: 'Purchase Requests (PR)', icon: FileText },
+      { to: '/operations/procurement/approvals', label: 'Procurement Approval Queue', icon: CheckSquare },
+      { to: '/operations/procurement/rfqs', label: 'Requests for Quotation (RFQ)', icon: Layers },
+      { to: '/operations/procurement/quotations', label: 'Vendor Quotation Registry', icon: FileSpreadsheet },
+      { to: '/operations/procurement/comparisons', label: 'Quotation Comparison Matrix', icon: Award },
+      { to: '/operations/procurement/purchase-orders', label: 'Purchase Orders (PO)', icon: FileText },
+      { to: '/operations/procurement/deliveries', label: 'Delivery & Shipment Monitor', icon: Truck },
+      { to: '/operations/procurement/invoices', label: 'Three-Way Invoice Matching', icon: FileCheck },
+      { to: '/operations/procurement/exceptions', label: 'Procurement Exceptions Queue', icon: AlertTriangle },
+      { to: '/operations/procurement/reports', label: 'Procurement Spend & Analytics', icon: BarChart3 },
       { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
       { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
       { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }

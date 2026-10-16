@@ -65,6 +65,9 @@ const pharmacyRoutes = require('./pharmacyRoutes');
 // Module 18: Medical Inventory Management Routes
 const inventoryRoutes = require('./inventoryRoutes');
 
+// Module 19: Procurement Management Routes
+const procurementRoutes = require('./procurementRoutes');
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/audit', auditRoutes);
@@ -172,6 +175,10 @@ router.use('/v1/pharmacy', pharmacyRoutes);
 // Module 18 Endpoints (Medical Inventory Management)
 router.use('/inventory', inventoryRoutes);
 router.use('/v1/inventory', inventoryRoutes);
+
+// Module 19 Endpoints (Procurement Management)
+router.use('/procurement', procurementRoutes);
+router.use('/v1/procurement', procurementRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

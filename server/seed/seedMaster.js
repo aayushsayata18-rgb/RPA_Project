@@ -2576,7 +2576,35 @@ const seedMaster = async () => {
     const seedModule15Leave = require('./seedModule15Leave');
     await seedModule15Leave();
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1-15 Master Data & Demo records!');
+    // Module 16: Payroll Support Master Seeding
+    try {
+      const seedModule16Payroll = require('./seedModule16Payroll');
+      await seedModule16Payroll();
+    } catch (e) {
+      console.warn('[Seed Master]: Module 16 Payroll seed skipped:', e.message);
+    }
+
+    // Module 17: Pharmacy Management Master Seeding
+    try {
+      const seedModule17Pharmacy = require('./seedModule17Pharmacy');
+      await seedModule17Pharmacy();
+    } catch (e) {
+      console.warn('[Seed Master]: Module 17 Pharmacy seed skipped:', e.message);
+    }
+
+    // Module 18: Medical Inventory Master Seeding
+    try {
+      const seedModule18Inventory = require('./seedModule18Inventory');
+      await seedModule18Inventory();
+    } catch (e) {
+      console.warn('[Seed Master]: Module 18 Inventory seed skipped:', e.message);
+    }
+
+    // Module 19: Procurement Management Master Seeding
+    const seedModule19Procurement = require('./seedModule19Procurement');
+    await seedModule19Procurement();
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1-19 Master Data & Demo records!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);
