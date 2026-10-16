@@ -75,7 +75,30 @@ export const Sidebar = () => {
         { to: '/patient/claims', label: 'My Insurance Claims', icon: FileText },
         { to: '/patient/discharges', label: 'Discharge Summaries', icon: LogOut },
         { to: '/patient/records', label: 'Medical Documents', icon: FileText },
-        { to: '/patient/pharmacy', label: 'My Prescriptions & Medicines', icon: Pill }
+        { to: '/patient/pharmacy', label: 'My Prescriptions & Medicines', icon: Pill },
+        { to: '/patient/laboratory', label: 'My Diagnostic Lab Results', icon: FlaskConical }
+      ];
+    }
+
+    // Laboratory Portal Nav (Lab Technicians & Pathologists)
+    if (hasRole('LAB_TECHNICIAN', 'PATHOLOGIST')) {
+      return [
+        { to: '/operations/laboratory', label: 'Laboratory Hub', icon: FlaskConical },
+        { to: '/operations/laboratory/orders', label: 'Lab Orders Queue', icon: FileText },
+        { to: '/operations/laboratory/collections', label: 'Phlebotomy Queue', icon: Clock },
+        { to: '/operations/laboratory/reception', label: 'Sample Reception', icon: CheckSquare },
+        { to: '/operations/laboratory/processing', label: 'Bench Processing', icon: Layers },
+        { to: '/operations/laboratory/results/entry', label: 'Result Entry', icon: FileSpreadsheet },
+        { to: '/operations/laboratory/verification', label: 'Pathologist Verification', icon: ShieldCheck },
+        { to: '/operations/laboratory/reports', label: 'Diagnostic Reports', icon: FileCheck },
+        { to: '/operations/laboratory/rejected-samples', label: 'Rejected Specimens', icon: AlertTriangle },
+        { to: '/operations/laboratory/exceptions', label: 'Operational Exceptions', icon: AlertOctagon },
+        { to: '/operations/laboratory/tests', label: 'Test Master Catalog', icon: Layers },
+        { to: '/operations/laboratory/analytics', label: 'Lab Analytics & TAT', icon: BarChart3 },
+        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays },
+        { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
+        { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
+        { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }
       ];
     }
 
@@ -116,7 +139,8 @@ export const Sidebar = () => {
         { to: '/clinical/discharges', label: 'Discharge Orders', icon: LogOut },
         { to: '/operations/admissions', label: 'Inpatient Bed Desk', icon: BedDouble },
         { to: '/front-desk/emergency-registration', label: 'Emergency Intake', icon: AlertOctagon },
-        { to: '/clinical/lab-orders', label: 'Lab Orders', icon: FlaskConical },
+        { to: '/operations/laboratory/orders', label: 'Diagnostic Lab Orders', icon: FlaskConical },
+        { to: '/operations/laboratory/reports', label: 'Lab Diagnostic Reports', icon: FileText },
         { to: '/clinical/radiology', label: 'Radiology Orders', icon: Radio },
         { to: '/operations/pharmacy/prescriptions', label: 'Doctor Prescriptions', icon: Pill },
         { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays },
@@ -256,6 +280,11 @@ export const Sidebar = () => {
       { to: '/operations/vendors/documents', label: 'Vendor Compliance & Expiry', icon: FileCheck },
       { to: '/operations/vendors/contracts', label: 'Vendor Contracts & Renewals', icon: FileSpreadsheet },
       { to: '/operations/vendors/issues', label: 'Vendor Grievances & Issues', icon: AlertTriangle },
+      { to: '/operations/laboratory', label: 'Laboratory Management Hub', icon: FlaskConical },
+      { to: '/operations/laboratory/orders', label: 'Lab Orders & Accessioning', icon: FileText },
+      { to: '/operations/laboratory/verification', label: 'Pathologist Review Queue', icon: ShieldCheck },
+      { to: '/operations/laboratory/reports', label: 'Diagnostic Reports Archive', icon: FileCheck },
+      { to: '/operations/laboratory/analytics', label: 'Lab Analytics & TAT', icon: BarChart3 },
       { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
       { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
       { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }

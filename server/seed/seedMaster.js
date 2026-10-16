@@ -2604,7 +2604,23 @@ const seedMaster = async () => {
     const seedModule19Procurement = require('./seedModule19Procurement');
     await seedModule19Procurement();
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1-19 Master Data & Demo records!');
+    // Module 20: Vendor Management Master Seeding
+    try {
+      const seedModule20Vendor = require('./seedModule20Vendor');
+      await seedModule20Vendor();
+    } catch (e) {
+      console.warn('[Seed Master]: Module 20 Vendor seed skipped:', e.message);
+    }
+
+    // Module 21: Laboratory Administration Master Seeding
+    try {
+      const seedModule21Laboratory = require('./seedModule21Laboratory');
+      await seedModule21Laboratory();
+    } catch (e) {
+      console.warn('[Seed Master]: Module 21 Laboratory seed skipped:', e.message);
+    }
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1-21 Master Data & Demo records!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);

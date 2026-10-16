@@ -178,6 +178,22 @@ import { VendorContractsPage } from '../pages/operations/vendors/VendorContracts
 import { VendorIssuesPage } from '../pages/operations/vendors/VendorIssuesPage';
 import { VendorPortalPage } from '../pages/vendor/VendorPortalPage';
 
+// Module 21: Laboratory Administration Pages
+import { LaboratoryDashboard } from '../pages/operations/laboratory/LaboratoryDashboard';
+import { LabTests } from '../pages/operations/laboratory/LabTests';
+import { LabOrders } from '../pages/operations/laboratory/LabOrders';
+import { LabOrderDetails } from '../pages/operations/laboratory/LabOrderDetails';
+import { CollectionQueue } from '../pages/operations/laboratory/CollectionQueue';
+import { SampleReception } from '../pages/operations/laboratory/SampleReception';
+import { ProcessingQueue } from '../pages/operations/laboratory/ProcessingQueue';
+import { ResultEntry } from '../pages/operations/laboratory/ResultEntry';
+import { VerificationQueue } from '../pages/operations/laboratory/VerificationQueue';
+import { LabReports } from '../pages/operations/laboratory/LabReports';
+import { RejectedSamples } from '../pages/operations/laboratory/RejectedSamples';
+import { LabExceptions } from '../pages/operations/laboratory/LabExceptions';
+import { LabAnalytics } from '../pages/operations/laboratory/LabAnalytics';
+import { PatientLabPage } from '../pages/patient/PatientLabPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -347,6 +363,28 @@ export const AppRoutes = () => {
               <PatientClaimsPage />
             </ProtectedRoute>
           }
+        />
+
+        {/* Module 21: Patient Portal Diagnostic Lab Reports */}
+        <Route
+          path="patient/laboratory"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientLabPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patient/lab-reports"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientLabPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patient/lab"
+          element={<Navigate to="/patient/laboratory" replace />}
         />
 
         {/* Module 2 & 3: Clinical Portal Appointments & OPD Queue */}
@@ -1857,6 +1895,126 @@ export const AppRoutes = () => {
         <Route path="vendors/documents" element={<Navigate to="/operations/vendors/documents" replace />} />
         <Route path="vendors/contracts" element={<Navigate to="/operations/vendors/contracts" replace />} />
         <Route path="vendors/issues" element={<Navigate to="/operations/vendors/issues" replace />} />
+
+        {/* Module 21: Laboratory Administration Routes */}
+        <Route
+          path="operations/laboratory"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST', 'DOCTOR', 'NURSE', 'HOSPITAL_MANAGEMENT']}>
+              <LaboratoryDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST', 'DOCTOR', 'NURSE', 'HOSPITAL_MANAGEMENT']}>
+              <LaboratoryDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/tests"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST', 'DOCTOR']}>
+              <LabTests />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/orders"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST', 'DOCTOR', 'NURSE']}>
+              <LabOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/orders/:id"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST', 'DOCTOR', 'NURSE']}>
+              <LabOrderDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/collections"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'NURSE', 'PHLEBOTOMIST', 'PATHOLOGIST']}>
+              <CollectionQueue />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/reception"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST']}>
+              <SampleReception />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/processing"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST']}>
+              <ProcessingQueue />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/results/entry"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST']}>
+              <ResultEntry />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/verification"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'PATHOLOGIST', 'DOCTOR', 'LAB_TECHNICIAN']}>
+              <VerificationQueue />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST', 'DOCTOR', 'NURSE']}>
+              <LabReports />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/rejected-samples"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST', 'NURSE']}>
+              <RejectedSamples />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/exceptions"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST']}>
+              <LabExceptions />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/laboratory/analytics"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'LAB_TECHNICIAN', 'PATHOLOGIST', 'HOSPITAL_MANAGEMENT']}>
+              <LabAnalytics />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Laboratory Route Aliases */}
+        <Route path="laboratory" element={<Navigate to="/operations/laboratory" replace />} />
+        <Route path="laboratory/orders" element={<Navigate to="/operations/laboratory/orders" replace />} />
+        <Route path="laboratory/reports" element={<Navigate to="/operations/laboratory/reports" replace />} />
+        <Route path="clinical/lab-orders" element={<Navigate to="/operations/laboratory/orders" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Dashboard />} />

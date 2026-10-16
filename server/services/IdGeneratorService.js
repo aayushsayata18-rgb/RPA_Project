@@ -3085,6 +3085,295 @@ class IdGeneratorService {
     }
     return `${prefix}${String(seq).padStart(5, '0')}`;
   }
+
+  /**
+   * Module 21: Laboratory Administration ID Generators
+   */
+  static async generateLabTestId() {
+    const key = 'LAB_TEST_ID';
+    const prefix = 'LT-';
+    let baseSeq = 1001;
+    try {
+      const LabTest = require('../models/LabTest');
+      const last = await LabTest.findOne({ labTestId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ labTestId: -1 })
+        .select('labTestId')
+        .lean();
+      if (last && last.labTestId) {
+        const num = parseInt(last.labTestId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(4, '0')}`;
+  }
+
+  static async generateLabOrderId() {
+    const year = new Date().getFullYear();
+    const key = `LAB_ORDER_ID_${year}`;
+    const prefix = `LAB-${year}-`;
+    let baseSeq = 1;
+    try {
+      const LabOrder = require('../models/LabOrder');
+      const last = await LabOrder.findOne({ orderId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ orderId: -1 })
+        .select('orderId')
+        .lean();
+      if (last && last.orderId) {
+        const parts = last.orderId.split('-');
+        const num = parseInt(parts[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateLabOrderItemId() {
+    const year = new Date().getFullYear();
+    const key = `LAB_ORDER_ITEM_ID_${year}`;
+    const prefix = `LOI-${year}-`;
+    let baseSeq = 1;
+    try {
+      const LabOrderItem = require('../models/LabOrderItem');
+      const last = await LabOrderItem.findOne({ orderItemId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ orderItemId: -1 })
+        .select('orderItemId')
+        .lean();
+      if (last && last.orderItemId) {
+        const parts = last.orderItemId.split('-');
+        const num = parseInt(parts[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateAccessionNumber() {
+    const year = new Date().getFullYear();
+    const key = `LAB_ACCESSION_NO_${year}`;
+    const prefix = `ACC-${year}-`;
+    let baseSeq = 1;
+    try {
+      const LabSample = require('../models/LabSample');
+      const last = await LabSample.findOne({ accessionNumber: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ accessionNumber: -1 })
+        .select('accessionNumber')
+        .lean();
+      if (last && last.accessionNumber) {
+        const parts = last.accessionNumber.split('-');
+        const num = parseInt(parts[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  static async generateLabSampleId() {
+    const year = new Date().getFullYear();
+    const key = `LAB_SAMPLE_ID_${year}`;
+    const prefix = `SMP-${year}-`;
+    let baseSeq = 1;
+    try {
+      const LabSample = require('../models/LabSample');
+      const last = await LabSample.findOne({ sampleId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ sampleId: -1 })
+        .select('sampleId')
+        .lean();
+      if (last && last.sampleId) {
+        const parts = last.sampleId.split('-');
+        const num = parseInt(parts[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  static async generateLabResultId() {
+    const year = new Date().getFullYear();
+    const key = `LAB_RESULT_ID_${year}`;
+    const prefix = `LRES-${year}-`;
+    let baseSeq = 1;
+    try {
+      const LabResult = require('../models/LabResult');
+      const last = await LabResult.findOne({ resultId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ resultId: -1 })
+        .select('resultId')
+        .lean();
+      if (last && last.resultId) {
+        const parts = last.resultId.split('-');
+        const num = parseInt(parts[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  static async generateLabReportId() {
+    const year = new Date().getFullYear();
+    const key = `LAB_REPORT_ID_${year}`;
+    const prefix = `LRPT-${year}-`;
+    let baseSeq = 1;
+    try {
+      const LabReport = require('../models/LabReport');
+      const last = await LabReport.findOne({ reportId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ reportId: -1 })
+        .select('reportId')
+        .lean();
+      if (last && last.reportId) {
+        const parts = last.reportId.split('-');
+        const num = parseInt(parts[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  static async generateLabReportNumber() {
+    const year = new Date().getFullYear();
+    const key = `LAB_REPORT_NO_${year}`;
+    const prefix = `LAB-RPT-${year}-`;
+    let baseSeq = 1;
+    try {
+      const LabReport = require('../models/LabReport');
+      const last = await LabReport.findOne({ reportNumber: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ reportNumber: -1 })
+        .select('reportNumber')
+        .lean();
+      if (last && last.reportNumber) {
+        const parts = last.reportNumber.split('-');
+        const num = parseInt(parts[3], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateLabExceptionId() {
+    const year = new Date().getFullYear();
+    const key = `LAB_EXCEPTION_ID_${year}`;
+    const prefix = `LEX-${year}-`;
+    let baseSeq = 1;
+    try {
+      const LabException = require('../models/LabException');
+      const last = await LabException.findOne({ exceptionId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ exceptionId: -1 })
+        .select('exceptionId')
+        .lean();
+      if (last && last.exceptionId) {
+        const parts = last.exceptionId.split('-');
+        const num = parseInt(parts[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
 }
 
 module.exports = IdGeneratorService;

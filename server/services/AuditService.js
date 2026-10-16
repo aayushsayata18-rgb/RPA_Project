@@ -83,6 +83,31 @@ class AuditService {
 
     return { events, total, page, totalPages: Math.ceil(total / limit) };
   }
+
+  /**
+   * Helper alias for logAction
+   */
+  static async logAction({
+    action,
+    module = 'LABORATORY',
+    entityId = 'SYSTEM',
+    entityType = 'SYSTEM',
+    performedBy = 'SYSTEM',
+    performedByRole = 'SYSTEM',
+    description = '',
+    metadata = null
+  }) {
+    return this.logEvent({
+      action,
+      module,
+      entityId,
+      entityType,
+      performedBy,
+      role: performedByRole,
+      details: description,
+      newValue: metadata
+    });
+  }
 }
 
 module.exports = AuditService;
