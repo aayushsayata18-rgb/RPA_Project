@@ -2134,6 +2134,23 @@ class IdGeneratorService {
     const key = 'INVENTORY_BATCH_ID';
     const prefix = 'BAT-';
 
+    let baseSeq = 10001;
+    try {
+      const InventoryBatch = require('../models/InventoryBatch');
+      const lastBatch = await InventoryBatch.findOne({ batchId: /^BAT-\d+$/ })
+        .sort({ batchId: -1 })
+        .select('batchId')
+        .lean();
+      if (lastBatch && lastBatch.batchId) {
+        const num = parseInt(lastBatch.batchId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) {
+          baseSeq = Math.max(baseSeq, num + 1);
+        }
+      }
+    } catch (e) {
+      // fallback
+    }
+
     const counter = await SequenceCounter.findOneAndUpdate(
       { key },
       { $inc: { sequenceValue: 1 } },
@@ -2141,13 +2158,342 @@ class IdGeneratorService {
     );
 
     let seq = counter.sequenceValue;
-    if (seq < 10001) {
-      counter.sequenceValue = 10001;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
       await counter.save();
-      seq = 10001;
+      seq = baseSeq;
     }
 
     return `${prefix}${seq}`;
+  }
+
+  /**
+   * Generate unique Inventory Item ID (e.g. INV-000101)
+   */
+  static async generateInventoryItemId() {
+    const key = 'INVENTORY_ITEM_ID';
+    const prefix = 'INV-';
+    let baseSeq = 101;
+    try {
+      const InventoryItem = require('../models/InventoryItem');
+      const last = await InventoryItem.findOne({ inventoryItemId: /^INV-\d+$/ })
+        .sort({ inventoryItemId: -1 })
+        .select('inventoryItemId')
+        .lean();
+      if (last && last.inventoryItemId) {
+        const num = parseInt(last.inventoryItemId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Stock Location ID (e.g. LOC-000101)
+   */
+  static async generateLocationId(codePrefix = 'LOC') {
+    const key = `STOCK_LOCATION_ID_${codePrefix}`;
+    let baseSeq = 101;
+    try {
+      const StockLocation = require('../models/StockLocation');
+      const last = await StockLocation.findOne({ locationId: new RegExp(`^${codePrefix}-\\d+$`) })
+        .sort({ locationId: -1 })
+        .select('locationId')
+        .lean();
+      if (last && last.locationId) {
+        const num = parseInt(last.locationId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${codePrefix}-${String(seq).padStart(4, '0')}`;
+  }
+
+  /**
+   * Generate unique Stock Movement ID (e.g. MOV-000101)
+   */
+  static async generateMovementId() {
+    const key = 'INVENTORY_MOVEMENT_ID';
+    const prefix = 'MOV-';
+    let baseSeq = 101;
+    try {
+      const InventoryMovement = require('../models/InventoryMovement');
+      const last = await InventoryMovement.findOne({ movementId: /^MOV-\d+$/ })
+        .sort({ movementId: -1 })
+        .select('movementId')
+        .lean();
+      if (last && last.movementId) {
+        const num = parseInt(last.movementId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Reservation ID (e.g. RES-000101)
+   */
+  static async generateReservationId() {
+    const key = 'INVENTORY_RESERVATION_ID';
+    const prefix = 'RES-';
+    let baseSeq = 101;
+    try {
+      const InventoryReservation = require('../models/InventoryReservation');
+      const last = await InventoryReservation.findOne({ reservationId: /^RES-\d+$/ })
+        .sort({ reservationId: -1 })
+        .select('reservationId')
+        .lean();
+      if (last && last.reservationId) {
+        const num = parseInt(last.reservationId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Transfer ID (e.g. TRF-000101)
+   */
+  static async generateTransferId() {
+    const key = 'INVENTORY_TRANSFER_ID';
+    const prefix = 'TRF-';
+    let baseSeq = 101;
+    try {
+      const InventoryTransfer = require('../models/InventoryTransfer');
+      const last = await InventoryTransfer.findOne({ transferId: /^TRF-\d+$/ })
+        .sort({ transferId: -1 })
+        .select('transferId')
+        .lean();
+      if (last && last.transferId) {
+        const num = parseInt(last.transferId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Adjustment ID (e.g. ADJ-000101)
+   */
+  static async generateAdjustmentId() {
+    const key = 'INVENTORY_ADJUSTMENT_ID';
+    const prefix = 'ADJ-';
+    let baseSeq = 101;
+    try {
+      const InventoryAdjustment = require('../models/InventoryAdjustment');
+      const last = await InventoryAdjustment.findOne({ adjustmentId: /^ADJ-\d+$/ })
+        .sort({ adjustmentId: -1 })
+        .select('adjustmentId')
+        .lean();
+      if (last && last.adjustmentId) {
+        const num = parseInt(last.adjustmentId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Stock Count Session ID (e.g. CNT-000101)
+   */
+  static async generateCountSessionId() {
+    const key = 'STOCK_COUNT_SESSION_ID';
+    const prefix = 'CNT-';
+    let baseSeq = 101;
+    try {
+      const StockCountSession = require('../models/StockCountSession');
+      const last = await StockCountSession.findOne({ countSessionId: /^CNT-\d+$/ })
+        .sort({ countSessionId: -1 })
+        .select('countSessionId')
+        .lean();
+      if (last && last.countSessionId) {
+        const num = parseInt(last.countSessionId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Reconciliation ID (e.g. REC-000101)
+   */
+  static async generateReconciliationId() {
+    const key = 'INVENTORY_RECONCILIATION_ID';
+    const prefix = 'REC-';
+    let baseSeq = 101;
+    try {
+      const InventoryReconciliation = require('../models/InventoryReconciliation');
+      const last = await InventoryReconciliation.findOne({ reconciliationId: /^REC-\d+$/ })
+        .sort({ reconciliationId: -1 })
+        .select('reconciliationId')
+        .lean();
+      if (last && last.reconciliationId) {
+        const num = parseInt(last.reconciliationId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Goods Receipt ID (e.g. GRN-000101)
+   */
+  static async generateGoodsReceiptId() {
+    const key = 'GOODS_RECEIPT_ID';
+    const prefix = 'GRN-';
+    let baseSeq = 101;
+    try {
+      const GoodsReceipt = require('../models/GoodsReceipt');
+      const last = await GoodsReceipt.findOne({ goodsReceiptId: /^GRN-\d+$/ })
+        .sort({ goodsReceiptId: -1 })
+        .select('goodsReceiptId')
+        .lean();
+      if (last && last.goodsReceiptId) {
+        const num = parseInt(last.goodsReceiptId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Inventory Alert ID (e.g. ALT-000101)
+   */
+  static async generateAlertId() {
+    const key = 'INVENTORY_ALERT_ID';
+    const prefix = 'ALT-';
+    let baseSeq = 101;
+    try {
+      const InventoryAlert = require('../models/InventoryAlert');
+      const last = await InventoryAlert.findOne({ alertId: /^ALT-\d+$/ })
+        .sort({ alertId: -1 })
+        .select('alertId')
+        .lean();
+      if (last && last.alertId) {
+        const num = parseInt(last.alertId.replace(/\D/g, ''), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
   }
 }
 

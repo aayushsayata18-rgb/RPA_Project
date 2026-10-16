@@ -36,7 +36,11 @@ import {
   Banknote,
   Receipt,
   DollarSign,
-  Pill
+  Pill,
+  Warehouse,
+  Boxes,
+  Truck,
+  CheckCircle
 } from 'lucide-react';
 
 export const Sidebar = () => {
@@ -120,6 +124,7 @@ export const Sidebar = () => {
         { to: '/operations/pharmacy/alerts', label: 'Stock & Expiry Alerts', icon: AlertTriangle },
         { to: '/operations/pharmacy/returns', label: 'Pharmacy Returns', icon: Repeat },
         { to: '/operations/pharmacy/reports', label: 'Pharmacy Reports', icon: FileText },
+        { to: '/operations/inventory', label: 'Medical Inventory Hub', icon: Warehouse },
         { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays },
         { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
         { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
@@ -210,6 +215,16 @@ export const Sidebar = () => {
       { to: '/operations/pharmacy/alerts', label: 'Stock & Expiry Alerts', icon: AlertTriangle },
       { to: '/operations/pharmacy/returns', label: 'Pharmacy Returns', icon: Repeat },
       { to: '/operations/pharmacy/reports', label: 'Pharmacy Reports', icon: FileText },
+      { to: '/operations/inventory', label: 'Medical Inventory Hub', icon: Warehouse },
+      { to: '/operations/inventory/items', label: 'Inventory Items Master', icon: Boxes },
+      { to: '/operations/inventory/batches', label: 'Batch & Lot Registry', icon: Layers },
+      { to: '/operations/inventory/goods-receipts', label: 'Goods Receipts (GRN)', icon: Truck },
+      { to: '/operations/inventory/transfers', label: 'Stock Transfers & Requisitions', icon: Repeat },
+      { to: '/operations/inventory/adjustments', label: 'Stock Adjustments & Shrinkage', icon: AlertTriangle },
+      { to: '/operations/inventory/stock-counts', label: 'Physical Cycle Counts', icon: Sliders },
+      { to: '/operations/inventory/reconciliations', label: 'Stock Reconciliations', icon: CheckCircle },
+      { to: '/operations/inventory/alerts', label: 'Inventory Stock Alerts', icon: AlertTriangle },
+      { to: '/operations/inventory/reports', label: 'Stock Valuation & Ledger', icon: FileText },
       { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
       { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
       { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }

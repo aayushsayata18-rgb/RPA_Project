@@ -12,6 +12,10 @@ class AuditService {
     role = 'SYSTEM',
     actorRole = null,
     action,
+    eventType = null,
+    targetEntity = null,
+    targetId = null,
+    performedBy = null,
     module = null,
     category = null,
     entityType = null,
@@ -30,16 +34,17 @@ class AuditService {
       const eventId = `AUD-${Date.now()}-${uuidv4().substring(0, 8).toUpperCase()}`;
 
       const resolvedDetails = typeof details === 'object' && details !== null ? JSON.stringify(details) : String(details || '');
-      const resolvedModule = module || category || 'ADMISSION';
-      const resolvedEntityType = entityType || (category ? String(category) : 'ADMISSION');
-      const resolvedEntityId = String(entityId || patientId || 'SYSTEM');
+      const resolvedModule = module || category || 'MEDICAL_INVENTORY';
+      const resolvedEntityType = entityType || targetEntity || (category ? String(category) : 'INVENTORY');
+      const resolvedEntityId = String(entityId || targetId || patientId || 'SYSTEM');
+      const resolvedAction = action || eventType || 'SYSTEM_ACTION';
 
       const event = new AuditEvent({
         eventId,
-        userId: actorUserId || userId || 'SYSTEM',
+        userId: actorUserId || performedBy || userId || 'SYSTEM',
         userEmail,
         role: actorRole || role || 'SYSTEM',
-        action,
+        action: resolvedAction,
         module: resolvedModule,
         entityType: resolvedEntityType,
         entityId: resolvedEntityId,

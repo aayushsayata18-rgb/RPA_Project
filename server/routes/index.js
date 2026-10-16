@@ -62,6 +62,9 @@ const payrollRoutes = require('./payrollRoutes');
 // Module 17: Pharmacy Management Routes
 const pharmacyRoutes = require('./pharmacyRoutes');
 
+// Module 18: Medical Inventory Management Routes
+const inventoryRoutes = require('./inventoryRoutes');
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/audit', auditRoutes);
@@ -165,6 +168,10 @@ router.use('/me/payroll', payrollRoutes);
 // Module 17 Endpoints (Pharmacy Management)
 router.use('/pharmacy', pharmacyRoutes);
 router.use('/v1/pharmacy', pharmacyRoutes);
+
+// Module 18 Endpoints (Medical Inventory Management)
+router.use('/inventory', inventoryRoutes);
+router.use('/v1/inventory', inventoryRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

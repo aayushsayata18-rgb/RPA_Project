@@ -139,6 +139,20 @@ import { PharmacyAlertsPage } from '../pages/operations/pharmacy/PharmacyAlertsP
 import { PharmacyReportsPage } from '../pages/operations/pharmacy/PharmacyReportsPage';
 import { PatientPharmacyPage } from '../pages/patient/PatientPharmacyPage';
 
+// Module 18: Medical Inventory Management Pages
+import { InventoryDashboardPage } from '../pages/operations/inventory/InventoryDashboardPage';
+import { InventoryItemsPage } from '../pages/operations/inventory/InventoryItemsPage';
+import { InventoryItemDetailPage } from '../pages/operations/inventory/InventoryItemDetailPage';
+import { BatchManagementPage } from '../pages/operations/inventory/BatchManagementPage';
+import { StockLocationsPage } from '../pages/operations/inventory/StockLocationsPage';
+import { GoodsReceiptPage } from '../pages/operations/inventory/GoodsReceiptPage';
+import { StockTransfersPage } from '../pages/operations/inventory/StockTransfersPage';
+import { StockAdjustmentsPage } from '../pages/operations/inventory/StockAdjustmentsPage';
+import { StockCountsPage } from '../pages/operations/inventory/StockCountsPage';
+import { ReconciliationPage } from '../pages/operations/inventory/ReconciliationPage';
+import { InventoryAlertsPage } from '../pages/operations/inventory/InventoryAlertsPage';
+import { InventoryReportsPage } from '../pages/operations/inventory/InventoryReportsPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -1479,6 +1493,129 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+
+        {/* ======================================================== */}
+        {/* Module 18: Medical Inventory Management Routes */}
+        {/* ======================================================== */}
+        <Route
+          path="operations/inventory"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'NURSE', 'DOCTOR', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'PROCUREMENT_OFFICER']}>
+              <InventoryDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'NURSE', 'DOCTOR', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'PROCUREMENT_OFFICER']}>
+              <InventoryDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/items"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'NURSE', 'DOCTOR', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'PROCUREMENT_OFFICER']}>
+              <InventoryItemsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/items/:id"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'NURSE', 'DOCTOR', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'PROCUREMENT_OFFICER']}>
+              <InventoryItemDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/batches"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'PROCUREMENT_OFFICER']}>
+              <BatchManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/locations"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'PROCUREMENT_OFFICER']}>
+              <StockLocationsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/goods-receipts"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'PROCUREMENT_OFFICER']}>
+              <GoodsReceiptPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/transfers"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'PROCUREMENT_OFFICER', 'NURSE']}>
+              <StockTransfersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/adjustments"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'PROCUREMENT_OFFICER']}>
+              <StockAdjustmentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/stock-counts"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'AUDITOR']}>
+              <StockCountsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/reconciliations"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'AUDITOR']}>
+              <ReconciliationPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/alerts"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'INVENTORY_MANAGER', 'STORE_KEEPER', 'NURSE', 'DOCTOR']}>
+              <InventoryAlertsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/inventory/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'PHARMACIST', 'SENIOR_PHARMACIST', 'HEAD_OF_PHARMACY', 'INVENTORY_MANAGER', 'FINANCE_HEAD', 'AUDITOR']}>
+              <InventoryReportsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Inventory Route Aliases */}
+        <Route path="inventory" element={<Navigate to="/operations/inventory" replace />} />
+        <Route path="inventory/dashboard" element={<Navigate to="/operations/inventory" replace />} />
+        <Route path="inventory/items" element={<Navigate to="/operations/inventory/items" replace />} />
+        <Route path="inventory/items/:id" element={<Navigate to="/operations/inventory/items/:id" replace />} />
+        <Route path="inventory/batches" element={<Navigate to="/operations/inventory/batches" replace />} />
+        <Route path="inventory/locations" element={<Navigate to="/operations/inventory/locations" replace />} />
+        <Route path="inventory/goods-receipts" element={<Navigate to="/operations/inventory/goods-receipts" replace />} />
+        <Route path="inventory/transfers" element={<Navigate to="/operations/inventory/transfers" replace />} />
+        <Route path="inventory/adjustments" element={<Navigate to="/operations/inventory/adjustments" replace />} />
+        <Route path="inventory/stock-counts" element={<Navigate to="/operations/inventory/stock-counts" replace />} />
+        <Route path="inventory/reconciliations" element={<Navigate to="/operations/inventory/reconciliations" replace />} />
+        <Route path="inventory/alerts" element={<Navigate to="/operations/inventory/alerts" replace />} />
+        <Route path="inventory/reports" element={<Navigate to="/operations/inventory/reports" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Dashboard />} />
