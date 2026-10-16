@@ -76,7 +76,8 @@ export const Sidebar = () => {
         { to: '/patient/discharges', label: 'Discharge Summaries', icon: LogOut },
         { to: '/patient/records', label: 'Medical Documents', icon: FileText },
         { to: '/patient/pharmacy', label: 'My Prescriptions & Medicines', icon: Pill },
-        { to: '/patient/laboratory', label: 'My Diagnostic Lab Results', icon: FlaskConical }
+        { to: '/patient/laboratory', label: 'My Diagnostic Lab Results', icon: FlaskConical },
+        { to: '/patient/radiology', label: 'My Imaging & Radiology', icon: Radio }
       ];
     }
 
@@ -95,6 +96,28 @@ export const Sidebar = () => {
         { to: '/operations/laboratory/exceptions', label: 'Operational Exceptions', icon: AlertOctagon },
         { to: '/operations/laboratory/tests', label: 'Test Master Catalog', icon: Layers },
         { to: '/operations/laboratory/analytics', label: 'Lab Analytics & TAT', icon: BarChart3 },
+        { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays },
+        { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
+        { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
+        { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }
+      ];
+    }
+
+    // Radiology Portal Nav (Radiology Technicians & Radiologists)
+    if (hasRole('RADIOLOGY_TECHNICIAN')) {
+      return [
+        { to: '/operations/radiology', label: 'Radiology Operations Hub', icon: Radio },
+        { to: '/operations/radiology/orders', label: 'Radiology Orders Queue', icon: FileText },
+        { to: '/operations/radiology/scheduling', label: 'Modality Scheduling Grid', icon: Calendar },
+        { to: '/operations/radiology/check-in', label: 'Patient Reception & Check-In', icon: CheckSquare },
+        { to: '/operations/radiology/procedure-queue', label: 'Procedure & Worklist Queue', icon: Clock },
+        { to: '/operations/radiology/studies', label: 'Studies & Accessions', icon: Layers },
+        { to: '/operations/radiology/reporting-queue', label: 'Reporting & Review Queue', icon: ShieldCheck },
+        { to: '/operations/radiology/reports', label: 'Verified Reports Archive', icon: FileCheck },
+        { to: '/operations/radiology/exceptions', label: 'Operational Exceptions', icon: AlertOctagon },
+        { to: '/operations/radiology/exams', label: 'Exam Catalog Master', icon: Layers },
+        { to: '/operations/radiology/modalities', label: 'Modality Suite Master', icon: Building2 },
+        { to: '/operations/radiology/analytics', label: 'Radiology Analytics & TAT', icon: BarChart3 },
         { to: '/leave/my-leave', label: 'My Leave Portal', icon: CalendarDays },
         { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
         { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
@@ -285,6 +308,10 @@ export const Sidebar = () => {
       { to: '/operations/laboratory/verification', label: 'Pathologist Review Queue', icon: ShieldCheck },
       { to: '/operations/laboratory/reports', label: 'Diagnostic Reports Archive', icon: FileCheck },
       { to: '/operations/laboratory/analytics', label: 'Lab Analytics & TAT', icon: BarChart3 },
+      { to: '/operations/radiology', label: 'Radiology Administration Hub', icon: Radio },
+      { to: '/operations/radiology/orders', label: 'Radiology Requisitions', icon: FileText },
+      { to: '/operations/radiology/reports', label: 'Radiology Diagnostic Reports', icon: FileCheck },
+      { to: '/operations/radiology/analytics', label: 'Radiology Analytics & TAT', icon: BarChart3 },
       { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
       { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
       { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }

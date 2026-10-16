@@ -74,6 +74,9 @@ const vendorRoutes = require('./vendorRoutes');
 // Module 21: Laboratory Administration Routes
 const laboratoryRoutes = require('./laboratoryRoutes');
 
+// Module 22: Radiology Administration Routes
+const radiologyRoutes = require('./radiologyRoutes');
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/audit', auditRoutes);
@@ -193,6 +196,10 @@ router.use('/v1/vendors', vendorRoutes);
 // Module 21 Endpoints (Laboratory Administration)
 router.use('/laboratory', laboratoryRoutes);
 router.use('/v1/laboratory', laboratoryRoutes);
+
+// Module 22 Endpoints (Radiology Administration)
+router.use('/radiology', radiologyRoutes);
+router.use('/v1/radiology', radiologyRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

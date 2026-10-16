@@ -194,6 +194,22 @@ import { LabExceptions } from '../pages/operations/laboratory/LabExceptions';
 import { LabAnalytics } from '../pages/operations/laboratory/LabAnalytics';
 import { PatientLabPage } from '../pages/patient/PatientLabPage';
 
+// Module 22: Radiology Administration Pages
+import { RadiologyDashboard } from '../pages/operations/radiology/RadiologyDashboard';
+import { RadiologyExams } from '../pages/operations/radiology/RadiologyExams';
+import { Modalities } from '../pages/operations/radiology/Modalities';
+import { RadiologyOrders } from '../pages/operations/radiology/RadiologyOrders';
+import { RadiologyScheduling } from '../pages/operations/radiology/RadiologyScheduling';
+import { PatientCheckIn } from '../pages/operations/radiology/PatientCheckIn';
+import { ProcedureQueue } from '../pages/operations/radiology/ProcedureQueue';
+import { Studies } from '../pages/operations/radiology/Studies';
+import { ReportingQueue } from '../pages/operations/radiology/ReportingQueue';
+import { RadiologyReports } from '../pages/operations/radiology/RadiologyReports';
+import { RadiologyExceptions } from '../pages/operations/radiology/RadiologyExceptions';
+import { RadiologyAnalytics } from '../pages/operations/radiology/RadiologyAnalytics';
+import { PatientRadiologyPage } from '../pages/patient/PatientRadiologyPage';
+import { DoctorRadiologyPage } from '../pages/clinical/DoctorRadiologyPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -385,6 +401,28 @@ export const AppRoutes = () => {
         <Route
           path="patient/lab"
           element={<Navigate to="/patient/laboratory" replace />}
+        />
+
+        {/* Module 22: Patient Portal Diagnostic Radiology Reports & Schedules */}
+        <Route
+          path="patient/radiology"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientRadiologyPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patient/radiology-reports"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientRadiologyPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patient/imaging"
+          element={<Navigate to="/patient/radiology" replace />}
         />
 
         {/* Module 2 & 3: Clinical Portal Appointments & OPD Queue */}
@@ -2015,6 +2053,121 @@ export const AppRoutes = () => {
         <Route path="laboratory/orders" element={<Navigate to="/operations/laboratory/orders" replace />} />
         <Route path="laboratory/reports" element={<Navigate to="/operations/laboratory/reports" replace />} />
         <Route path="clinical/lab-orders" element={<Navigate to="/operations/laboratory/orders" replace />} />
+
+        {/* Module 22: Radiology Administration Operations Routes */}
+        <Route
+          path="operations/radiology"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'RADIOLOGY_TECHNICIAN', 'HOSPITAL_MANAGEMENT', 'DOCTOR']}>
+              <RadiologyDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/radiology/exams"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'RADIOLOGY_TECHNICIAN', 'DOCTOR']}>
+              <RadiologyExams />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/radiology/modalities"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'RADIOLOGY_TECHNICIAN']}>
+              <Modalities />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/radiology/orders"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'RADIOLOGY_TECHNICIAN', 'DOCTOR', 'NURSE', 'RECEPTIONIST']}>
+              <RadiologyOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/radiology/scheduling"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'RADIOLOGY_TECHNICIAN', 'RECEPTIONIST']}>
+              <RadiologyScheduling />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/radiology/check-in"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'RADIOLOGY_TECHNICIAN', 'RECEPTIONIST']}>
+              <PatientCheckIn />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/radiology/procedure-queue"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'RADIOLOGY_TECHNICIAN']}>
+              <ProcedureQueue />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/radiology/studies"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'RADIOLOGY_TECHNICIAN', 'DOCTOR']}>
+              <Studies />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/radiology/reporting-queue"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'DOCTOR', 'RADIOLOGY_TECHNICIAN']}>
+              <ReportingQueue />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/radiology/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'DOCTOR', 'RADIOLOGY_TECHNICIAN', 'NURSE']}>
+              <RadiologyReports />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/radiology/exceptions"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'RADIOLOGY_TECHNICIAN']}>
+              <RadiologyExceptions />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/radiology/analytics"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'RADIOLOGY_TECHNICIAN', 'HOSPITAL_MANAGEMENT']}>
+              <RadiologyAnalytics />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Clinical Doctor Radiology Portal Route */}
+        <Route
+          path="clinical/radiology"
+          element={
+            <ProtectedRoute allowedRoles={['DOCTOR', 'SYSTEM_ADMIN', 'ADMIN_MANAGER']}>
+              <DoctorRadiologyPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Radiology Route Aliases */}
+        <Route path="radiology" element={<Navigate to="/operations/radiology" replace />} />
+        <Route path="radiology/orders" element={<Navigate to="/operations/radiology/orders" replace />} />
+        <Route path="radiology/reports" element={<Navigate to="/operations/radiology/reports" replace />} />
+        <Route path="radiology/schedules" element={<Navigate to="/operations/radiology/scheduling" replace />} />
+        <Route path="clinical/radiology-orders" element={<Navigate to="/clinical/radiology" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Dashboard />} />

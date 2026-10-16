@@ -3374,6 +3374,261 @@ class IdGeneratorService {
     }
     return `${prefix}${String(seq).padStart(5, '0')}`;
   }
+
+  static async generateRadiologyExamId() {
+    const key = 'RADIOLOGY_EXAM_ID';
+    const prefix = 'RAD-EXM-';
+    let baseSeq = 1;
+    try {
+      const RadiologyExam = require('../models/RadiologyExam');
+      const last = await RadiologyExam.findOne({ examId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ examId: -1 })
+        .select('examId')
+        .lean();
+      if (last && last.examId) {
+        const parts = last.examId.split('-');
+        const num = parseInt(parts[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateRadiologyModalityId(type = 'RAD') {
+    const cleanType = String(type).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5) || 'RAD';
+    const key = `RADIOLOGY_MODALITY_ID_${cleanType}`;
+    const prefix = `MOD-${cleanType}-`;
+    let baseSeq = 1;
+    try {
+      const RadiologyModality = require('../models/RadiologyModality');
+      const last = await RadiologyModality.findOne({ modalityId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ modalityId: -1 })
+        .select('modalityId')
+        .lean();
+      if (last && last.modalityId) {
+        const parts = last.modalityId.split('-');
+        const num = parseInt(parts[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(2, '0')}`;
+  }
+
+  static async generateRadiologyOrderId() {
+    const year = new Date().getFullYear();
+    const key = `RADIOLOGY_ORDER_ID_${year}`;
+    const prefix = `RAD-${year}-`;
+    let baseSeq = 1;
+    try {
+      const RadiologyOrder = require('../models/RadiologyOrder');
+      const last = await RadiologyOrder.findOne({ orderId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ orderId: -1 })
+        .select('orderId')
+        .lean();
+      if (last && last.orderId) {
+        const parts = last.orderId.split('-');
+        const num = parseInt(parts[2], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateRadiologyScheduleId() {
+    const year = new Date().getFullYear();
+    const key = `RADIOLOGY_SCHEDULE_ID_${year}`;
+    const prefix = `RAD-SCH-${year}-`;
+    let baseSeq = 1;
+    try {
+      const RadiologySchedule = require('../models/RadiologySchedule');
+      const last = await RadiologySchedule.findOne({ scheduleId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ scheduleId: -1 })
+        .select('scheduleId')
+        .lean();
+      if (last && last.scheduleId) {
+        const parts = last.scheduleId.split('-');
+        const num = parseInt(parts[3], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateRadiologyAccessionNumber() {
+    const year = new Date().getFullYear();
+    const key = `RADIOLOGY_ACCESSION_NO_${year}`;
+    const prefix = `RAD-ACC-${year}-`;
+    let baseSeq = 1;
+    try {
+      const RadiologyStudy = require('../models/RadiologyStudy');
+      const last = await RadiologyStudy.findOne({ accessionNumber: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ accessionNumber: -1 })
+        .select('accessionNumber')
+        .lean();
+      if (last && last.accessionNumber) {
+        const parts = last.accessionNumber.split('-');
+        const num = parseInt(parts[3], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(6, '0')}`;
+  }
+
+  static async generateRadiologyStudyId() {
+    const year = new Date().getFullYear();
+    const key = `RADIOLOGY_STUDY_ID_${year}`;
+    const prefix = `RAD-STD-${year}-`;
+    let baseSeq = 1;
+    try {
+      const RadiologyStudy = require('../models/RadiologyStudy');
+      const last = await RadiologyStudy.findOne({ studyId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ studyId: -1 })
+        .select('studyId')
+        .lean();
+      if (last && last.studyId) {
+        const parts = last.studyId.split('-');
+        const num = parseInt(parts[3], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateRadiologyReportNumber() {
+    const year = new Date().getFullYear();
+    const key = `RADIOLOGY_REPORT_NO_${year}`;
+    const prefix = `RAD-RPT-${year}-`;
+    let baseSeq = 1;
+    try {
+      const RadiologyReport = require('../models/RadiologyReport');
+      const last = await RadiologyReport.findOne({ reportNumber: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ reportNumber: -1 })
+        .select('reportNumber')
+        .lean();
+      if (last && last.reportNumber) {
+        const parts = last.reportNumber.split('-');
+        const num = parseInt(parts[3], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
+
+  static async generateRadiologyExceptionId() {
+    const year = new Date().getFullYear();
+    const key = `RADIOLOGY_EXCEPTION_ID_${year}`;
+    const prefix = `RAD-EXP-${year}-`;
+    let baseSeq = 1;
+    try {
+      const RadiologyException = require('../models/RadiologyException');
+      const last = await RadiologyException.findOne({ exceptionId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ exceptionId: -1 })
+        .select('exceptionId')
+        .lean();
+      if (last && last.exceptionId) {
+        const parts = last.exceptionId.split('-');
+        const num = parseInt(parts[3], 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    let seq = counter.sequenceValue;
+    if (seq < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+      seq = baseSeq;
+    }
+    return `${prefix}${String(seq).padStart(5, '0')}`;
+  }
 }
 
 module.exports = IdGeneratorService;
