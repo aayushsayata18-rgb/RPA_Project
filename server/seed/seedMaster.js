@@ -263,6 +263,66 @@ const seedMaster = async () => {
         subjectTemplate: 'Hospital Discharge Completed - Wishing you a speedy recovery!',
         bodyTemplate: 'Dear {{patientName}}, your discharge is complete! All documents and receipts are now available in your portal.',
         variables: ['patientName', 'dischargeId', 'admissionId']
+      },
+      {
+        templateCode: 'PAYMENT_SUCCESS',
+        name: 'Payment Receipt Confirmation',
+        type: 'PAYMENT_SUCCESS',
+        event: 'PAYMENT_SUCCESS',
+        channel: 'ALL',
+        subjectTemplate: 'Payment Receipt: ₹{{amount}} Received - {{transactionId}}',
+        bodyTemplate: 'Dear {{patientName}}, payment of ₹{{amount}} has been successfully processed for Transaction ID: {{transactionId}}.',
+        variables: ['patientName', 'amount', 'transactionId']
+      },
+      {
+        templateCode: 'LAB_REPORT_RELEASED',
+        name: 'Diagnostic Lab Report Available',
+        type: 'LAB_REPORT_RELEASED',
+        event: 'LAB_REPORT_RELEASED',
+        channel: 'ALL',
+        subjectTemplate: 'Diagnostic Lab Report Released - {{orderNumber}}',
+        bodyTemplate: 'Dear {{patientName}}, your test results for {{testName}} are now ready. Please log in to your secure patient portal to view the certified report.',
+        variables: ['patientName', 'testName', 'orderNumber']
+      },
+      {
+        templateCode: 'FEEDBACK_RESPONSE_AVAILABLE',
+        name: 'Feedback Response Ready Notice',
+        type: 'FEEDBACK_RESPONSE_AVAILABLE',
+        event: 'FEEDBACK_RESPONSE_AVAILABLE',
+        channel: 'ALL',
+        subjectTemplate: 'Official Response to Case {{feedbackId}}',
+        bodyTemplate: 'Dear {{patientName}}, an official response has been published regarding your feedback case {{feedbackId}}. Please review it in your patient portal.',
+        variables: ['patientName', 'feedbackId']
+      },
+      {
+        templateCode: 'RPA_JOB_FAILED',
+        name: 'RPA Failure Administrator Alert',
+        type: 'RPA_JOB_FAILED',
+        event: 'RPA_JOB_FAILED',
+        channel: 'ALL',
+        subjectTemplate: 'ALERT: RPA Execution Failed - {{jobCode}}',
+        bodyTemplate: 'System alert: RPA Job {{jobCode}} execution failed. Exception: {{errorSummary}}. Review RPA operations console.',
+        variables: ['jobCode', 'errorSummary']
+      },
+      {
+        templateCode: 'LEAVE_SUBMITTED',
+        name: 'Leave Request Manager Notification',
+        type: 'LEAVE_SUBMITTED',
+        event: 'LEAVE_SUBMITTED',
+        channel: 'ALL',
+        subjectTemplate: 'Leave Request Pending Approval: {{employeeName}}',
+        bodyTemplate: 'Employee {{employeeName}} has submitted a leave request ({{leaveId}}) from {{startDate}} to {{endDate}}. Please review in the staff portal.',
+        variables: ['employeeName', 'leaveId', 'startDate', 'endDate']
+      },
+      {
+        templateCode: 'MAINTENANCE_SLA_WARNING',
+        name: 'Maintenance Ticket SLA Escalation',
+        type: 'MAINTENANCE_SLA_WARNING',
+        event: 'MAINTENANCE_SLA_WARNING',
+        channel: 'ALL',
+        subjectTemplate: 'URGENT: Maintenance SLA Breach Warning - {{workOrderId}}',
+        bodyTemplate: 'Work order {{workOrderId}} for asset {{assetName}} is approaching SLA limit. Immediate dispatch required.',
+        variables: ['workOrderId', 'assetName']
       }
     ];
 
@@ -273,6 +333,7 @@ const seedMaster = async () => {
         { upsert: true, new: true }
       );
     }
+
 
     // 4. Seed Default Document Templates
     console.log('[Seed Master] Seeding Central Document Templates...');

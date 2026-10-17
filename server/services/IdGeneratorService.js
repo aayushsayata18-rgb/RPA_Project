@@ -4338,8 +4338,145 @@ class IdGeneratorService {
     }
     return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
   }
+
+  /**
+   * Generate unique Notification ID (e.g. NTF-2026-000001)
+   */
+  static async generateNotificationId() {
+    const Notification = require('../models/Notification');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `NOTIFICATION_ID_${year}`;
+    const prefix = `NTF-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await Notification.findOne({ notificationId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ notificationId: -1 })
+        .select('notificationId')
+        .lean();
+      if (last && last.notificationId) {
+        const num = parseInt(last.notificationId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Notification Delivery ID (e.g. DLV-2026-000001)
+   */
+  static async generateNotificationDeliveryId() {
+    const NotificationDelivery = require('../models/NotificationDelivery');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `NOTIFICATION_DELIVERY_ID_${year}`;
+    const prefix = `DLV-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await NotificationDelivery.findOne({ deliveryId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ deliveryId: -1 })
+        .select('deliveryId')
+        .lean();
+      if (last && last.deliveryId) {
+        const num = parseInt(last.deliveryId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Notification Event ID (e.g. EVT-2026-000001)
+   */
+  static async generateNotificationEventId() {
+    const NotificationEvent = require('../models/NotificationEvent');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `NOTIFICATION_EVENT_ID_${year}`;
+    const prefix = `EVT-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await NotificationEvent.findOne({ eventId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ eventId: -1 })
+        .select('eventId')
+        .lean();
+      if (last && last.eventId) {
+        const num = parseInt(last.eventId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Notification Campaign ID (e.g. CMP-2026-000001)
+   */
+  static async generateNotificationCampaignId() {
+    const NotificationCampaign = require('../models/NotificationCampaign');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `NOTIFICATION_CAMPAIGN_ID_${year}`;
+    const prefix = `CMP-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await NotificationCampaign.findOne({ campaignId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ campaignId: -1 })
+        .select('campaignId')
+        .lean();
+      if (last && last.campaignId) {
+        const num = parseInt(last.campaignId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
 }
 
 module.exports = IdGeneratorService;
+
 
 

@@ -78,7 +78,8 @@ export const Sidebar = () => {
         { to: '/patient/pharmacy', label: 'My Prescriptions & Medicines', icon: Pill },
         { to: '/patient/laboratory', label: 'My Diagnostic Lab Results', icon: FlaskConical },
         { to: '/patient/radiology', label: 'My Imaging & Radiology', icon: Radio },
-        { to: '/patient/feedback', label: 'My Feedback & Grievances', icon: MessageSquare }
+        { to: '/patient/feedback', label: 'My Feedback & Grievances', icon: MessageSquare },
+        { to: '/patient/notifications', label: 'My Alerts & Preferences', icon: Bell }
       ];
     }
 
@@ -366,6 +367,12 @@ export const Sidebar = () => {
       { to: '/operations/maintenance/analytics', label: 'Maintenance Analytics & MTBF', icon: BarChart3 },
       { to: '/operations/feedback', label: 'Patient Feedback Hub', icon: MessageSquare },
       { to: '/operations/feedback/reports', label: 'Feedback & Grievance Analytics', icon: BarChart3 },
+      { to: '/operations/notifications', label: 'Notification Service Hub', icon: Bell },
+      { to: '/operations/notifications/list', label: 'Notification Delivery Logs', icon: FileText },
+      { to: '/operations/notifications/templates', label: 'Notification Templates', icon: Sliders },
+      { to: '/operations/notifications/campaigns', label: 'Broadcast Campaigns', icon: Send },
+      { to: '/operations/notifications/providers', label: 'Communication Gateways', icon: Radio },
+      { to: '/operations/notifications/reports', label: 'Delivery Reports & Analytics', icon: BarChart3 },
       { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
       { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
       { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }

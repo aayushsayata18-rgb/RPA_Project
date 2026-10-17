@@ -255,6 +255,16 @@ import {
   FeedbackReports
 } from '../pages/operations/feedback';
 
+// Module 26: Notification Service Pages
+import { PatientNotificationsPage } from '../pages/patient/PatientNotificationsPage';
+import { NotificationDashboardPage } from '../pages/operations/notifications/NotificationDashboardPage';
+import { NotificationListPage } from '../pages/operations/notifications/NotificationListPage';
+import { NotificationDetailPage } from '../pages/operations/notifications/NotificationDetailPage';
+import { TemplateManagementPage } from '../pages/operations/notifications/TemplateManagementPage';
+import { NotificationCampaignsPage } from '../pages/operations/notifications/NotificationCampaignsPage';
+import { ProviderConfigPage } from '../pages/operations/notifications/ProviderConfigPage';
+import { NotificationReportsPage } from '../pages/operations/notifications/NotificationReportsPage';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -500,6 +510,16 @@ export const AppRoutes = () => {
           element={
             <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
               <PatientFeedbackDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 26: Patient Notifications & Preferences */}
+        <Route
+          path="patient/notifications"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientNotificationsPage />
             </ProtectedRoute>
           }
         />
@@ -2499,6 +2519,73 @@ export const AppRoutes = () => {
         <Route path="feedback" element={<Navigate to="/operations/feedback" replace />} />
         <Route path="feedback/reports" element={<Navigate to="/operations/feedback/reports" replace />} />
         <Route path="feedback/list" element={<Navigate to="/operations/feedback/list" replace />} />
+
+        {/* Module 26: Notification Service & Communications Engine */}
+        <Route
+          path="operations/notifications"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'GRIEVANCE_OFFICER']}>
+              <NotificationDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/notifications/list"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <NotificationListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/notifications/templates"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <TemplateManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/notifications/campaigns"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <NotificationCampaignsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/notifications/providers"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <ProviderConfigPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/notifications/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <NotificationReportsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/notifications/:notificationId"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <NotificationDetailPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Notification Route Aliases */}
+        <Route path="notifications" element={<Navigate to="/operations/notifications" replace />} />
+        <Route path="notifications/list" element={<Navigate to="/operations/notifications/list" replace />} />
+        <Route path="notifications/templates" element={<Navigate to="/operations/notifications/templates" replace />} />
+        <Route path="notifications/campaigns" element={<Navigate to="/operations/notifications/campaigns" replace />} />
+        <Route path="notifications/providers" element={<Navigate to="/operations/notifications/providers" replace />} />
+        <Route path="notifications/reports" element={<Navigate to="/operations/notifications/reports" replace />} />
+        <Route path="portal/patient/notifications" element={<Navigate to="/patient/notifications" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Dashboard />} />

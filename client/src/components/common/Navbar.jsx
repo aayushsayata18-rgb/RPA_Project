@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Bell, LogOut, User, Activity } from 'lucide-react';
-import api from '../../services/api';
+import { LogOut, User, Activity } from 'lucide-react';
+import { NotificationBell } from '../notifications/NotificationBell';
 
 export const Navbar = () => {
   const { user, logout } = useAuth();
-  const [notifications, setNotifications] = useState([]);
-  const [showNotifs, setShowNotifs] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      api.get('/notifications?unreadOnly=true')
-        .then((res) => setNotifications(res.data || []))
-        .catch(() => {});
-    }
-  }, [user]);
 
   return (
     <header style={{
@@ -51,81 +41,9 @@ export const Navbar = () => {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-        {/* Notifications Dropdown Trigger */}
-        <div style={{ position: 'relative' }}>
-          <button
-            onClick={() => setShowNotifs(!showNotifs)}
-            style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid var(--border-color)',
-              borderRadius: '8px',
-              width: '38px',
-              height: '38px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--text-primary)',
-              cursor: 'pointer'
-            }}
-          >
-            <Bell size={18} />
-            {notifications.length > 0 && (
-              <span style={{
-                position: 'absolute',
-                top: '-4px',
-                right: '-4px',
-                background: '#ef4444',
-                color: '#fff',
-                fontSize: '0.65rem',
-                fontWeight: 'bold',
-                width: '18px',
-                height: '18px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                {notifications.length}
-              </span>
-            )}
-          </button>
+        {/* Global Notification Bell with Real-time Count & Drawer (Section 85) */}
+        <NotificationBell />
 
-          {showNotifs && (
-            <div style={{
-              position: 'absolute',
-              right: 0,
-              top: '46px',
-              width: '320px',
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-color)',
-              borderRadius: 'var(--radius-md)',
-              boxShadow: 'var(--shadow-lg)',
-              padding: '1rem',
-              zIndex: 100
-            }}>
-              <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
-                Notifications ({notifications.length})
-              </h4>
-              {notifications.length === 0 ? (
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>No unread alerts.</p>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '250px', overflowY: 'auto' }}>
-                  {notifications.map((n) => (
-                    <div key={n.notificationId} style={{
-                      padding: '0.6rem',
-                      background: 'rgba(15, 23, 42, 0.6)',
-                      borderRadius: '6px',
-                      fontSize: '0.8rem'
-                    }}>
-                      <div style={{ fontWeight: '600', color: '#38bdf8' }}>{n.title}</div>
-                      <div style={{ color: 'var(--text-secondary)', marginTop: '2px' }}>{n.message}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
 
         {/* User Info & Logout */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
