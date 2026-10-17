@@ -141,8 +141,7 @@ router.use('/bed-assignments', bedRoutes);
 router.use('/v1/bed-assignments', bedRoutes);
 router.use('/bed-transfers', bedRoutes);
 router.use('/v1/bed-transfers', bedRoutes);
-router.use('/housekeeping', bedRoutes);
-router.use('/v1/housekeeping', bedRoutes);
+
 
 // Module 6 Endpoints
 router.use('/discharges', dischargeRoutes);

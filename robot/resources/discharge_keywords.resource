@@ -103,6 +103,14 @@ Complete Discharge Process
     ${response}=   POST    ${BASE_URL}/discharges/${dischargeId}/complete    json=${payload}    headers=${headers}    expected_status=any
     RETURN         ${response}
 
+Record Patient Departure
+    [Arguments]    ${token}    ${dischargeId}    ${escortedBy}=${EMPTY}
+    ${headers}=    Create Dictionary    Authorization=Bearer ${token}    Content-Type=application/json
+    ${payload}=    Create Dictionary    summary=Patient departed premises    escortedBy=${escortedBy}    overridePaymentCheck=${True}
+    ${response}=   POST    ${BASE_URL}/discharges/${dischargeId}/complete    json=${payload}    headers=${headers}    expected_status=any
+    RETURN         ${response}
+
+
 Cancel Discharge Process
     [Arguments]    ${token}    ${dischargeId}    ${reason}=Discharge cancelled by physician
     ${headers}=    Create Dictionary    Authorization=Bearer ${token}    Content-Type=application/json

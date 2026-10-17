@@ -42,4 +42,12 @@ const server = app.listen(PORT, () => {
   console.log(`[Hospital RPA Backend running]: http://localhost:${PORT} [${process.env.NODE_ENV || 'development'}]`);
 });
 
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[Unhandled Rejection]:', reason);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('[Uncaught Exception]:', err);
+});
+
 module.exports = { app, server };

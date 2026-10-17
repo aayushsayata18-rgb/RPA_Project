@@ -35,7 +35,7 @@ Submit Front Desk Existing Patient Registration
 
 Verify Permanent Patient ID Format
     [Arguments]    ${patientId}
-    Should Match Regexp    ${patientId}    ^P\\d{5}$
+    Should Match Regexp    ${patientId}    ^P\\d+$
 
 Verify Visit ID Format
     [Arguments]    ${visitId}

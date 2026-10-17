@@ -21,7 +21,7 @@ const notificationDeliverySchema = new mongoose.Schema(
     },
     channel: {
       type: String,
-      enum: ['SMS', 'EMAIL', 'IN_APP', 'PUSH', 'WHATSAPP'],
+      enum: ['SMS', 'EMAIL', 'IN_APP', 'PUSH', 'WHATSAPP', 'PORTAL', 'WEB'],
       required: true
     },
     provider: {

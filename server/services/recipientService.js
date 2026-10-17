@@ -53,7 +53,10 @@ class RecipientService {
     // If userId is provided, look up user record
     if (resolved.userId && (!resolved.phone || !resolved.email || !resolved.name)) {
       try {
-        const user = await User.findById(resolved.userId).lean();
+        const isObjectId = /^[0-9a-fA-F]{24}$/.test(String(resolved.userId));
+        const user = isObjectId
+          ? await User.findById(resolved.userId).lean()
+          : await User.findOne({ username: resolved.userId }).lean();
         if (user) {
           resolved.email = resolved.email || user.email;
           resolved.phone = resolved.phone || user.phone;

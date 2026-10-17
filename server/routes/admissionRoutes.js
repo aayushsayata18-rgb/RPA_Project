@@ -62,19 +62,19 @@ router.post(
 
 // --- Inpatient Admission Episode Endpoints ---
 router.post(
-  '/admissions',
+  ['/', '/admissions'],
   requirePermission(PERMISSIONS.ADMISSION_CREATE),
   AdmissionController.completeAdmission
 );
 
 router.post(
-  '/admissions/:admissionId/complete-admission',
+  ['/:admissionId/complete-admission', '/admissions/:admissionId/complete-admission'],
   requirePermission(PERMISSIONS.ADMISSION_CREATE),
   AdmissionController.completeAdmission
 );
 
 router.get(
-  '/admissions',
+  ['/', '/admissions'],
   requirePermission(PERMISSIONS.ADMISSION_VIEW),
   AdmissionController.listAdmissions
 );

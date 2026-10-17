@@ -66,13 +66,13 @@ const notificationSchema = new mongoose.Schema(
     channels: [
       {
         type: String,
-        enum: ['SMS', 'EMAIL', 'IN_APP', 'PUSH', 'WHATSAPP']
+        enum: ['SMS', 'EMAIL', 'IN_APP', 'PUSH', 'WHATSAPP', 'PORTAL', 'WEB']
       }
     ],
     // Backward compatibility channel
     channel: {
       type: String,
-      enum: ['SMS', 'EMAIL', 'IN_APP', 'PUSH', 'WHATSAPP']
+      enum: ['SMS', 'EMAIL', 'IN_APP', 'PUSH', 'WHATSAPP', 'PORTAL', 'WEB']
     },
 
     templateId: {

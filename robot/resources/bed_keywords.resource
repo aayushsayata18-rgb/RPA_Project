@@ -115,3 +115,10 @@ Get Bed Status History
     ${headers}=    Create Dictionary    Authorization=Bearer ${token}    Content-Type=application/json
     ${response}=   GET    ${BASE_URL}/beds/${bedId}/history    headers=${headers}    expected_status=200
     RETURN         ${response.json()}[data]
+
+Get Single Bed By ID
+    [Arguments]    ${token}    ${bedId}
+    ${headers}=    Create Dictionary    Authorization=Bearer ${token}    Content-Type=application/json
+    ${response}=   GET    ${BASE_URL}/beds/${bedId}    headers=${headers}    expected_status=any
+    RETURN         ${response.json()}[data]
+

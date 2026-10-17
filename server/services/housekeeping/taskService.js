@@ -306,6 +306,19 @@ class TaskService {
       });
     }
 
+    if (task.bedId) {
+      try {
+        const Bed = require('../../models/Bed');
+        await Bed.findOneAndUpdate(
+          { $or: [{ bedId: task.bedId }, { bedNumber: task.bedId }, { bedNumber: task.bedNumber }] },
+          { $set: { status: 'AVAILABLE', housekeepingStatus: 'AVAILABLE' } }
+        );
+      } catch (e) {
+        console.error('[HousekeepingTask.closeTask] Error updating bed status:', e);
+      }
+    }
+
+
     await AuditService.logEvent({
       action: 'HOUSEKEEPING_TASK_CLOSED',
       category: 'HOUSEKEEPING',

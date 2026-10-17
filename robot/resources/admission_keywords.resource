@@ -34,7 +34,7 @@ Assign Bed To Request
 Complete Inpatient Admission
     [Arguments]    ${token}    ${requestId}    ${insuranceProvider}=Star Health Insurance    ${policyNumber}=POL-TEST-001
     ${headers}=    Create Dictionary    Authorization=Bearer ${token}    Content-Type=application/json
-    ${insDetails}= Create Dictionary    provider=${insuranceProvider}    policyNumber=${policyNumber}    preAuthStatus=APPROVED    approvedAmount=50000
+    ${insDetails}=    Create Dictionary    provider=${insuranceProvider}    policyNumber=${policyNumber}    preAuthStatus=APPROVED    approvedAmount=50000
     ${payload}=    Create Dictionary    admissionRequestId=${requestId}    insuranceDetails=${insDetails}
     ${response}=   POST    ${BASE_URL}/admissions    json=${payload}    headers=${headers}    expected_status=any
     RETURN         ${response}
