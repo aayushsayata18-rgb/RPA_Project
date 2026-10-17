@@ -276,7 +276,17 @@ import { PatientDocuments } from '../pages/patient/PatientDocuments';
 import { ReportsHome } from '../portals/administration/reports/ReportsHome';
 import { ReportCatalog } from '../portals/administration/reports/ReportCatalog';
 import { ReportViewer } from '../portals/administration/reports/ReportViewer';
+import { ReportFilters } from '../portals/administration/reports/ReportFilters';
+import { ReportHistory } from '../portals/administration/reports/ReportHistory';
+import { ScheduledReports } from '../portals/administration/reports/ScheduledReports';
+import { KPIManagement } from '../portals/administration/reports/KPIManagement';
+import { AnalyticsAlerts } from '../portals/administration/reports/AnalyticsAlerts';
+import { DataQuality } from '../portals/administration/reports/DataQuality';
 import { ManagementDashboard } from '../portals/administration/reports/dashboards/ManagementDashboard';
+import { OperationsDashboard } from '../portals/administration/reports/dashboards/OperationsDashboard';
+import { FinanceDashboard } from '../portals/administration/reports/dashboards/FinanceDashboard';
+import { HRDashboard } from '../portals/administration/reports/dashboards/HRDashboard';
+import { RPADashboard } from '../portals/administration/reports/dashboards/RPADashboard';
 
 export const AppRoutes = () => {
   return (
@@ -2712,10 +2722,98 @@ export const AppRoutes = () => {
           }
         />
         <Route
+          path="reports/filters"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR', 'NURSE', 'PHARMACIST', 'LAB_TECHNICIAN', 'RADIOLOGIST', 'FINANCE_OFFICER', 'INSURANCE_OFFICER', 'HR_OFFICER']}>
+              <ReportFilters />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/history"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'FINANCE_OFFICER', 'HR_OFFICER']}>
+              <ReportHistory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/schedules"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <ScheduledReports />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/kpis"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <KPIManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/alerts"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <AnalyticsAlerts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/quality"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <DataQuality />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="reports/dashboard"
           element={
             <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
               <ManagementDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/dashboard/management"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <ManagementDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/dashboard/operations"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <OperationsDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/dashboard/finance"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'FINANCE_OFFICER']}>
+              <FinanceDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/dashboard/hr"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'HR_OFFICER']}>
+              <HRDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/dashboard/rpa"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <RPADashboard />
             </ProtectedRoute>
           }
         />

@@ -1,9 +1,11 @@
 const fs = require('fs');
 const ReportService = require('../services/reportService');
+const AnalyticsService = require('../services/analyticsService');
+const DataQualityService = require('../services/dataQualityService');
 
 /**
  * Module 28: ReportController
- * Handles catalog discovery, execution, history, and downloads
+ * Handles catalog discovery, execution, history, downloads, analytics trends, and data quality
  */
 exports.getCatalog = async (req, res, next) => {
   try {
@@ -98,3 +100,55 @@ exports.listExecutions = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getMetricTrend = async (req, res, next) => {
+  try {
+    const { metric, interval, periods } = req.query;
+    const trend = await AnalyticsService.getMetricTrend({
+      metric: metric || 'APPOINTMENTS',
+      interval: interval || 'MONTHLY',
+      periods: periods ? parseInt(periods, 10) : 6
+    });
+    res.json({ success: true, data: trend });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getPeriodComparison = async (req, res, next) => {
+  try {
+    const { metric } = req.query;
+    const comparison = await AnalyticsService.getPeriodComparison(metric || 'REVENUE');
+    res.json({ success: true, data: comparison });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getBedDrillDown = async (req, res, next) => {
+  try {
+    const drilldown = await AnalyticsService.getBedDrillDown();
+    res.json({ success: true, data: drilldown });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getManagementInsights = async (req, res, next) => {
+  try {
+    const insights = await AnalyticsService.getManagementInsights();
+    res.json({ success: true, data: insights });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getDataQualityAudit = async (req, res, next) => {
+  try {
+    const audit = await DataQualityService.runQualityAudit();
+    res.json({ success: true, data: audit });
+  } catch (error) {
+    next(error);
+  }
+};
+

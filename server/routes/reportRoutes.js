@@ -6,7 +6,12 @@ const {
   executeReport,
   getExecutionStatus,
   downloadReportFile,
-  listExecutions
+  listExecutions,
+  getMetricTrend,
+  getPeriodComparison,
+  getBedDrillDown,
+  getManagementInsights,
+  getDataQualityAudit
 } = require('../controllers/reportController');
 const {
   getManagementDashboard,
@@ -50,6 +55,13 @@ router.post(
   calculateKPIs
 );
 router.get('/kpis/:code/trend', getKPITrend);
+
+// 2b. Advanced Analytics & Surveillance (Section 69-71, 95-97, 100)
+router.get('/analytics/trends', getMetricTrend);
+router.get('/analytics/comparison', getPeriodComparison);
+router.get('/analytics/drilldown/beds', getBedDrillDown);
+router.get('/analytics/insights', getManagementInsights);
+router.get('/quality/audit', getDataQualityAudit);
 
 // 3. Executions & Downloads (Section 108 & 109)
 router.get('/executions', listExecutions);

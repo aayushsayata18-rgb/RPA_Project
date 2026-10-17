@@ -64,7 +64,14 @@ export const reportClientService = {
   // Alerts
   listAlerts: () => api.get('/reports/alerts'),
   acknowledgeAlert: (id) => api.post(`/reports/alerts/${id}/acknowledge`),
-  resolveAlert: (id, note) => api.post(`/reports/alerts/${id}/resolve`, { note })
+  resolveAlert: (id, note) => api.post(`/reports/alerts/${id}/resolve`, { note }),
+
+  // Advanced Analytics & Data Quality
+  getMetricTrend: (params = {}) => api.get('/reports/analytics/trends', { params }),
+  getPeriodComparison: (params = {}) => api.get('/reports/analytics/comparison', { params }),
+  getBedDrillDown: () => api.get('/reports/analytics/drilldown/beds'),
+  getManagementInsights: () => api.get('/reports/analytics/insights'),
+  getDataQualityAudit: () => api.get('/reports/quality/audit')
 };
 
 export default reportClientService;

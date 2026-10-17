@@ -221,6 +221,49 @@ export const ReportsHome = () => {
         </div>
       </div>
 
+      {/* Advanced Management Tools Strip */}
+      <div className="p-4 bg-white rounded-xl border border-gray-200 shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs">
+        <span className="font-bold text-gray-700 uppercase tracking-wider text-[11px]">Analytics & Automation Utilities:</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => navigate('/reports/filters')}
+            className="px-3 py-1.5 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 font-medium text-gray-700 transition"
+          >
+            Filter Console
+          </button>
+          <button
+            onClick={() => navigate('/reports/history')}
+            className="px-3 py-1.5 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 font-medium text-gray-700 transition"
+          >
+            Execution History & Audits
+          </button>
+          <button
+            onClick={() => navigate('/reports/schedules')}
+            className="px-3 py-1.5 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 font-medium text-gray-700 transition"
+          >
+            Recurring Schedules
+          </button>
+          <button
+            onClick={() => navigate('/reports/kpis')}
+            className="px-3 py-1.5 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 font-medium text-gray-700 transition"
+          >
+            KPI Snapshot Engine
+          </button>
+          <button
+            onClick={() => navigate('/reports/alerts')}
+            className="px-3 py-1.5 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 font-medium text-gray-700 transition"
+          >
+            Threshold Alerts
+          </button>
+          <button
+            onClick={() => navigate('/reports/quality')}
+            className="px-3 py-1.5 rounded-lg border border-indigo-200 bg-indigo-50 font-medium text-indigo-700 hover:bg-indigo-100 transition"
+          >
+            Data Quality Audit
+          </button>
+        </div>
+      </div>
+
       {/* Quick Launch Catalog Banner */}
       <div className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-950 rounded-xl p-6 text-white shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-2">
