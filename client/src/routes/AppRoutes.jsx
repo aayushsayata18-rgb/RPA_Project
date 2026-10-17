@@ -239,8 +239,21 @@ import {
   Contracts as MaintenanceContracts,
   Calibrations as MaintenanceCalibrations,
   MaintenanceExceptions,
-  MaintenanceAnalytics
 } from '../pages/operations/maintenance';
+
+// Module 25: Patient Feedback & Grievances Pages
+import {
+  FeedbackHome,
+  SubmitFeedback,
+  MyFeedback,
+  PatientFeedbackDetails
+} from '../pages/patient/feedback';
+import {
+  FeedbackDashboard,
+  FeedbackList,
+  OperationsFeedbackDetails,
+  FeedbackReports
+} from '../pages/operations/feedback';
 
 export const AppRoutes = () => {
   return (
@@ -455,6 +468,40 @@ export const AppRoutes = () => {
         <Route
           path="patient/imaging"
           element={<Navigate to="/patient/radiology" replace />}
+        />
+
+        {/* Module 25: Patient Feedback & Grievance Routes */}
+        <Route
+          path="patient/feedback"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <FeedbackHome />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patient/feedback/new"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <SubmitFeedback />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patient/feedback/my"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <MyFeedback />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patient/feedback/:feedbackId"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientFeedbackDetails />
+            </ProtectedRoute>
+          }
         />
 
         {/* Module 2 & 3: Clinical Portal Appointments & OPD Queue */}
@@ -2413,6 +2460,45 @@ export const AppRoutes = () => {
         <Route path="maintenance/calendar" element={<Navigate to="/operations/maintenance/calendar" replace />} />
         <Route path="maintenance/preventive" element={<Navigate to="/operations/maintenance/preventive" replace />} />
         <Route path="maintenance/analytics" element={<Navigate to="/operations/maintenance/analytics" replace />} />
+
+        {/* Module 25: Operations Feedback & Grievance Hub */}
+        <Route
+          path="operations/feedback"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'GRIEVANCE_OFFICER']}>
+              <FeedbackDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/feedback/list"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'GRIEVANCE_OFFICER']}>
+              <FeedbackList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/feedback/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'GRIEVANCE_OFFICER']}>
+              <FeedbackReports />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/feedback/:feedbackId"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'GRIEVANCE_OFFICER']}>
+              <OperationsFeedbackDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Feedback Route Aliases */}
+        <Route path="feedback" element={<Navigate to="/operations/feedback" replace />} />
+        <Route path="feedback/reports" element={<Navigate to="/operations/feedback/reports" replace />} />
+        <Route path="feedback/list" element={<Navigate to="/operations/feedback/list" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Dashboard />} />

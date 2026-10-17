@@ -77,7 +77,8 @@ export const Sidebar = () => {
         { to: '/patient/records', label: 'Medical Documents', icon: FileText },
         { to: '/patient/pharmacy', label: 'My Prescriptions & Medicines', icon: Pill },
         { to: '/patient/laboratory', label: 'My Diagnostic Lab Results', icon: FlaskConical },
-        { to: '/patient/radiology', label: 'My Imaging & Radiology', icon: Radio }
+        { to: '/patient/radiology', label: 'My Imaging & Radiology', icon: Radio },
+        { to: '/patient/feedback', label: 'My Feedback & Grievances', icon: MessageSquare }
       ];
     }
 
@@ -363,6 +364,8 @@ export const Sidebar = () => {
       { to: '/operations/maintenance/preventive', label: 'Preventive Maintenance Plans', icon: Clock },
       { to: '/operations/maintenance/calibrations', label: 'Equipment Calibrations', icon: ShieldCheck },
       { to: '/operations/maintenance/analytics', label: 'Maintenance Analytics & MTBF', icon: BarChart3 },
+      { to: '/operations/feedback', label: 'Patient Feedback Hub', icon: MessageSquare },
+      { to: '/operations/feedback/reports', label: 'Feedback & Grievance Analytics', icon: BarChart3 },
       { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
       { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
       { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }

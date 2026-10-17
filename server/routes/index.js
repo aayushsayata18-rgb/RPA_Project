@@ -83,6 +83,9 @@ const housekeepingRoutes = require('./housekeepingRoutes');
 // Module 23: Maintenance Management Routes
 const maintenanceRoutes = require('./maintenanceRoutes');
 
+// Module 25: Patient Feedback, Complaints & Grievance Routes
+const feedbackRoutes = require('./feedbackRoutes');
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/audit', auditRoutes);
@@ -214,6 +217,10 @@ router.use('/v1/housekeeping', housekeepingRoutes);
 // Module 23 Endpoints (Maintenance Management)
 router.use('/maintenance', maintenanceRoutes);
 router.use('/v1/maintenance', maintenanceRoutes);
+
+// Module 25 Endpoints (Patient Feedback & Grievances)
+router.use('/feedback', feedbackRoutes);
+router.use('/v1/feedback', feedbackRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

@@ -4168,6 +4168,176 @@ class IdGeneratorService {
     }
     return `${prefix}${String(counter.sequenceValue).padStart(5, '0')}`;
   }
+
+  /**
+   * Generate unique Feedback ID (FB-YYYY-NNNNNN, e.g. FB-2026-000001)
+   */
+  static async generateFeedbackId() {
+    const Feedback = require('../models/Feedback');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `FEEDBACK_ID_${year}`;
+    const prefix = `FB-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await Feedback.findOne({ feedbackId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ feedbackId: -1 })
+        .select('feedbackId')
+        .lean();
+      if (last && last.feedbackId) {
+        const num = parseInt(last.feedbackId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Investigation ID (e.g. INV-FB-2026-000001)
+   */
+  static async generateInvestigationId() {
+    const FeedbackInvestigation = require('../models/FeedbackInvestigation');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `FEEDBACK_INV_ID_${year}`;
+    const prefix = `INV-FB-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await FeedbackInvestigation.findOne({ investigationId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ investigationId: -1 })
+        .select('investigationId')
+        .lean();
+      if (last && last.investigationId) {
+        const num = parseInt(last.investigationId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Internal Note ID (e.g. NOTE-FB-2026-000001)
+   */
+  static async generateFeedbackNoteId() {
+    const FeedbackInternalNote = require('../models/FeedbackInternalNote');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `FEEDBACK_NOTE_ID_${year}`;
+    const prefix = `NOTE-FB-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await FeedbackInternalNote.findOne({ noteId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ noteId: -1 })
+        .select('noteId')
+        .lean();
+      if (last && last.noteId) {
+        const num = parseInt(last.noteId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Feedback Assignment ID (e.g. ASGN-FB-2026-000001)
+   */
+  static async generateAssignmentId() {
+    const FeedbackAssignmentHistory = require('../models/FeedbackAssignmentHistory');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `FEEDBACK_ASGN_ID_${year}`;
+    const prefix = `ASGN-FB-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await FeedbackAssignmentHistory.findOne({ assignmentId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ assignmentId: -1 })
+        .select('assignmentId')
+        .lean();
+      if (last && last.assignmentId) {
+        const num = parseInt(last.assignmentId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Feedback SLA ID (e.g. SLA-FB-2026-000001)
+   */
+  static async generateFeedbackSlaId() {
+    const FeedbackSLA = require('../models/FeedbackSLA');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `FEEDBACK_SLA_ID_${year}`;
+    const prefix = `SLA-FB-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await FeedbackSLA.findOne({ slaId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ slaId: -1 })
+        .select('slaId')
+        .lean();
+      if (last && last.slaId) {
+        const num = parseInt(last.slaId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
 }
 
 module.exports = IdGeneratorService;
