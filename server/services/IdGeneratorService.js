@@ -4474,6 +4474,244 @@ class IdGeneratorService {
     }
     return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
   }
+
+  /**
+   * Generate unique Document ID (e.g. DOC-2026-000001) (Module 27 Section 9)
+   */
+  static async generateDocumentId() {
+    const GeneratedDocument = require('../models/GeneratedDocument');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `DOCUMENT_ID_${year}`;
+    const prefix = `DOC-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await GeneratedDocument.findOne({ documentId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ documentId: -1 })
+        .select('documentId')
+        .lean();
+      if (last && last.documentId) {
+        const num = parseInt(last.documentId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Document Package ID (e.g. PKG-2026-000001) (Module 27 Section 59)
+   */
+  static async generateDocumentPackageId() {
+    const DocumentPackage = require('../models/DocumentPackage');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `DOCUMENT_PACKAGE_ID_${year}`;
+    const prefix = `PKG-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await DocumentPackage.findOne({ packageId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ packageId: -1 })
+        .select('packageId')
+        .lean();
+      if (last && last.packageId) {
+        const num = parseInt(last.packageId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Template ID (e.g. TPL-2026-000001)
+   */
+  static async generateTemplateId() {
+    const DocumentTemplate = require('../models/DocumentTemplate');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `DOCUMENT_TEMPLATE_ID_${year}`;
+    const prefix = `TPL-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await DocumentTemplate.findOne({ templateId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ templateId: -1 })
+        .select('templateId')
+        .lean();
+      if (last && last.templateId) {
+        const num = parseInt(last.templateId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Report Execution ID (e.g. EXEC-2026-000001) (Module 28 Section 8)
+   */
+  static async generateReportExecutionId() {
+    const ReportExecution = require('../models/ReportExecution');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `REPORT_EXECUTION_ID_${year}`;
+    const prefix = `EXEC-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await ReportExecution.findOne({ executionId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ executionId: -1 })
+        .select('executionId')
+        .lean();
+      if (last && last.executionId) {
+        const num = parseInt(last.executionId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Report Definition ID (e.g. RPT-2026-000001) (Module 28 Section 7)
+   */
+  static async generateReportDefinitionId() {
+    const ReportDefinition = require('../models/ReportDefinition');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `REPORT_DEFINITION_ID_${year}`;
+    const prefix = `RPT-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await ReportDefinition.findOne({ reportId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ reportId: -1 })
+        .select('reportId')
+        .lean();
+      if (last && last.reportId) {
+        const num = parseInt(last.reportId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Report Schedule ID (e.g. SCHED-2026-000001)
+   */
+  static async generateReportScheduleId() {
+    const ReportSchedule = require('../models/ReportSchedule');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `REPORT_SCHEDULE_ID_${year}`;
+    const prefix = `SCHED-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await ReportSchedule.findOne({ scheduleId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ scheduleId: -1 })
+        .select('scheduleId')
+        .lean();
+      if (last && last.scheduleId) {
+        const num = parseInt(last.scheduleId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
+
+  /**
+   * Generate unique Analytics Alert Rule ID (e.g. RULE-2026-000001)
+   */
+  static async generateAnalyticsAlertRuleId() {
+    const AnalyticsAlertRule = require('../models/AnalyticsAlertRule');
+    const now = new Date();
+    const year = now.getFullYear();
+    const key = `ANALYTICS_ALERT_RULE_ID_${year}`;
+    const prefix = `RULE-${year}-`;
+    let baseSeq = 1;
+
+    try {
+      const last = await AnalyticsAlertRule.findOne({ ruleId: new RegExp(`^${prefix}\\d+$`) })
+        .sort({ ruleId: -1 })
+        .select('ruleId')
+        .lean();
+      if (last && last.ruleId) {
+        const num = parseInt(last.ruleId.substring(prefix.length), 10);
+        if (!isNaN(num)) baseSeq = Math.max(baseSeq, num + 1);
+      }
+    } catch (e) {}
+
+    const counter = await SequenceCounter.findOneAndUpdate(
+      { key },
+      { $inc: { sequenceValue: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    if (counter.sequenceValue < baseSeq) {
+      counter.sequenceValue = baseSeq;
+      await counter.save();
+    }
+    return `${prefix}${String(counter.sequenceValue).padStart(6, '0')}`;
+  }
 }
 
 module.exports = IdGeneratorService;

@@ -46,7 +46,9 @@ import {
   FileSpreadsheet,
   Award,
   BarChart3,
-  Building2
+  Building2,
+  FileCode2,
+  Package
 } from 'lucide-react';
 
 export const Sidebar = () => {
@@ -79,7 +81,8 @@ export const Sidebar = () => {
         { to: '/patient/laboratory', label: 'My Diagnostic Lab Results', icon: FlaskConical },
         { to: '/patient/radiology', label: 'My Imaging & Radiology', icon: Radio },
         { to: '/patient/feedback', label: 'My Feedback & Grievances', icon: MessageSquare },
-        { to: '/patient/notifications', label: 'My Alerts & Preferences', icon: Bell }
+        { to: '/patient/notifications', label: 'My Alerts & Preferences', icon: Bell },
+        { to: '/patient/documents', label: 'Official Records & PDFs', icon: FileCheck }
       ];
     }
 
@@ -373,6 +376,13 @@ export const Sidebar = () => {
       { to: '/operations/notifications/campaigns', label: 'Broadcast Campaigns', icon: Send },
       { to: '/operations/notifications/providers', label: 'Communication Gateways', icon: Radio },
       { to: '/operations/notifications/reports', label: 'Delivery Reports & Analytics', icon: BarChart3 },
+      { to: '/operations/documents', label: 'Document Management Center', icon: FileText },
+      { to: '/operations/documents/templates', label: 'Document Templates', icon: FileCode2 },
+      { to: '/operations/documents/packages', label: 'Document Packages & Dossiers', icon: Package },
+      { to: '/operations/documents/reports', label: 'Document Analytics & Audit', icon: BarChart3 },
+      { to: '/reports', label: 'Reports & Analytics Hub', icon: BarChart3 },
+      { to: '/reports/catalog', label: 'Standard Report Catalog', icon: FileText },
+      { to: '/reports/dashboard', label: 'Executive Dashboards & KPIs', icon: TrendingUp },
       { to: '/my-payroll', label: 'My Payroll Portal', icon: DollarSign },
       { to: '/my-payslips', label: 'My Payslips', icon: Receipt },
       { to: '/my-payroll/queries', label: 'Payroll Queries', icon: MessageSquare }

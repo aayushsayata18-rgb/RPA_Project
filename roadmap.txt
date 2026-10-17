@@ -65,8 +65,8 @@ Phase 5: Clinical Ancillary, Supply Chain & Facility Operations
 Phase 6: Quality, Centralized Services & Management Analytics
 - Step 25: 25_PATIENT_FEEDBACK.md (Feedback, Grievances, Department Routing, SLA Escalations) [COMPLETED]
 - Step 26: 26_NOTIFICATION_SERVICE.md (Multi-channel Dispatch Engine, Templates, Delivery Logs) [COMPLETED]
-- Step 27: 27_DOCUMENT_GENERATION.md (PDF Renderer, Templating, Digital Access Verification)
-- Step 28: 28_REPORTS_ANALYTICS.md (Cross-Module Dashboards, Financial/Operational KPIs, Export Engine)
+- Step 27: 27_DOCUMENT_GENERATION.md (PDF Renderer, Templating, Digital Access Verification) [COMPLETED]
+- Step 28: 28_REPORTS_ANALYTICS.md (Cross-Module Dashboards, Financial/Operational KPIs, Export Engine) [COMPLETED]
 
 ---
 

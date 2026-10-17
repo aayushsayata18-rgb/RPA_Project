@@ -9,6 +9,8 @@ const rpaRoutes = require('./rpaRoutes');
 const configRoutes = require('./configRoutes');
 const notificationRoutes = require('./notificationRoutes');
 const documentRoutes = require('./documentRoutes');
+const documentTemplateRoutes = require('./documentTemplateRoutes');
+const documentPackageRoutes = require('./documentPackageRoutes');
 
 // Module 1: Patient Registration & Identity Management Routes
 const patientRoutes = require('./patientRoutes');
@@ -94,6 +96,8 @@ router.use('/rpa', rpaRoutes);
 router.use('/configuration', configRoutes);
 router.use('/notifications', notificationRoutes);
 router.use('/documents', documentRoutes);
+router.use('/document-templates', documentTemplateRoutes);
+router.use('/document-packages', documentPackageRoutes);
 
 // Module 1 Endpoints
 router.use('/patients', patientRoutes);
@@ -221,6 +225,13 @@ router.use('/v1/maintenance', maintenanceRoutes);
 // Module 25 Endpoints (Patient Feedback & Grievances)
 router.use('/feedback', feedbackRoutes);
 router.use('/v1/feedback', feedbackRoutes);
+
+// Module 28 Endpoints (Reports & Analytics Management)
+const reportRoutes = require('./reportRoutes');
+router.use('/reports', reportRoutes);
+router.use('/v1/reports', reportRoutes);
+router.use('/analytics', reportRoutes);
+router.use('/v1/analytics', reportRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

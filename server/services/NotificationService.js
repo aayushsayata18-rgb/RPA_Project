@@ -128,7 +128,7 @@ class NotificationService {
             message: finalBody,
             priority,
             status: 'FAILED',
-            failureReason: templateError.message,
+            failureReason: `MISSING_TEMPLATE_VARIABLE: ${templateError.message}`,
             errorCode: 'MISSING_TEMPLATE_VARIABLE',
             idempotencyKey,
             correlationId,

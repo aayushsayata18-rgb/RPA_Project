@@ -473,9 +473,15 @@ const seedMaster = async () => {
     ];
 
     for (const docTmpl of defaultDocTemplates) {
+      const formattedDocTmpl = {
+        ...docTmpl,
+        variables: Array.isArray(docTmpl.variables)
+          ? docTmpl.variables.map((v) => (typeof v === 'string' ? { name: v, required: false } : v))
+          : []
+      };
       await DocumentTemplate.findOneAndUpdate(
         { templateCode: docTmpl.templateCode },
-        docTmpl,
+        formattedDocTmpl,
         { upsert: true, new: true }
       );
     }
@@ -2713,7 +2719,31 @@ const seedMaster = async () => {
       console.warn('[Seed Master]: Module 25 Feedback seed skipped:', e.message);
     }
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1-25 Master Data & Demo records!');
+    // Module 26: Central Notification Service Master Seeding
+    try {
+      const seedNotifications = require('./seedNotifications');
+      await seedNotifications();
+    } catch (e) {
+      console.warn('[Seed Master]: Module 26 Notifications seed skipped:', e.message);
+    }
+
+    // Module 27: Document Generation & Management Master Seeding
+    try {
+      const seedModule27Documents = require('./seedModule27Documents');
+      await seedModule27Documents();
+    } catch (e) {
+      console.warn('[Seed Master]: Module 27 Documents seed skipped:', e.message);
+    }
+
+    // Module 28: Reports & Analytics Master Seeding
+    try {
+      const seedModule28Reports = require('./seedModule28Reports');
+      await seedModule28Reports();
+    } catch (e) {
+      console.warn('[Seed Master]: Module 28 Reports seed skipped:', e.message);
+    }
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1-28 Master Data & Demo records!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);

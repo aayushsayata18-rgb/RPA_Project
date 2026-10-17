@@ -265,6 +265,19 @@ import { NotificationCampaignsPage } from '../pages/operations/notifications/Not
 import { ProviderConfigPage } from '../pages/operations/notifications/ProviderConfigPage';
 import { NotificationReportsPage } from '../pages/operations/notifications/NotificationReportsPage';
 
+// Module 27: Document Generation & Management Pages
+import { DocumentDashboard } from '../portals/administration/documents/DocumentDashboard';
+import { TemplateManagement } from '../portals/administration/documents/TemplateManagement';
+import { DocumentPackageManagement } from '../portals/administration/documents/DocumentPackageManagement';
+import { DocumentReports } from '../portals/administration/documents/DocumentReports';
+import { PatientDocuments } from '../pages/patient/PatientDocuments';
+
+// Module 28: Reports & Management Analytics Pages
+import { ReportsHome } from '../portals/administration/reports/ReportsHome';
+import { ReportCatalog } from '../portals/administration/reports/ReportCatalog';
+import { ReportViewer } from '../portals/administration/reports/ReportViewer';
+import { ManagementDashboard } from '../portals/administration/reports/dashboards/ManagementDashboard';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -2586,6 +2599,137 @@ export const AppRoutes = () => {
         <Route path="notifications/providers" element={<Navigate to="/operations/notifications/providers" replace />} />
         <Route path="notifications/reports" element={<Navigate to="/operations/notifications/reports" replace />} />
         <Route path="portal/patient/notifications" element={<Navigate to="/patient/notifications" replace />} />
+
+        {/* Module 27: Document Generation & Management Service */}
+        <Route
+          path="operations/documents"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR', 'NURSE', 'RECEPTIONIST']}>
+              <DocumentDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/documents"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <DocumentDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/documents/templates"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <TemplateManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/documents/templates"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <TemplateManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/documents/packages"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'INSURANCE_OFFICER']}>
+              <DocumentPackageManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/documents/packages"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'INSURANCE_OFFICER']}>
+              <DocumentPackageManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="operations/documents/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <DocumentReports />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/documents/reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <DocumentReports />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Patient Portal Documents */}
+        <Route
+          path="patient/documents"
+          element={
+            <ProtectedRoute allowedRoles={['PATIENT', 'SYSTEM_ADMIN']}>
+              <PatientDocuments />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="portal/patient/documents"
+          element={<Navigate to="/patient/documents" replace />}
+        />
+
+        {/* Document Route Aliases */}
+        <Route path="documents" element={<Navigate to="/operations/documents" replace />} />
+        <Route path="documents/templates" element={<Navigate to="/operations/documents/templates" replace />} />
+        <Route path="documents/packages" element={<Navigate to="/operations/documents/packages" replace />} />
+        <Route path="documents/reports" element={<Navigate to="/operations/documents/reports" replace />} />
+
+        {/* Module 28: Reports & Management Analytics */}
+        <Route
+          path="reports"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR', 'NURSE', 'PHARMACIST', 'LAB_TECHNICIAN', 'RADIOLOGIST', 'FINANCE_OFFICER', 'INSURANCE_OFFICER', 'HR_OFFICER']}>
+              <ReportsHome />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/catalog"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR', 'NURSE', 'PHARMACIST', 'LAB_TECHNICIAN', 'RADIOLOGIST', 'FINANCE_OFFICER', 'INSURANCE_OFFICER', 'HR_OFFICER']}>
+              <ReportCatalog />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/viewer/:reportId"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT', 'DOCTOR', 'NURSE', 'PHARMACIST', 'LAB_TECHNICIAN', 'RADIOLOGIST', 'FINANCE_OFFICER', 'INSURANCE_OFFICER', 'HR_OFFICER']}>
+              <ReportViewer />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <ManagementDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reports/dashboard/:type"
+          element={
+            <ProtectedRoute allowedRoles={['SYSTEM_ADMIN', 'ADMIN_MANAGER', 'HOSPITAL_MANAGEMENT']}>
+              <ManagementDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="admin/reports" element={<Navigate to="/reports" replace />} />
+        <Route path="operations/reports" element={<Navigate to="/reports" replace />} />
+        <Route path="analytics" element={<Navigate to="/reports" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Dashboard />} />
