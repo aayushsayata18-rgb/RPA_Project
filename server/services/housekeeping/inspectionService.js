@@ -2,21 +2,23 @@ const mongoose = require('mongoose');
 const HousekeepingInspection = require('../../models/HousekeepingInspection');
 const HousekeepingTask = require('../../models/HousekeepingTask');
 const HousekeepingArea = require('../../models/HousekeepingArea');
-const HousekeepingException = require('../../models/HousekeepingException');
-const BedManagementService = require('../BedManagementService');
-const NotificationService = require('../NotificationService');
-const AuditService = require('../AuditService');
+const TaskService = require('./taskService');
 const IdGeneratorService = require('../IdGeneratorService');
+const AuditService = require('../AuditService');
 
 class InspectionService {
   static async performInspection(data, actorUser) {
     const {
       taskId,
+      areaId,
+      score = 100,
+      passed,
+      findings = '',
+      rectificationRequired = false,
       rating = 5,
       checklistResults = [],
       deficiencies = [],
       reworkInstructions = '',
-      photos = [],
       notes = ''
     } = data;
 
@@ -26,106 +28,68 @@ class InspectionService {
     );
     if (!task) throw new Error(`Housekeeping task ${taskId} not found.`);
 
-    // Determine pass/fail: rating >= 3 and no explicit failed checklist items and no severe deficiencies
-    const safeDeficiencies = Array.isArray(deficiencies) ? deficiencies : [];
-    const safeChecklistResults = Array.isArray(checklistResults) ? checklistResults : [];
-    const hasFailedItems = safeChecklistResults.some((r) => r.passed === false);
-    const isPassed = Number(rating) >= 3 && !hasFailedItems && safeDeficiencies.length === 0;
-
+    const isPassed = passed !== undefined ? Boolean(passed) : Number(score) >= 75 && Number(rating) >= 3;
     const inspectionId = await IdGeneratorService.generateHousekeepingInspectionId();
+
     const inspection = new HousekeepingInspection({
       inspectionId,
       taskId: task._id,
       taskNumber: task.taskNumber || task.taskId,
-      areaId: task.areaId || null,
+      areaId: areaId || task.areaId || null,
       areaName: task.areaName || '',
-      bedNumber: task.bedNumber || '',
-      roomNumber: task.roomNumber || '',
       inspectorUserId: actorUser?.userId || actorUser?.id || 'SUPERVISOR',
       inspectorName: `${actorUser?.firstName || ''} ${actorUser?.lastName || ''}`.trim() || actorUser?.name || 'Supervisor',
       inspectionDate: new Date(),
       status: isPassed ? 'PASSED' : 'FAILED',
-      rating: Number(rating) || 5,
-      checklistResults: safeChecklistResults,
-      deficiencies: safeDeficiencies,
-      reworkInstructions: reworkInstructions || '',
-      photos: Array.isArray(photos) ? photos : [],
-      notes: notes || ''
+      passed: isPassed,
+      score: Number(score),
+      rating: Number(rating),
+      findings: findings || notes || '',
+      rectificationRequired: Boolean(rectificationRequired),
+      checklistResults: Array.isArray(checklistResults) ? checklistResults : [],
+      deficiencies: Array.isArray(deficiencies) ? deficiencies : [],
+      reworkInstructions: reworkInstructions || findings || '',
+      notes: notes || findings || ''
     });
-    await inspection.save();
 
     task.inspectionId = inspection._id;
 
-    if (isPassed) {
+    if (isPassed && !rectificationRequired) {
       task.inspectionStatus = 'PASSED';
-      task.status = 'VERIFIED';
-      task.completedAt = task.completedAt || new Date();
       await task.save();
 
-      // Release Area to AVAILABLE
       if (task.areaId) {
         await HousekeepingArea.findByIdAndUpdate(task.areaId, { status: 'AVAILABLE' });
       }
-
-      // If associated with a physical bed, complete via BedManagementService
-      if (task.bedId) {
-        try {
-          await BedManagementService.completeHousekeepingCleaning({
-            taskId: task.taskId,
-            bedId: task.bedId,
-            actorUser
-          });
-        } catch (bedErr) {
-          console.warn(`[Housekeeping] BedManagementService completeHousekeepingCleaning hook: ${bedErr.message}`);
-        }
-      }
-
-      // Notifications
-      try {
-        await NotificationService.sendNotification({
-          event: 'HOUSEKEEPING_INSPECTION_PASSED',
-          recipientUserId: task.assignedToUserId,
-          title: 'Cleaning Inspection Passed',
-          message: `Task ${task.taskNumber || task.taskId} passed inspection with rating ${rating}/5.`
-        });
-      } catch (notifErr) {
-        console.warn(`[Housekeeping] Notification error: ${notifErr.message}`);
-      }
     } else {
       task.inspectionStatus = 'FAILED';
-      task.status = 'REOPENED';
       task.reopenCount = (task.reopenCount || 0) + 1;
-      task.reopenReason = reworkInstructions || `Failed inspection with rating ${rating}/5`;
+      task.reopenReason = reworkInstructions || findings || 'Failed quality inspection';
       await task.save();
 
-      // Create Housekeeping Exception for failed inspection
-      const exceptionId = await IdGeneratorService.generateHousekeepingExceptionId();
-      const exception = new HousekeepingException({
-        exceptionId,
-        type: 'INSPECTION_FAILED',
-        severity: task.priority === 'CRITICAL' || task.priority === 'URGENT' ? 'HIGH' : 'MEDIUM',
-        taskId: task._id,
-        taskNumber: task.taskNumber || task.taskId,
-        areaId: task.areaId || null,
-        source: 'INSPECTION_SERVICE',
-        description: `Task ${task.taskNumber || task.taskId} failed supervisor inspection: ${reworkInstructions || 'Deficiencies found'}`,
-        status: 'OPEN',
-        assignedToUserId: task.assignedToUserId
-      });
-      await exception.save();
-
-      // Notifications
+      // Automatically create a REWORK task
       try {
-        await NotificationService.sendNotification({
-          event: 'HOUSEKEEPING_INSPECTION_FAILED',
-          recipientUserId: task.assignedToUserId,
-          title: 'Cleaning Inspection Failed — Rework Required',
-          message: `Task ${task.taskNumber || task.taskId} requires rework. Reason: ${reworkInstructions}`
-        });
-      } catch (notifErr) {
-        console.warn(`[Housekeeping] Notification error: ${notifErr.message}`);
+        const reworkRes = await TaskService.createTask(
+          {
+            taskType: 'REWORK',
+            priority: 'HIGH',
+            areaId: task.areaId,
+            areaCode: task.areaCode,
+            areaName: task.areaName,
+            bedId: task.bedId,
+            bedNumber: task.bedNumber,
+            description: `Rework task for ${task.taskNumber || task.taskId}: ${findings || 'Rectification required.'}`,
+            notes: reworkInstructions || findings
+          },
+          actorUser
+        );
+        inspection.reworkTaskId = reworkRes.task._id;
+      } catch (err) {
+        console.warn(`[Housekeeping] Rework task auto-create: ${err.message}`);
       }
     }
+
+    await inspection.save();
 
     await AuditService.logEvent({
       action: isPassed ? 'HOUSEKEEPING_INSPECTION_PASSED' : 'HOUSEKEEPING_INSPECTION_FAILED',
@@ -135,18 +99,13 @@ class InspectionService {
       details: {
         inspectionId,
         taskId: task.taskId,
-        rating,
-        status: inspection.status,
-        deficienciesCount: deficiencies.length
+        passed: isPassed,
+        score,
+        findings
       }
     });
 
-    return {
-      success: true,
-      inspection,
-      taskStatus: task.status,
-      inspectionStatus: task.inspectionStatus
-    };
+    return inspection;
   }
 
   static async listInspections(query = {}) {
@@ -167,3 +126,5 @@ class InspectionService {
     return inspection;
   }
 }
+
+module.exports = InspectionService;

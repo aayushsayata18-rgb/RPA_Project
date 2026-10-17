@@ -1,0 +1,1343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.5 (Python 3.11.7 on win32)" generated="2026-10-17T04:09:21.562413" rpa="false" schemaversion="5">
+<suite id="s1" name="Housekeeping Management" source="D:\RPA_Project\robot\tests\housekeeping_management.robot">
+<kw name="Setup Housekeeping Test Suite" type="SETUP">
+<kw name="Login Hospital User" owner="authentication">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:21.977542" level="INFO">${payload} = {'email': 'admin@hospital.com', 'password': 'Password@123'}</msg>
+<var>${payload}</var>
+<arg>email=${email}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:21.975861" elapsed="0.001681"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:21.978662" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:21.977542" elapsed="0.001120"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.115845" level="INFO">POST Request : url=http://localhost:5000/api/auth/login 
+ path_url=/api/auth/login 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '59'} 
+ body=b'{"email": "admin@hospital.com", "password": "Password@123"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.115845" level="INFO">POST Response : url=http://localhost:5000/api/auth/login 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '3753', 'ETag': 'W/"ea9-5qT2+4bY5qrK06Dz/8R/bdWMbYg"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"message":"Login successful.","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc","user":{"userId":"USR-SYSADMIN-001","email":"admin@hospital.com","firstName":"System","lastName":"Administrator","role":"SYSTEM_ADMIN","permissions":["PATIENT_REGISTER","PATIENT_VIEW","PATIENT_UPDATE","PATIENT_LINK","PATIENT_RECORDS_VIEW","PATIENT_RECORDS_SEARCH","PATIENT_RECORDS_DOCUMENTS_VIEW","PATIENT_RECORDS_DOCUMENTS_DOWNLOAD","PATIENT_RECORDS_BILLING_VIEW","PATIENT_RECORDS_INSURANCE_VIEW","PATIENT_RECORDS_LAB_VIEW","PATIENT_RECORDS_RADIOLOGY_VIEW","PATIENT_RECORDS_PHARMACY_VIEW","PATIENT_RECORDS_PROFILE_EDIT","PATIENT_RECORDS_ACCESS_HISTORY_VIEW","PATIENT_RECORDS_SYNC_MANAGE","APPOINTMENT_CREATE","APPOINTMENT_VIEW","APPOINTMENT_CANCEL","APPOINTMENT_RESCHEDULE","APPOINTMENT_MANAGE","OPD_CHECKIN","OPD_QUEUE_VIEW","OPD_QUEUE_MANAGE","OPD_CONSULTATION_START","OPD_CONSULTATION_COMPLETE","ADMISSION_CREATE","ADMISSION_APPROVE","ADMISSION_VIEW","BED_VIEW","BED_ASSIGN","BED_TRANSFER","BED_STATUS_UPDATE","DISCHARGE_REQUEST","DISCHARGE_APPROVE","DISCHARGE_FINALIZE","DISCHARGE_VIEW","INVOICE_CREATE","INVOICE_VIEW","INVOICE_UPDATE","PAYMENT_CREATE","PAYMENT_VIEW","PAYMENT_RECONCILE","FINANCIAL_ADJUSTMENT","INSURANCE_VERIFY","INSURANCE_VIEW","CLAIM_CREATE","CLAIM_SUBMIT","CLAIM_TRACK","CLAIM_MANAGE","DOCTOR_MANAGE","DOCTOR_SCHEDULE_MANAGE","DOCTOR_VIEW","EMPLOYEE_MANAGE","EMPLOYEE_VIEW","ATTENDANCE_VIEW","ATTENDANCE_RECORD","ATTENDANCE_CORRECT","SHIFT_MANAGE","SHIFT_ASSIGN","LEAVE_REQUEST","LEAVE_APPROVE","PAYROLL_VIEW","PAYROLL_PROCESS","PHARMACY_VIEW","PHARMACY_DISPENSE","PHARMACY_DASHBOARD_VIEW","PRESCRIPTION_VIEW","PRESCRIPTION_CREATE","PRESCRIPTION_VALIDATE","PHARMACY_ORDER_VIEW","PHARMACY_ORDER_PROCESS","PHARMACY_STOCK_VIEW","PHARMACY_DISPENSE_CREATE","PHARMACY_DISPENSE_COMPLETE","PHARMACY_RETURN_CREATE","PHARMACY_RETURN_PROCESS","PHARMACY_RETURN_APPROVE","PHARMACY_EXCEPTION_VIEW","PHARMACY_REPORT_VIEW","PHARMACY_CONTROLLED_REVIEW","INVENTORY_VIEW","INVENTORY_MANAGE","PROCUREMENT_VIEW","PROCUREMENT_MANAGE","VENDOR_VIEW","VENDOR_MANAGE","VENDOR_CREATE","VENDOR_EDIT","VENDOR_CONTACT_MANAGE","VENDOR_DOCUMENT_MANAGE","VENDOR_VERIFY","VENDOR_APPROVE","VENDOR_SUSPEND","VENDOR_REACTIVATE","VENDOR_DEACTIVATE","VENDOR_CONTRACT_MANAGE","VENDOR_PERFORMANCE_MANAGE","VENDOR_ISSUE_MANAGE","LAB_ORDER_CREATE","LAB_ORDER_VIEW","LAB_TEST_MANAGE","LAB_SAMPLE_COLLECT","LAB_SAMPLE_RECEIVE","LAB_SAMPLE_PROCESS","LAB_SAMPLE_REJECT","LAB_RESULT_ENTER","LAB_RESULT_VERIFY","LAB_REPORT_GENERATE","LAB_REPORT_RELEASE","LAB_REPORT_VIEW","LAB_EXCEPTION_MANAGE","RADIOLOGY_ORDER_CREATE","RADIOLOGY_ORDER_VIEW","RADIOLOGY_SCHEDULE","RADIOLOGY_REPORT_VERIFY","RAD_EXAM_MANAGE","RAD_MODALITY_MANAGE","RAD_ORDER_CREATE","RAD_ORDER_VIEW","RAD_SCHEDULE_MANAGE","RAD_CHECKIN","RAD_STUDY_MANAGE","RAD_REPORT_ENTRY","RAD_REPORT_VERIFY","RAD_REPORT_RELEASE","RAD_REPORT_AMEND","RAD_REPORT_VIEW","RAD_EXCEPTION_MANAGE","RAD_ANALYTICS_VIEW","MAINTENANCE_TICKET_CREATE","MAINTENANCE_TICKET_MANAGE","HOUSEKEEPING_AREA_MANAGE","HOUSEKEEPING_CHECKLIST_MANAGE","HOUSEKEEPING_SCHEDULE_MANAGE","HOUSEKEEPING_TASK_CREATE","HOUSEKEEPING_TASK_MANAGE","HOUSEKEEPING_INSPECT","HOUSEKEEPING_SUPPLY_REQUEST","HOUSEKEEPING_EXCEPTION_MANAGE","HOUSEKEEPING_ANALYTICS_VIEW","FEEDBACK_SUBMIT","FEEDBACK_VIEW","FEEDBACK_RESOLVE","NOTIFICATION_VIEW","NOTIFICATION_SEND","NOTIFICATION_TEMPLATE_MANAGE","DOCUMENT_VIEW","DOCUMENT_GENERATE","DOCUMENT_TEMPLATE_MANAGE","REPORT_VIEW","REPORT_EXPORT","AUDIT_VIEW","EXCEPTION_VIEW","EXCEPTION_RESOLVE","RPA_VIEW","RPA_RUN","RPA_RETRY","RPA_CANCEL","SYSTEM_CONFIG_MANAGE"]}}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.116327" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/auth/login</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=200</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:21.978662" elapsed="0.137665"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.118173" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc</msg>
+<var>${token}</var>
+<arg>${response.json()}[data][token]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.116882" elapsed="0.001291"/>
+</kw>
+<return>
+<value>${token}</value>
+<status status="PASS" start="2026-10-17T04:09:22.118716" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.118716" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc</msg>
+<var>${token}</var>
+<arg>${ADMIN_EMAIL}</arg>
+<arg>${DEFAULT_PASSWORD}</arg>
+<status status="PASS" start="2026-10-17T04:09:21.974189" elapsed="0.144527"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.119811" level="INFO">${AUTH_TOKEN} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc</msg>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${token}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.119261" elapsed="0.000550"/>
+</kw>
+<kw name="Generate Random String" owner="String">
+<msg time="2026-10-17T04:09:22.120362" level="INFO">${rand} = 51095</msg>
+<var>${rand}</var>
+<arg>5</arg>
+<arg>[NUMBERS]</arg>
+<doc>Generates a string with a desired `length` from the given `chars`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.120362" elapsed="0.000546"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.121465" level="INFO">${RUN_ID} = 51095</msg>
+<arg>${RUN_ID}</arg>
+<arg>${rand}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.120908" elapsed="0.000557"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.122006" level="INFO">${AREA_CODE} = WARD-HK-51095</msg>
+<arg>${AREA_CODE}</arg>
+<arg>WARD-HK-${rand}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.121465" elapsed="0.000541"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.122582" level="INFO">${BED_ID} = BED-HK-51095</msg>
+<arg>${BED_ID}</arg>
+<arg>BED-HK-${rand}</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.122006" elapsed="0.000576"/>
+</kw>
+<status status="PASS" start="2026-10-17T04:09:21.973660" elapsed="0.148922"/>
+</kw>
+<test id="s1-t1" name="TC-HK-001 Facility Area Master And Status Management" line="30">
+<kw name="Create Housekeeping Area Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.124629" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.124224" elapsed="0.000953"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.125710" level="INFO">${payload} = {'areaCode': 'WARD-HK-51095', 'name': 'Isolation Ward 51095', 'areaType': 'PATIENT_ROOM', 'cleaningFrequency': 'DAILY', 'status': 'AVAILABLE'}</msg>
+<var>${payload}</var>
+<arg>areaCode=${areaCode}</arg>
+<arg>name=${name}</arg>
+<arg>areaType=${areaType}</arg>
+<arg>cleaningFrequency=${cleaningFrequency}</arg>
+<arg>status=${status}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.125177" elapsed="0.000533"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.145491" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/areas 
+ path_url=/api/housekeeping/areas 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '142'} 
+ body=b'{"areaCode": "WARD-HK-51095", "name": "Isolation Ward 51095", "areaType": "PATIENT_ROOM", "cleaningFrequency": "DAILY", "status": "AVAILABLE"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.145491" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/areas 
+ status=201, reason=Created 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '402', 'ETag': 'W/"192-EGMf7HCtNtoJsW0tRxFz5U20TEg"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"areaId":"AREA-20261016-00164","areaCode":"WARD-HK-51095","name":"Isolation Ward 51095","areaType":"PATIENT_ROOM","buildingId":"","floorId":"","departmentId":"","roomId":"","bedId":"","status":"AVAILABLE","cleaningFrequency":"DAILY","active":true,"notes":"","_id":"6ad2a79ad30f9bef3327badf","createdAt":"2026-10-16T22:39:22.140Z","updatedAt":"2026-10-16T22:39:22.140Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.146160" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/areas</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.126251" elapsed="0.019909"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.146160" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.146703" level="INFO">${res} = &lt;Response [201]&gt;</msg>
+<var>${res}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${AREA_CODE}</arg>
+<arg>Isolation Ward ${RUN_ID}</arg>
+<arg>areaType=PATIENT_ROOM</arg>
+<status status="PASS" start="2026-10-17T04:09:22.123131" elapsed="0.023572"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${res.status_code} == 200 or ${res.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.146703" elapsed="0.001256"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.149042" level="INFO">${data} = {'areaId': 'AREA-20261016-00164', 'areaCode': 'WARD-HK-51095', 'name': 'Isolation Ward 51095', 'areaType': 'PATIENT_ROOM', 'buildingId': '', 'floorId': '', 'departmentId': '', 'roomId': '', 'bedId': '...</msg>
+<var>${data}</var>
+<arg>${res.json()}[data]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.148490" elapsed="0.000552"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.149605" level="INFO">${AREA_ID} = 6ad2a79ad30f9bef3327badf</msg>
+<arg>${AREA_ID}</arg>
+<arg>${data}[_id]</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.149042" elapsed="0.000563"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${data}[status]</arg>
+<arg>AVAILABLE</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.149605" elapsed="0.000556"/>
+</kw>
+<kw name="Update Housekeeping Area Status Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.151274" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.150704" elapsed="0.000570"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.152381" level="INFO">${payload} = {'status': 'CLEANING_REQUIRED'}</msg>
+<var>${payload}</var>
+<arg>status=${status}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.151822" elapsed="0.000559"/>
+</kw>
+<kw name="PATCH" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.165950" level="INFO">PATCH Request : url=http://localhost:5000/api/housekeeping/areas/6ad2a79ad30f9bef3327badf/status 
+ path_url=/api/housekeeping/areas/6ad2a79ad30f9bef3327badf/status 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '31'} 
+ body=b'{"status": "CLEANING_REQUIRED"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.166273" level="INFO">PATCH Response : url=http://localhost:5000/api/housekeeping/areas/6ad2a79ad30f9bef3327badf/status 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '410', 'ETag': 'W/"19a-9iHbX0PQCTsI+LFSxWXMy1ZcHK8"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"_id":"6ad2a79ad30f9bef3327badf","areaId":"AREA-20261016-00164","areaCode":"WARD-HK-51095","name":"Isolation Ward 51095","areaType":"PATIENT_ROOM","buildingId":"","floorId":"","departmentId":"","roomId":"","bedId":"","status":"CLEANING_REQUIRED","cleaningFrequency":"DAILY","active":true,"notes":"","createdAt":"2026-10-16T22:39:22.140Z","updatedAt":"2026-10-16T22:39:22.160Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.166273" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/areas/${areaId}/status</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a PUT request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.152381" elapsed="0.013892"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.166822" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.166822" level="INFO">${resStatus} = &lt;Response [200]&gt;</msg>
+<var>${resStatus}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${AREA_ID}</arg>
+<arg>CLEANING_REQUIRED</arg>
+<status status="PASS" start="2026-10-17T04:09:22.150161" elapsed="0.016661"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.168048" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resStatus.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.167493" elapsed="0.000555"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resStatus.json()}[data][status]</arg>
+<arg>CLEANING_REQUIRED</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.168590" elapsed="0.000553"/>
+</kw>
+<doc>Verifies facility area creation and status transitions</doc>
+<status status="PASS" start="2026-10-17T04:09:22.122582" elapsed="0.047102"/>
+</test>
+<test id="s1-t2" name="TC-HK-002 Cleaning Checklist Template Setup" line="42">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.171309" level="INFO">${code} = CHK-HK-51095</msg>
+<var>${code}</var>
+<arg>CHK-HK-${RUN_ID}</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.170769" elapsed="0.000540"/>
+</kw>
+<kw name="Create Housekeeping Checklist Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.172928" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.172388" elapsed="0.000540"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.173575" level="INFO">${item1} = {'itemCode': 'CHK-1', 'label': 'Strip linens', 'mandatory': 'True'}</msg>
+<var>${item1}</var>
+<arg>itemCode=CHK-1</arg>
+<arg>label=Strip linens</arg>
+<arg>mandatory=True</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.172928" elapsed="0.001195"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.174714" level="INFO">${item2} = {'itemCode': 'CHK-2', 'label': 'Sanitize surfaces', 'mandatory': 'True'}</msg>
+<var>${item2}</var>
+<arg>itemCode=CHK-2</arg>
+<arg>label=Sanitize surfaces</arg>
+<arg>mandatory=True</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.174123" elapsed="0.000591"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.175267" level="INFO">${items} = [{'itemCode': 'CHK-1', 'label': 'Strip linens', 'mandatory': 'True'}, {'itemCode': 'CHK-2', 'label': 'Sanitize surfaces', 'mandatory': 'True'}]</msg>
+<var>${items}</var>
+<arg>${item1}</arg>
+<arg>${item2}</arg>
+<doc>Creates and returns a list containing the given items.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.175267" elapsed="0.000540"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.176368" level="INFO">${payload} = {'checklistCode': 'CHK-HK-51095', 'title': 'Terminal Discharge Disinfection 51095', 'applicableAreaType': 'PATIENT_ROOM', 'taskType': 'DISCHARGE_TURNOVER', 'items': [{'itemCode': 'CHK-1', 'label': 'St...</msg>
+<var>${payload}</var>
+<arg>checklistCode=${checklistCode}</arg>
+<arg>title=${title}</arg>
+<arg>applicableAreaType=${applicableAreaType}</arg>
+<arg>taskType=${taskType}</arg>
+<arg>items=${items}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.175807" elapsed="0.000561"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.191307" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/checklists 
+ path_url=/api/housekeeping/checklists 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '309'} 
+ body=b'{"checklistCode": "CHK-HK-51095", "title": "Terminal Discharge Disinfection 51095", "applicableAreaType": "PATIENT_ROOM", "taskType": "DISCHARGE_TURNOVER", "items": [{"itemCode": "CHK-1", "label": "Strip linens", "mandatory": "True"}, {"itemCode": "CHK-2", "label": "Sanitize surfaces", "mandatory": "True"}]}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.191307" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/checklists 
+ status=201, reason=Created 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '624', 'ETag': 'W/"270-kWr1PG1rjdNiWJMHydeqzV66G6Q"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"checklistId":"CHK-HK-51095","checklistCode":"CHK-HK-51095","title":"Terminal Discharge Disinfection 51095","applicableAreaType":"PATIENT_ROOM","areaType":"PATIENT_ROOM","taskType":"DISCHARGE_TURNOVER","items":[{"itemCode":"CHK-1","itemId":"CHK-1","label":"Strip linens","mandatory":true,"required":true,"responseType":"BOOLEAN"},{"itemCode":"CHK-2","itemId":"CHK-2","label":"Sanitize surfaces","mandatory":true,"required":true,"responseType":"BOOLEAN"}],"active":true,"notes":"","_id":"6ad2a79ad30f9bef3327baea","createdAt":"2026-10-16T22:39:22.186Z","updatedAt":"2026-10-16T22:39:22.186Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.191865" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/checklists</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.176368" elapsed="0.015497"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.191865" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.191865" level="INFO">${res} = &lt;Response [201]&gt;</msg>
+<var>${res}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${code}</arg>
+<arg>Terminal Discharge Disinfection ${RUN_ID}</arg>
+<status status="PASS" start="2026-10-17T04:09:22.171309" elapsed="0.021101"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${res.status_code} == 200 or ${res.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.192410" elapsed="0.000545"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.194183" level="INFO">${data} = {'checklistId': 'CHK-HK-51095', 'checklistCode': 'CHK-HK-51095', 'title': 'Terminal Discharge Disinfection 51095', 'applicableAreaType': 'PATIENT_ROOM', 'areaType': 'PATIENT_ROOM', 'taskType': 'DISCHA...</msg>
+<var>${data}</var>
+<arg>${res.json()}[data]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.193494" elapsed="0.000689"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.195219" level="INFO">${CHECKLIST_ID} = 6ad2a79ad30f9bef3327baea</msg>
+<arg>${CHECKLIST_ID}</arg>
+<arg>${data}[_id]</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.194183" elapsed="0.001036"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${data}[checklistCode]</arg>
+<arg>${code}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.195791" elapsed="0.000551"/>
+</kw>
+<doc>Verifies checklist template creation with mandatory items</doc>
+<status status="PASS" start="2026-10-17T04:09:22.169684" elapsed="0.026658"/>
+</test>
+<test id="s1-t3" name="TC-HK-003 Recurring Cleaning Schedule Management" line="51">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.198589" level="INFO">${code} = SCH-HK-51095</msg>
+<var>${code}</var>
+<arg>SCH-HK-${RUN_ID}</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.197498" elapsed="0.001091"/>
+</kw>
+<kw name="Create Housekeeping Schedule Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.200793" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.199679" elapsed="0.001114"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.201869" level="INFO">${payload} = {'scheduleCode': 'SCH-HK-51095', 'title': 'Morning Corridor Sanitation 51095', 'areaId': '6ad2a79ad30f9bef3327badf', 'frequency': 'DAILY', 'shiftType': 'MORNING', 'priority': 'ROUTINE'}</msg>
+<var>${payload}</var>
+<arg>scheduleCode=${scheduleCode}</arg>
+<arg>title=${title}</arg>
+<arg>areaId=${areaId}</arg>
+<arg>frequency=${frequency}</arg>
+<arg>shiftType=${shiftType}</arg>
+<arg>priority=${priority}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.200793" elapsed="0.001076"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.218320" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/schedules 
+ path_url=/api/housekeeping/schedules 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '185'} 
+ body=b'{"scheduleCode": "SCH-HK-51095", "title": "Morning Corridor Sanitation 51095", "areaId": "6ad2a79ad30f9bef3327badf", "frequency": "DAILY", "shiftType": "MORNING", "priority": "ROUTINE"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.218320" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/schedules 
+ status=201, reason=Created 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '591', 'ETag': 'W/"24f-1fcwNtn3iKmiK8OmfBwcFbm1ef0"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"scheduleId":"SCH-HK-51095","scheduleCode":"SCH-HK-51095","title":"Morning Corridor Sanitation 51095","areaId":"6ad2a79ad30f9bef3327badf","areaName":"Isolation Ward 51095","taskType":"ROUTINE_CLEANING","frequency":"DAILY","shiftType":"MORNING","priority":"ROUTINE","assignedToUserId":null,"assignedToName":"","endDate":null,"nextDueDate":"2026-10-16T22:39:22.212Z","status":"ACTIVE","active":true,"notes":"","_id":"6ad2a79ad30f9bef3327baf1","startDate":"2026-10-16T22:39:22.213Z","createdAt":"2026-10-16T22:39:22.213Z","updatedAt":"2026-10-16T22:39:22.213Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.218879" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/schedules</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.202422" elapsed="0.016457"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.218879" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.219411" level="INFO">${res} = &lt;Response [201]&gt;</msg>
+<var>${res}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${code}</arg>
+<arg>Morning Corridor Sanitation ${RUN_ID}</arg>
+<arg>${AREA_ID}</arg>
+<arg>frequency=DAILY</arg>
+<status status="PASS" start="2026-10-17T04:09:22.198589" elapsed="0.020822"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${res.status_code} == 200 or ${res.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.219411" elapsed="0.000540"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.221041" level="INFO">${data} = {'scheduleId': 'SCH-HK-51095', 'scheduleCode': 'SCH-HK-51095', 'title': 'Morning Corridor Sanitation 51095', 'areaId': '6ad2a79ad30f9bef3327badf', 'areaName': 'Isolation Ward 51095', 'taskType': 'ROUT...</msg>
+<var>${data}</var>
+<arg>${res.json()}[data]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.220501" elapsed="0.000540"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${data}[status]</arg>
+<arg>ACTIVE</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.221041" elapsed="0.000553"/>
+</kw>
+<doc>Verifies recurring cleaning schedule creation</doc>
+<status status="PASS" start="2026-10-17T04:09:22.196928" elapsed="0.025205"/>
+</test>
+<test id="s1-t4" name="TC-HK-004 Cleaning Task Lifecycle" line="59">
+<kw name="Create Housekeeping Task Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.224281" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.224281" elapsed="0.000000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.225570" level="INFO">${payload} = {'areaId': '6ad2a79ad30f9bef3327badf', 'taskType': 'ROUTINE_CLEANING', 'priority': 'HIGH', 'description': 'Floor Sanitation'}</msg>
+<var>${payload}</var>
+<arg>areaId=${areaId}</arg>
+<arg>taskType=${taskType}</arg>
+<arg>priority=${priority}</arg>
+<arg>description=${description}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.225030" elapsed="0.000540"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.241479" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/tasks 
+ path_url=/api/housekeeping/tasks 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '125'} 
+ body=b'{"areaId": "6ad2a79ad30f9bef3327badf", "taskType": "ROUTINE_CLEANING", "priority": "HIGH", "description": "Floor Sanitation"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.242023" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/tasks 
+ status=201, reason=Created 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1017', 'ETag': 'W/"3f9-eEsveV3P2r2hExUxfyYpbm2cmyk"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"taskId":"HK-20261016-20008","taskNumber":"HK-20261016-20008","areaId":"6ad2a79ad30f9bef3327badf","areaCode":"WARD-HK-51095","areaName":"Isolation Ward 51095","roomId":"","roomNumber":"","bedId":null,"bedNumber":"","sourceModule":"MANUAL","sourceEntityId":"","taskType":"ROUTINE_CLEANING","priority":"HIGH","description":"Floor Sanitation","requestedByUserId":"USR-SYSADMIN-001","assignedTo":null,"assignedToId":null,"assignedToUserId":null,"assignedToName":"","assignedVendorId":null,"scheduledStart":null,"scheduledEnd":null,"actualStart":null,"actualEnd":null,"status":"PENDING","slaStatus":"WITHIN_SLA","slaDueAt":"2026-10-16T23:39:22.233Z","checklistCompleted":false,"inspectionRequired":true,"inspectionStatus":"PENDING","reopenCount":0,"reopenReason":"","completionNotes":"","closingNotes":"","notes":"","correlationId":"","_id":"6ad2a79ad30f9bef3327baf8","checklistResponses":[],"createdAt":"2026-10-16T22:39:22.234Z","updatedAt":"2026-10-16T22:39:22.234Z","__v":0},"isExisting":false} 
+ </msg>
+<msg time="2026-10-17T04:09:22.242586" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/tasks</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.225570" elapsed="0.017016"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.242586" elapsed="0.000546"/>
+</return>
+<msg time="2026-10-17T04:09:22.243132" level="INFO">${res} = &lt;Response [201]&gt;</msg>
+<var>${res}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${AREA_ID}</arg>
+<arg>taskType=ROUTINE_CLEANING</arg>
+<arg>priority=HIGH</arg>
+<arg>description=Floor Sanitation</arg>
+<status status="PASS" start="2026-10-17T04:09:22.223211" elapsed="0.019921"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${res.status_code} == 200 or ${res.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.243669" elapsed="0.001093"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.245298" level="INFO">${data} = {'taskId': 'HK-20261016-20008', 'taskNumber': 'HK-20261016-20008', 'areaId': '6ad2a79ad30f9bef3327badf', 'areaCode': 'WARD-HK-51095', 'areaName': 'Isolation Ward 51095', 'roomId': '', 'roomNumber': ''...</msg>
+<var>${data}</var>
+<arg>${res.json()}[data]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.244762" elapsed="0.000536"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.245847" level="INFO">${TASK_ID} = 6ad2a79ad30f9bef3327baf8</msg>
+<arg>${TASK_ID}</arg>
+<arg>${data}[_id]</arg>
+<doc>Makes the variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.245298" elapsed="0.000549"/>
+</kw>
+<kw name="Start Housekeeping Task Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.246943" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.246386" elapsed="0.000557"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.262933" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/tasks/6ad2a79ad30f9bef3327baf8/start 
+ path_url=/api/housekeeping/tasks/6ad2a79ad30f9bef3327baf8/start 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg time="2026-10-17T04:09:22.262933" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/tasks/6ad2a79ad30f9bef3327baf8/start 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1024', 'ETag': 'W/"400-PM9TISRFstB5zDalIB2BeaGf9lk"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"_id":"6ad2a79ad30f9bef3327baf8","taskId":"HK-20261016-20008","taskNumber":"HK-20261016-20008","areaId":"6ad2a79ad30f9bef3327badf","areaCode":"WARD-HK-51095","areaName":"Isolation Ward 51095","roomId":"","roomNumber":"","bedId":null,"bedNumber":"","sourceModule":"MANUAL","sourceEntityId":"","taskType":"ROUTINE_CLEANING","priority":"HIGH","description":"Floor Sanitation","requestedByUserId":"USR-SYSADMIN-001","assignedTo":null,"assignedToId":null,"assignedToUserId":null,"assignedToName":"","assignedVendorId":null,"scheduledStart":null,"scheduledEnd":null,"actualStart":"2026-10-16T22:39:22.256Z","actualEnd":null,"status":"IN_PROGRESS","slaStatus":"WITHIN_SLA","slaDueAt":"2026-10-16T23:39:22.233Z","checklistCompleted":false,"inspectionRequired":true,"inspectionStatus":"PENDING","reopenCount":0,"reopenReason":"","completionNotes":"","closingNotes":"","notes":"","correlationId":"","checklistResponses":[],"createdAt":"2026-10-16T22:39:22.234Z","updatedAt":"2026-10-16T22:39:22.256Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.262933" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/tasks/${taskId}/start</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.246943" elapsed="0.015990"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.263468" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.264008" level="INFO">${resStart} = &lt;Response [200]&gt;</msg>
+<var>${resStart}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${TASK_ID}</arg>
+<status status="PASS" start="2026-10-17T04:09:22.245847" elapsed="0.018161"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.264556" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resStart.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.264008" elapsed="0.001087"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resStart.json()}[data][status]</arg>
+<arg>IN_PROGRESS</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.265095" elapsed="0.000531"/>
+</kw>
+<kw name="Complete Housekeeping Task Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.266738" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.266177" elapsed="0.000561"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.267381" level="INFO">${payload} = {'completionNotes': 'Sanitation fully finished'}</msg>
+<var>${payload}</var>
+<arg>completionNotes=${completionNotes}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.267381" elapsed="0.000540"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.285520" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/tasks/6ad2a79ad30f9bef3327baf8/complete 
+ path_url=/api/housekeeping/tasks/6ad2a79ad30f9bef3327baf8/complete 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '48'} 
+ body=b'{"completionNotes": "Sanitation fully finished"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.286246" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/tasks/6ad2a79ad30f9bef3327baf8/complete 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1069', 'ETag': 'W/"42d-7tG+3kVyqiCnflrtevw4AXBx1pQ"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"_id":"6ad2a79ad30f9bef3327baf8","taskId":"HK-20261016-20008","taskNumber":"HK-20261016-20008","areaId":"6ad2a79ad30f9bef3327badf","areaCode":"WARD-HK-51095","areaName":"Isolation Ward 51095","roomId":"","roomNumber":"","bedId":null,"bedNumber":"","sourceModule":"MANUAL","sourceEntityId":"","taskType":"ROUTINE_CLEANING","priority":"HIGH","description":"Floor Sanitation","requestedByUserId":"USR-SYSADMIN-001","assignedTo":null,"assignedToId":null,"assignedToUserId":null,"assignedToName":"","assignedVendorId":null,"scheduledStart":null,"scheduledEnd":null,"actualStart":"2026-10-16T22:39:22.256Z","actualEnd":"2026-10-16T22:39:22.278Z","status":"COMPLETED","slaStatus":"WITHIN_SLA","slaDueAt":"2026-10-16T23:39:22.233Z","checklistCompleted":false,"inspectionRequired":true,"inspectionStatus":"PENDING","reopenCount":0,"reopenReason":"","completionNotes":"Sanitation fully finished","closingNotes":"","notes":"","correlationId":"","checklistResponses":[],"createdAt":"2026-10-16T22:39:22.234Z","updatedAt":"2026-10-16T22:39:22.279Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.286246" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/tasks/${taskId}/complete</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.267921" elapsed="0.018325"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.286246" elapsed="0.000542"/>
+</return>
+<msg time="2026-10-17T04:09:22.286788" level="INFO">${resComp} = &lt;Response [200]&gt;</msg>
+<var>${resComp}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${TASK_ID}</arg>
+<arg>completionNotes=Sanitation fully finished</arg>
+<status status="PASS" start="2026-10-17T04:09:22.265626" elapsed="0.021162"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.287479" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resComp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.287479" elapsed="0.000548"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resComp.json()}[data][status]</arg>
+<arg>COMPLETED</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.288027" elapsed="0.000555"/>
+</kw>
+<kw name="Close Housekeeping Task Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.289718" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.289150" elapsed="0.000568"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.290379" level="INFO">${payload} = {'closingNotes': 'Task closed'}</msg>
+<var>${payload}</var>
+<arg>closingNotes=${closingNotes}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.289718" elapsed="0.000661"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.307821" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/tasks/6ad2a79ad30f9bef3327baf8/close 
+ path_url=/api/housekeeping/tasks/6ad2a79ad30f9bef3327baf8/close 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '31'} 
+ body=b'{"closingNotes": "Task closed"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.308377" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/tasks/6ad2a79ad30f9bef3327baf8/close 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1066', 'ETag': 'W/"42a-hAkLf1LmojUnakFHn4VD8viBz1s"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"_id":"6ad2a79ad30f9bef3327baf8","taskId":"HK-20261016-20008","taskNumber":"HK-20261016-20008","areaId":"6ad2a79ad30f9bef3327badf","areaCode":"WARD-HK-51095","areaName":"Isolation Ward 51095","roomId":"","roomNumber":"","bedId":null,"bedNumber":"","sourceModule":"MANUAL","sourceEntityId":"","taskType":"ROUTINE_CLEANING","priority":"HIGH","description":"Floor Sanitation","requestedByUserId":"USR-SYSADMIN-001","assignedTo":null,"assignedToId":null,"assignedToUserId":null,"assignedToName":"","assignedVendorId":null,"scheduledStart":null,"scheduledEnd":null,"actualStart":"2026-10-16T22:39:22.256Z","actualEnd":"2026-10-16T22:39:22.278Z","status":"CLOSED","slaStatus":"WITHIN_SLA","slaDueAt":"2026-10-16T23:39:22.233Z","checklistCompleted":false,"inspectionRequired":true,"inspectionStatus":"PENDING","reopenCount":0,"reopenReason":"","completionNotes":"Sanitation fully finished","closingNotes":"","notes":"","correlationId":"","checklistResponses":[],"createdAt":"2026-10-16T22:39:22.234Z","updatedAt":"2026-10-16T22:39:22.301Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.308377" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/tasks/${taskId}/close</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.290926" elapsed="0.017451"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.308918" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.308918" level="INFO">${resClose} = &lt;Response [200]&gt;</msg>
+<var>${resClose}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${TASK_ID}</arg>
+<status status="PASS" start="2026-10-17T04:09:22.288582" elapsed="0.020336"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.309989" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resClose.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.309451" elapsed="0.000538"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resClose.json()}[data][status]</arg>
+<arg>CLOSED</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.309989" elapsed="0.000551"/>
+</kw>
+<doc>Verifies task creation, start, complete, and close transitions</doc>
+<status status="PASS" start="2026-10-17T04:09:22.222133" elapsed="0.088407"/>
+</test>
+<test id="s1-t5" name="TC-HK-005 Room Turnover Dispatch And Deduplication" line="78">
+<kw name="Trigger Room Turnover Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.313422" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.312874" elapsed="0.000548"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.313974" level="INFO">${payload} = {'bedId': 'BED-HK-51095', 'bedNumber': 'Bed 51095', 'priority': 'STAT', 'notes': 'Discharge turnover'}</msg>
+<var>${payload}</var>
+<arg>bedId=${bedId}</arg>
+<arg>bedNumber=${bedNumber}</arg>
+<arg>priority=${priority}</arg>
+<arg>notes=${notes}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.313422" elapsed="0.000552"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.347496" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/tasks/turnover 
+ path_url=/api/housekeeping/tasks/turnover 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '102'} 
+ body=b'{"bedId": "BED-HK-51095", "bedNumber": "Bed 51095", "priority": "STAT", "notes": "Discharge turnover"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.348206" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/tasks/turnover 
+ status=201, reason=Created 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1052', 'ETag': 'W/"41c-QVB3UyKE+I/aM2Q8YDJpw13OYRk"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"taskId":"HK-20261016-22062","taskNumber":"HK-20261016-22062","areaId":"6ad2a79ad30f9bef3327bb18","areaCode":"AREA-20261016-00165","areaName":"Bed Bed 51095 (Inpatient)","roomId":"","roomNumber":"","bedId":"BED-HK-51095","bedNumber":"Bed 51095","sourceModule":"BED_MANAGEMENT","sourceEntityId":"BED-HK-51095","taskType":"DISCHARGE_TURNOVER","priority":"STAT","description":"Discharge turnover","requestedByUserId":"USR-SYSADMIN-001","assignedTo":null,"assignedToId":null,"assignedToUserId":null,"assignedToName":"","assignedVendorId":null,"scheduledStart":null,"scheduledEnd":null,"actualStart":null,"actualEnd":null,"status":"PENDING","slaStatus":"WITHIN_SLA","slaDueAt":"2026-10-16T23:09:22.336Z","checklistCompleted":false,"inspectionRequired":true,"inspectionStatus":"PENDING","reopenCount":0,"reopenReason":"","completionNotes":"","closingNotes":"","notes":"","correlationId":"","_id":"6ad2a79ad30f9bef3327bb1e","checklistResponses":[],"createdAt":"2026-10-16T22:39:22.338Z","updatedAt":"2026-10-16T22:39:22.338Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.348206" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/tasks/turnover</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.313974" elapsed="0.034232"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.348749" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.348749" level="INFO">${res1} = &lt;Response [201]&gt;</msg>
+<var>${res1}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${BED_ID}</arg>
+<arg>Bed ${RUN_ID}</arg>
+<arg>priority=STAT</arg>
+<status status="PASS" start="2026-10-17T04:09:22.311653" elapsed="0.037096"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${res1.status_code} == 200 or ${res1.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.349285" elapsed="0.000542"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${res1.json()}[data][taskType]</arg>
+<arg>DISCHARGE_TURNOVER</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.349827" elapsed="0.000711"/>
+</kw>
+<kw name="Trigger Room Turnover Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.352150" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.351613" elapsed="0.000537"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.352709" level="INFO">${payload} = {'bedId': 'BED-HK-51095', 'bedNumber': 'Bed 51095', 'priority': 'STAT', 'notes': 'Discharge turnover'}</msg>
+<var>${payload}</var>
+<arg>bedId=${bedId}</arg>
+<arg>bedNumber=${bedNumber}</arg>
+<arg>priority=${priority}</arg>
+<arg>notes=${notes}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.352150" elapsed="0.000559"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.366669" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/tasks/turnover 
+ path_url=/api/housekeeping/tasks/turnover 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '102'} 
+ body=b'{"bedId": "BED-HK-51095", "bedNumber": "Bed 51095", "priority": "STAT", "notes": "Discharge turnover"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.366669" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/tasks/turnover 
+ status=201, reason=Created 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1052', 'ETag': 'W/"41c-lp9ARd/Qt0V/MVgrLvx+NewMFP0"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"_id":"6ad2a79ad30f9bef3327bb1e","taskId":"HK-20261016-22062","taskNumber":"HK-20261016-22062","areaId":"6ad2a79ad30f9bef3327bb18","areaCode":"AREA-20261016-00165","areaName":"Bed Bed 51095 (Inpatient)","roomId":"","roomNumber":"","bedId":"BED-HK-51095","bedNumber":"Bed 51095","sourceModule":"BED_MANAGEMENT","sourceEntityId":"BED-HK-51095","taskType":"DISCHARGE_TURNOVER","priority":"STAT","description":"Discharge turnover","requestedByUserId":"USR-SYSADMIN-001","assignedTo":null,"assignedToId":null,"assignedToUserId":null,"assignedToName":"","assignedVendorId":null,"scheduledStart":null,"scheduledEnd":null,"actualStart":null,"actualEnd":null,"status":"PENDING","slaStatus":"WITHIN_SLA","slaDueAt":"2026-10-16T23:09:22.336Z","checklistCompleted":false,"inspectionRequired":true,"inspectionStatus":"PENDING","reopenCount":0,"reopenReason":"","completionNotes":"","closingNotes":"","notes":"","correlationId":"","checklistResponses":[],"createdAt":"2026-10-16T22:39:22.338Z","updatedAt":"2026-10-16T22:39:22.338Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.367451" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/tasks/turnover</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.352709" elapsed="0.014742"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.367832" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.367832" level="INFO">${res2} = &lt;Response [201]&gt;</msg>
+<var>${res2}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${BED_ID}</arg>
+<arg>Bed ${RUN_ID}</arg>
+<arg>priority=STAT</arg>
+<status status="PASS" start="2026-10-17T04:09:22.351078" elapsed="0.016754"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${res2.status_code} == 200 or ${res2.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.367832" elapsed="0.001030"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${res2.json()}[data][taskId]</arg>
+<arg>${res1.json()}[data][taskId]</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.369620" elapsed="0.000542"/>
+</kw>
+<kw name="Get Turnover Board Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.372332" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.371795" elapsed="0.001085"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.397889" level="INFO">GET Request : url=http://localhost:5000/api/housekeeping/tasks/turnover/board 
+ path_url=/api/housekeeping/tasks/turnover/board 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc'} 
+ body=None 
+ </msg>
+<msg time="2026-10-17T04:09:22.398428" level="INFO">GET Response : url=http://localhost:5000/api/housekeeping/tasks/turnover/board 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '93785', 'ETag': 'W/"16e59-OwZ+ZfjNPu2n1s8Z+deQ0kqHHJE"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"totalActiveTurnovers":99,"turnovers":[{"_id":"6ac8b28f262bd4a1c77ce6df","taskId":"HK-20261009-00102","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-09T09:23:27.229Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261009-DB1BEA","createdAt":"2026-10-09T09:23:27.210Z","updatedAt":"2026-10-09T09:23:27.230Z","__v":0},{"_id":"6ac8b2ee1759b556df1442e0","taskId":"HK-20261009-00103","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-09T09:25:02.053Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261009-CD7A03","createdAt":"2026-10-09T09:25:02.035Z","updatedAt":"2026-10-09T09:25:02.054Z","__v":0},{"_id":"6ac8b2fe53566497bc82ad6a","taskId":"HK-20261009-00104","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-09T09:25:18.442Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261009-C70436","createdAt":"2026-10-09T09:25:18.420Z","updatedAt":"2026-10-09T09:25:18.442Z","__v":0},{"_id":"6ac8b323bbc11a2d66f7b039","taskId":"HK-20261009-00105","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-09T09:25:55.327Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261009-ACEE1C","createdAt":"2026-10-09T09:25:55.306Z","updatedAt":"2026-10-09T09:25:55.328Z","__v":0},{"_id":"6ac8b34b8ca4d26047d0614a","taskId":"HK-20261009-00106","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-09T09:26:35.378Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261009-62BAF6","createdAt":"2026-10-09T09:26:35.360Z","updatedAt":"2026-10-09T09:26:35.379Z","__v":0},{"_id":"6ad1065120a33248c23da124","taskId":"HK-20261015-00101","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-15T16:58:57.770Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261015-94F5CC","createdAt":"2026-10-15T16:58:57.736Z","updatedAt":"2026-10-15T16:58:57.770Z","__v":0},{"_id":"6ad10880a55434d6d38ad5f3","taskId":"HK-20261015-00103","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-15T17:08:16.503Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261015-A67207","createdAt":"2026-10-15T17:08:16.464Z","updatedAt":"2026-10-15T17:08:16.503Z","__v":0},{"_id":"6ad10ae9fcd0089fa14027ff","taskId":"HK-20261015-00105","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-15T17:18:33.974Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261015-58B379","createdAt":"2026-10-15T17:18:33.935Z","updatedAt":"2026-10-15T17:18:33.975Z","__v":0},{"_id":"6ad1102661e9abd0a4fcf07e","taskId":"HK-20261015-00107","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-15T17:40:54.756Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261015-37E577","createdAt":"2026-10-15T17:40:54.738Z","updatedAt":"2026-10-15T17:40:54.757Z","__v":0},{"_id":"6ad112973806847ce010b42f","taskId":"HK-20261015-00109","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-15T17:51:19.164Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261015-4C296A","createdAt":"2026-10-15T17:51:19.144Z","updatedAt":"2026-10-15T17:51:19.164Z","__v":0},{"_id":"6ad11339cd39210ea6524ba0","taskId":"HK-20261015-00111","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-15T17:54:01.622Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261015-FEA02E","createdAt":"2026-10-15T17:54:01.605Z","updatedAt":"2026-10-15T17:54:01.623Z","__v":0},{"_id":"6ad117876309f52e0d98dee2","taskId":"HK-20261015-00113","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-15T18:12:23.803Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261015-4DF2FA","createdAt":"2026-10-15T18:12:23.784Z","updatedAt":"2026-10-15T18:12:23.803Z","__v":0},{"_id":"6ad119d533c362daaba868cb","taskId":"HK-20261015-00115","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-15T18:22:13.195Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261015-94FC73","createdAt":"2026-10-15T18:22:13.178Z","updatedAt":"2026-10-15T18:22:13.195Z","__v":0},{"_id":"6ad1297afa3fea1cf472617e","taskId":"HK-20261015-00117","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc408a255","bedNumber":"GW-02","roomId":"GW-BAY-01","roomNumber":"GW-BAY-01","wardId":"WARD-GW-01","wardName":"General Ward - Floor 1","trigger":"TRANSFER","status":"COMPLETED","priority":"URGENT","assignedTo":"","assignedToUserId":null,"requestedByUserId":"TEST_USER","startedAt":null,"completedAt":"2026-10-15T19:28:58.490Z","durationMinutes":null,"checklistCompleted":true,"notes":"Turnover cleaning after patient transfer to BED-GW-03","correlationId":"CORR-20261015-3E5BC8","createdAt":"2026-10-15T19:28:58.473Z","updatedAt":"2026-10-15T19:28:58.490Z","__v":0},{"_id":"6ad12a3b0e677c0f0015d4fc","taskId":"HK-20261015-00119","taskType":"BED_CLEANING","bedId":"BED-GW-02","bedRef":"6ac8ac826257e3acc4... (set the log level to DEBUG or TRACE to see the full content) 
+ </msg>
+<msg time="2026-10-17T04:09:22.398965" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/tasks/turnover/board</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.372880" elapsed="0.026085"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.398965" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.399501" level="INFO">${resBoard} = &lt;Response [200]&gt;</msg>
+<var>${resBoard}</var>
+<arg>${AUTH_TOKEN}</arg>
+<status status="PASS" start="2026-10-17T04:09:22.371247" elapsed="0.028254"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.400032" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resBoard.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.399501" elapsed="0.000531"/>
+</kw>
+<doc>Verifies room turnover generation and idempotency protection</doc>
+<status status="PASS" start="2026-10-17T04:09:22.311088" elapsed="0.089478"/>
+</test>
+<test id="s1-t6" name="TC-HK-006 Supervisor Quality Inspection" line="93">
+<kw name="Perform Housekeeping Inspection Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.403257" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.402183" elapsed="0.001074"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.403792" level="INFO">${payload} = {'taskId': '6ad2a79ad30f9bef3327baf8', 'score': '96', 'passed': 'True', 'findings': 'Exceeds clean standards'}</msg>
+<var>${payload}</var>
+<arg>taskId=${taskId}</arg>
+<arg>score=${score}</arg>
+<arg>passed=${passed}</arg>
+<arg>findings=${findings}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.403257" elapsed="0.000535"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.426316" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/inspections 
+ path_url=/api/housekeeping/inspections 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '110'} 
+ body=b'{"taskId": "6ad2a79ad30f9bef3327baf8", "score": "96", "passed": "True", "findings": "Exceeds clean standards"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.426316" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/inspections 
+ status=201, reason=Created 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '733', 'ETag': 'W/"2dd-A938ZKVMsCnvd7Sr2oEtYpbuv04"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"inspectionId":"INSP-HK-20261016-00136","taskId":"6ad2a79ad30f9bef3327baf8","taskNumber":"HK-20261016-20008","areaId":"6ad2a79ad30f9bef3327badf","areaName":"Isolation Ward 51095","inspectorUserId":"USR-SYSADMIN-001","inspectorName":"System Administrator","inspectionDate":"2026-10-16T22:39:22.418Z","status":"PASSED","passed":true,"score":96,"rating":5,"findings":"Exceeds clean standards","rectificationRequired":false,"reworkTaskId":null,"checklistResults":[],"deficiencies":[],"reworkInstructions":"Exceeds clean standards","notes":"Exceeds clean standards","_id":"6ad2a79ad30f9bef3327bb32","createdAt":"2026-10-16T22:39:22.421Z","updatedAt":"2026-10-16T22:39:22.421Z","__v":0},"inspectionStatus":"PASSED"} 
+ </msg>
+<msg time="2026-10-17T04:09:22.426316" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/inspections</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.404319" elapsed="0.021997"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.426858" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.426858" level="INFO">${res} = &lt;Response [201]&gt;</msg>
+<var>${res}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${TASK_ID}</arg>
+<arg>score=96</arg>
+<arg>passed=True</arg>
+<arg>findings=Exceeds clean standards</arg>
+<status status="PASS" start="2026-10-17T04:09:22.401110" elapsed="0.025748"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${res.status_code} == 200 or ${res.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.427394" elapsed="0.000534"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.428603" level="INFO">${data} = {'inspectionId': 'INSP-HK-20261016-00136', 'taskId': '6ad2a79ad30f9bef3327baf8', 'taskNumber': 'HK-20261016-20008', 'areaId': '6ad2a79ad30f9bef3327badf', 'areaName': 'Isolation Ward 51095', 'inspector...</msg>
+<var>${data}</var>
+<arg>${res.json()}[data]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.427928" elapsed="0.000675"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${data}[status]</arg>
+<arg>PASSED</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.429145" elapsed="0.000000"/>
+</kw>
+<doc>Verifies supervisor audit recording and score verification</doc>
+<status status="PASS" start="2026-10-17T04:09:22.400566" elapsed="0.029114"/>
+</test>
+<test id="s1-t7" name="TC-HK-007 Cleaning Consumables Requisition And Approval" line="100">
+<kw name="Request Housekeeping Supplies Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.432348" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.431815" elapsed="0.000533"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.432876" level="INFO">${item1} = {'itemName': 'Quaternary Disinfectant 5L', 'quantityRequested': '2', 'unit': 'BOTTLE'}</msg>
+<var>${item1}</var>
+<arg>itemName=${itemName}</arg>
+<arg>quantityRequested=${quantityRequested}</arg>
+<arg>unit=${unit}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.432348" elapsed="0.000528"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.433404" level="INFO">${items} = [{'itemName': 'Quaternary Disinfectant 5L', 'quantityRequested': '2', 'unit': 'BOTTLE'}]</msg>
+<var>${items}</var>
+<arg>${item1}</arg>
+<doc>Creates and returns a list containing the given items.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.433404" elapsed="0.000000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.433931" level="INFO">${payload} = {'items': [{'itemName': 'Quaternary Disinfectant 5L', 'quantityRequested': '2', 'unit': 'BOTTLE'}], 'shiftType': 'MORNING'}</msg>
+<var>${payload}</var>
+<arg>items=${items}</arg>
+<arg>shiftType=MORNING</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.433931" elapsed="0.000000"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.450523" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/supplies/request 
+ path_url=/api/housekeeping/supplies/request 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '123'} 
+ body=b'{"items": [{"itemName": "Quaternary Disinfectant 5L", "quantityRequested": "2", "unit": "BOTTLE"}], "shiftType": "MORNING"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.450523" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/supplies/request 
+ status=201, reason=Created 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '640', 'ETag': 'W/"280-/SiEKkInViJzWaUfjinbnXZlVgs"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"requestId":"HSR-20261016-00123","taskNumber":"","requestedBy":"Staff","requestedById":"USR-SYSADMIN-001","requestedByUserId":"USR-SYSADMIN-001","department":"HOUSEKEEPING","shiftType":"MORNING","items":[{"inventoryItemId":"","itemName":"Quaternary Disinfectant 5L","quantityRequested":2,"quantityIssued":0,"unit":"BOTTLE"}],"status":"PENDING","approvedBy":"","approvedById":"","approvedByUserId":"","approvalNotes":"","issuedBy":"","issuedById":"","issuedByUserId":"","issuedAt":null,"notes":"","_id":"6ad2a79ad30f9bef3327bb3c","createdAt":"2026-10-16T22:39:22.446Z","updatedAt":"2026-10-16T22:39:22.446Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.451071" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/supplies/request</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.434458" elapsed="0.016613"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.451608" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.451608" level="INFO">${resReq} = &lt;Response [201]&gt;</msg>
+<var>${resReq}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>itemName=Quaternary Disinfectant 5L</arg>
+<arg>quantityRequested=2</arg>
+<arg>unit=BOTTLE</arg>
+<status status="PASS" start="2026-10-17T04:09:22.430752" elapsed="0.020856"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${resReq.status_code} == 200 or ${resReq.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.452183" elapsed="0.001040"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.453767" level="INFO">${data} = {'requestId': 'HSR-20261016-00123', 'taskNumber': '', 'requestedBy': 'Staff', 'requestedById': 'USR-SYSADMIN-001', 'requestedByUserId': 'USR-SYSADMIN-001', 'department': 'HOUSEKEEPING', 'shiftType': '...</msg>
+<var>${data}</var>
+<arg>${resReq.json()}[data]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.453223" elapsed="0.001077"/>
+</kw>
+<kw name="Approve Housekeeping Supplies Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.455365" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.454834" elapsed="0.000531"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.456427" level="INFO">${payload} = {'approvalNotes': 'Approved'}</msg>
+<var>${payload}</var>
+<arg>approvalNotes=Approved</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.455897" elapsed="0.000530"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.475648" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/supplies/6ad2a79ad30f9bef3327bb3c/approve 
+ path_url=/api/housekeeping/supplies/6ad2a79ad30f9bef3327bb3c/approve 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '29'} 
+ body=b'{"approvalNotes": "Approved"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.476183" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/supplies/6ad2a79ad30f9bef3327bb3c/approve 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '683', 'ETag': 'W/"2ab-OhwDqB/G/QgSop7ZsgchS2zKO/Y"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"_id":"6ad2a79ad30f9bef3327bb3c","requestId":"HSR-20261016-00123","taskNumber":"","requestedBy":"Staff","requestedById":"USR-SYSADMIN-001","requestedByUserId":"USR-SYSADMIN-001","department":"HOUSEKEEPING","shiftType":"MORNING","items":[{"inventoryItemId":"","itemName":"Quaternary Disinfectant 5L","quantityRequested":2,"quantityIssued":0,"unit":"BOTTLE"}],"status":"APPROVED","approvedBy":"Supervisor","approvedById":"USR-SYSADMIN-001","approvedByUserId":"USR-SYSADMIN-001","approvalNotes":"","issuedBy":"","issuedById":"","issuedByUserId":"","issuedAt":null,"notes":"","createdAt":"2026-10-16T22:39:22.446Z","updatedAt":"2026-10-16T22:39:22.471Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.476183" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/supplies/${supplyId}/approve</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.456427" elapsed="0.019756"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.476183" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.476721" level="INFO">${resAppr} = &lt;Response [200]&gt;</msg>
+<var>${resAppr}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${data}[_id]</arg>
+<status status="PASS" start="2026-10-17T04:09:22.454300" elapsed="0.022421"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.477263" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resAppr.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.476721" elapsed="0.001092"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resAppr.json()}[data][status]</arg>
+<arg>APPROVED</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.477813" elapsed="0.000531"/>
+</kw>
+<doc>Verifies consumable supplies request and supervisor approval</doc>
+<status status="PASS" start="2026-10-17T04:09:22.429680" elapsed="0.049213"/>
+</test>
+<test id="s1-t8" name="TC-HK-008 Operational Exception Logging And Resolution" line="110">
+<kw name="Create Housekeeping Exception Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.481595" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.481046" elapsed="0.000549"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.482706" level="INFO">${payload} = {'exceptionType': 'BIOHAZARD_SPILL', 'severity': 'CRITICAL', 'description': 'Trauma room blood spill'}</msg>
+<var>${payload}</var>
+<arg>exceptionType=${exceptionType}</arg>
+<arg>severity=${severity}</arg>
+<arg>description=${description}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.481595" elapsed="0.001111"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.500127" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/exceptions 
+ path_url=/api/housekeeping/exceptions 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '102'} 
+ body=b'{"exceptionType": "BIOHAZARD_SPILL", "severity": "CRITICAL", "description": "Trauma room blood spill"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.500127" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/exceptions 
+ status=201, reason=Created 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '588', 'ETag': 'W/"24c-XNXdaS3ZRCE+tkKJBnUMX3Nmqmg"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"exceptionId":"HK-EX-20261016-00142","type":"BIOHAZARD_SPILL","exceptionType":"BIOHAZARD_SPILL","severity":"CRITICAL","taskNumber":"","areaCode":"","source":"HOUSEKEEPING_MODULE","description":"Trauma room blood spill","reportedBy":"","reportedById":"","status":"OPEN","assignedToUserId":null,"resolution":"","resolutionNotes":"","correctiveActionTaken":"","resolvedBy":"","resolvedById":"","resolvedByUserId":null,"resolvedAt":null,"notes":"","_id":"6ad2a79ad30f9bef3327bb4a","createdAt":"2026-10-16T22:39:22.496Z","updatedAt":"2026-10-16T22:39:22.496Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.500656" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/exceptions</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.482706" elapsed="0.017950"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.500656" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.500656" level="INFO">${resEx} = &lt;Response [201]&gt;</msg>
+<var>${resEx}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>exceptionType=BIOHAZARD_SPILL</arg>
+<arg>severity=CRITICAL</arg>
+<arg>description=Trauma room blood spill</arg>
+<status status="PASS" start="2026-10-17T04:09:22.479984" elapsed="0.020672"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${resEx.status_code} == 200 or ${resEx.status_code} == 201</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.501196" elapsed="0.000538"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.502856" level="INFO">${data} = {'exceptionId': 'HK-EX-20261016-00142', 'type': 'BIOHAZARD_SPILL', 'exceptionType': 'BIOHAZARD_SPILL', 'severity': 'CRITICAL', 'taskNumber': '', 'areaCode': '', 'source': 'HOUSEKEEPING_MODULE', 'descr...</msg>
+<var>${data}</var>
+<arg>${resEx.json()}[data]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.502283" elapsed="0.000573"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${data}[status]</arg>
+<arg>OPEN</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.502856" elapsed="0.000559"/>
+</kw>
+<kw name="Resolve Housekeeping Exception Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.504515" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.503955" elapsed="0.000560"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.505055" level="INFO">${payload} = {'resolutionNotes': 'Decontaminated with hypochlorite solution'}</msg>
+<var>${payload}</var>
+<arg>resolutionNotes=${resolutionNotes}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.504515" elapsed="0.000540"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.520303" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/exceptions/6ad2a79ad30f9bef3327bb4a/resolve 
+ path_url=/api/housekeeping/exceptions/6ad2a79ad30f9bef3327bb4a/resolve 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Type': 'application/json', 'Content-Length': '64'} 
+ body=b'{"resolutionNotes": "Decontaminated with hypochlorite solution"}' 
+ </msg>
+<msg time="2026-10-17T04:09:22.520303" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/exceptions/6ad2a79ad30f9bef3327bb4a/resolve 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '736', 'ETag': 'W/"2e0-9OoFF/M/ZwNHiIiC8+y6slMeaxc"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"_id":"6ad2a79ad30f9bef3327bb4a","exceptionId":"HK-EX-20261016-00142","type":"BIOHAZARD_SPILL","exceptionType":"BIOHAZARD_SPILL","severity":"CRITICAL","taskNumber":"","areaCode":"","source":"HOUSEKEEPING_MODULE","description":"Trauma room blood spill","reportedBy":"","reportedById":"","status":"RESOLVED","assignedToUserId":null,"resolution":"Decontaminated with hypochlorite solution","resolutionNotes":"Decontaminated with hypochlorite solution","correctiveActionTaken":"","resolvedBy":"Supervisor","resolvedById":"USR-SYSADMIN-001","resolvedByUserId":"USR-SYSADMIN-001","resolvedAt":"2026-10-16T22:39:22.516Z","notes":"","createdAt":"2026-10-16T22:39:22.496Z","updatedAt":"2026-10-16T22:39:22.516Z","__v":0}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.520303" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/exceptions/${exceptionId}/resolve</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.505055" elapsed="0.015924"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.520979" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.520979" level="INFO">${resRes} = &lt;Response [200]&gt;</msg>
+<var>${resRes}</var>
+<arg>${AUTH_TOKEN}</arg>
+<arg>${data}[_id]</arg>
+<arg>resolutionNotes=Decontaminated with hypochlorite solution</arg>
+<status status="PASS" start="2026-10-17T04:09:22.503415" elapsed="0.017564"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.522101" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resRes.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.521534" elapsed="0.000567"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resRes.json()}[data][status]</arg>
+<arg>RESOLVED</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.522101" elapsed="0.000552"/>
+</kw>
+<doc>Verifies exception tracking for biohazard spills and shortages</doc>
+<status status="PASS" start="2026-10-17T04:09:22.478893" elapsed="0.043760"/>
+</test>
+<test id="s1-t9" name="TC-HK-009 RPA Background Dispatch And Turnover Sync" line="121">
+<kw name="Trigger Housekeeping RPA Sync Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.524303" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.523769" elapsed="0.000534"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.556205" level="INFO">POST Request : url=http://localhost:5000/api/housekeeping/rpa/sync-turnovers 
+ path_url=/api/housekeeping/rpa/sync-turnovers 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg time="2026-10-17T04:09:22.556205" level="INFO">POST Response : url=http://localhost:5000/api/housekeeping/rpa/sync-turnovers 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '357', 'ETag': 'W/"165-TMpB4b7fGVVSEeESD7iOxeAzS+U"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"totalBedsScanned":12,"createdCount":12,"skippedCount":0,"createdTasks":["HK-20261016-00105","HK-20261009-00101","HK-20261009-00109","HK-20261009-00107","HK-20261016-00108","HK-20261016-00110","HK-20261016-00113","HK-20261016-00116","HK-20261016-00122","HK-20261016-00126","HK-20261016-00131","HK-20261016-00144"],"skippedTasks":[]}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.557009" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/rpa/sync-turnovers</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.524303" elapsed="0.032706"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.557009" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.557566" level="INFO">${resRpa} = &lt;Response [200]&gt;</msg>
+<var>${resRpa}</var>
+<arg>${AUTH_TOKEN}</arg>
+<status status="PASS" start="2026-10-17T04:09:22.523769" elapsed="0.033797"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.558130" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resRpa.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.557566" elapsed="0.000564"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>'totalBedsScanned' in ${resRpa.json()}[data]</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.558130" elapsed="0.000554"/>
+</kw>
+<doc>Verifies RPA automated job dispatch and bed scan</doc>
+<status status="PASS" start="2026-10-17T04:09:22.523202" elapsed="0.036030"/>
+</test>
+<test id="s1-t10" name="TC-HK-010 Housekeeping Operations Analytics And KPIs" line="127">
+<kw name="Get Housekeeping Dashboard Metrics Via API" owner="housekeeping_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.560842" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given `items`.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.560304" elapsed="0.000538"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2026-10-17T04:09:22.578596" level="INFO">GET Request : url=http://localhost:5000/api/housekeeping/analytics/dashboard 
+ path_url=/api/housekeeping/analytics/dashboard 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU1ItU1lTQURNSU4tMDAxIiwicm9sZSI6IlNZU1RFTV9BRE1JTiIsImlhdCI6MTc5MjE5MDM2MiwiZXhwIjoxNzkyNzk1MTYyfQ.g3X42y9YHx-yXlFl2uXVp4jYoDm_Ln1cYuHki_Tp5Mc'} 
+ body=None 
+ </msg>
+<msg time="2026-10-17T04:09:22.579114" level="INFO">GET Response : url=http://localhost:5000/api/housekeeping/analytics/dashboard 
+ status=200, reason=OK 
+ headers={'Content-Security-Policy': "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests", 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin', 'Origin-Agent-Cluster': '?1', 'Referrer-Policy': 'no-referrer', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains', 'X-Content-Type-Options': 'nosniff', 'X-DNS-Prefetch-Control': 'off', 'X-Download-Options': 'noopen', 'X-Frame-Options': 'SAMEORIGIN', 'X-Permitted-Cross-Domain-Policies': 'none', 'X-XSS-Protection': '0', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '274', 'ETag': 'W/"112-3DEmCGSD/AiHD5/7QCLTJAfPPvA"', 'Date': 'Fri, 16 Oct 2026 22:39:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"success":true,"data":{"totalTasks":136,"openTasks":62,"inProgress":3,"pendingInspection":3,"completedToday":24,"totalAreas":72,"restrictedAreas":0,"totalTurnovers":16,"openExceptions":23,"pendingSupplies":1,"inspectionPassRate":49,"avgRating":"3.7","totalInspections":37}} 
+ </msg>
+<msg time="2026-10-17T04:09:22.579644" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${BASE_URL}/housekeeping/analytics/dashboard</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.560842" elapsed="0.018802"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-10-17T04:09:22.579644" elapsed="0.000000"/>
+</return>
+<msg time="2026-10-17T04:09:22.579644" level="INFO">${resMetrics} = &lt;Response [200]&gt;</msg>
+<var>${resMetrics}</var>
+<arg>${AUTH_TOKEN}</arg>
+<status status="PASS" start="2026-10-17T04:09:22.559768" elapsed="0.019876"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.580188" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resMetrics.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.580188" elapsed="0.000537"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-10-17T04:09:22.581258" level="INFO">${metrics} = {'totalTasks': 136, 'openTasks': 62, 'inProgress': 3, 'pendingInspection': 3, 'completedToday': 24, 'totalAreas': 72, 'restrictedAreas': 0, 'totalTurnovers': 16, 'openExceptions': 23, 'pendingSupplies...</msg>
+<var>${metrics}</var>
+<arg>${resMetrics.json()}[data]</arg>
+<doc>Returns the given values which can then be assigned to a variable.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.580725" elapsed="0.000533"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>'totalTasks' in ${metrics}</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.581258" elapsed="0.000541"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>'inspectionPassRate' in ${metrics}</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-10-17T04:09:22.581799" elapsed="0.000533"/>
+</kw>
+<doc>Verifies dashboard KPIs, task breakdowns, and pass rate</doc>
+<status status="PASS" start="2026-10-17T04:09:22.559232" elapsed="0.023100"/>
+</test>
+<doc>Module 24: Housekeeping Management RPA Automation Test Suite</doc>
+<status status="PASS" start="2026-10-17T04:09:21.565407" elapsed="1.017464"/>
+</suite>
+<statistics>
+<total>
+<stat pass="10" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Housekeeping Management" id="s1" pass="10" fail="0" skip="0">Housekeeping Management</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

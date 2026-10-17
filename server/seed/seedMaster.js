@@ -2628,7 +2628,15 @@ const seedMaster = async () => {
       console.warn('[Seed Master]: Module 22 Radiology seed skipped:', e.message);
     }
 
-    console.log('\n[Seed Master] Seed completed successfully with Module 1-22 Master Data & Demo records!');
+    // Module 24: Housekeeping Management Master Seeding
+    try {
+      const seedModule24Housekeeping = require('./seedModule24Housekeeping');
+      await seedModule24Housekeeping();
+    } catch (e) {
+      console.warn('[Seed Master]: Module 24 Housekeeping seed skipped:', e.message);
+    }
+
+    console.log('\n[Seed Master] Seed completed successfully with Module 1-24 Master Data & Demo records!');
     process.exit(0);
   } catch (error) {
     console.error('[Seed Master Error]:', error);
